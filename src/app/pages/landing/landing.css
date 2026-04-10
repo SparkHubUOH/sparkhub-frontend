@@ -1,0 +1,226 @@
+.hero {
+  background: linear-gradient(180deg, #9fc5ea 0%, #fff 46.15%, #799aba 67.16%, #fff 100%);
+  padding: 130px 16px 80px;
+  text-align: center;
+}
+.hero-inner {
+  max-width: 920px;
+  margin: 0 auto;
+}
+.logo-image {
+  width: 450px;
+  max-width: 100%;
+}
+.logo span {
+  color: #3a6f95;
+}
+.hero h1 {
+  color: var(--color-primary);
+  margin: 28px 0 12px;
+  text-transform: uppercase;
+  text-align: center;
+  font-size: 36px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  white-space: pre-line;
+}
+.hero .subtitle {
+  color: var(--color-primary);
+  margin-bottom: 22px;
+  text-align: center;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+.btn {
+  display: inline-block;
+  background: #2f506b;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 28px;
+  text-decoration: none;
+  font-weight: 600;
+}
+.btn .arrow {
+  margin-left: 8px;
+}
+
+.content {
+  padding: 200px 16px 80px;
+}
+.container {
+  max-width: 980px;
+  margin: 0 auto;
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+}
+.text {
+  flex: 1 1 60%;
+  text-align: start;
+  white-space: pre-line;
+}
+.text h2 {
+  color: var(--color-primary);
+  font-size: 29px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+.text p {
+  color: var(--color-primary);
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  margin-bottom: 2rem;
+}
+.aside {
+  flex: 0 0 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.big-mark {
+  opacity: 0.9;
+  color: var(--color-primary);
+  font-family: 'Open Sans Hebrew';
+  font-size: 200px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.clubs {
+  margin-top: 48px;
+  text-align: center;
+}
+.clubs h4 {
+  margin-bottom: 18px;
+  color: var(--color-primary);
+  text-align: center;
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+.club-list {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 18px 8px;
+}
+.club {
+  width: 110px;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 18px rgba(45, 69, 88, 0.08);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+}
+.club-a {
+  transform: translateY(25px);
+}
+.logo-placeholder {
+  width: 70px;
+  height: 75px;
+  border-radius: 50%;
+}
+
+.club-logo {
+  max-width: 100%;
+  max-height: 100%;
+}
+.marquee {
+  overflow: hidden;
+  padding: 35px 0;
+}
+
+.marquee-track {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  width: fit-content;
+  animation: marquee-left 20s linear infinite;
+}
+.marquee-track .club {
+  flex: 0 0 auto;
+}
+
+.marquee-group {
+  display: flex;
+  gap: 20px;
+}
+
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+.marquee-track .club {
+  will-change: transform;
+}
+
+@keyframes marquee-left {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (max-width: 900px) {
+  .container {
+    flex-direction: row;
+  }
+  .aside {
+    order: 2;
+    flex: 0;
+    align-self: center;
+  }
+  .text {
+    order: 1;
+  }
+  .big-mark {
+    font-size: 64px;
+  }
+  .hero h1 {
+    font-size: 22px;
+  }
+  .hero h2 {
+    font-size: 18px;
+  }
+  .hero .subtitle {
+    font-size: 14px;
+  }
+  .hero p {
+    font-size: 14px;
+  }
+  .content {
+    padding: 100px 16px 80px;
+  }
+  .club {
+    width: 90px;
+    height: 110px;
+  }
+}
+
+@media (max-width: 420px) {
+  .logo {
+    font-size: 32px;
+  }
+  .hero h1 {
+    font-size: 18px;
+  }
+  .btn {
+    padding: 8px 14px;
+  }
+  .big-mark {
+    font-size: 48px;
+  }
+}

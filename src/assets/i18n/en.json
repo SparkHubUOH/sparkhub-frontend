@@ -1,1 +1,38 @@
-{ "HELLO": "Welcome!" }
+{
+  "HEADER": {
+    "SIGN_IN": "Sign In",
+    "DISCOVER": "Discover",
+    "CLUBS": "Clubs",
+    "ACTIVITIES": "Activities",
+    "ABOUT": "About",
+    "CONTACT": "Contact"
+  },
+  "SIGNUP": {
+    "TITLE": "Welcome to SparkHub",
+    "FULL_NAME": "Full name",
+    "USERNAME": "Username",
+    "PHONE": "Phone Number",
+    "UNIVERSITY_ID": "University ID",
+    "EMAIL": "Email",
+    "PASSWORD": "Password",
+    "AGREE_HTML": "By creating an account, you agree to the <a href=\"/terms\">Terms of use</a> and <a href=\"/privacy\">Privacy Policy</a>.",
+    "CREATE": "Create an account",
+    "ALREADY": "Already have an account? <a href=\"log-in\">Log in</a>"
+  },
+  "LOGIN": {
+    "FORGOT": "<a href=\"sign-up\">Forgot password?</a>",
+    "CREATE": "Continue",
+    "NEW": "Don’t have an account? <a href=\"sign-up\">Sign up</a>"
+  }
+  ,
+  "LANDING": {
+    "HERO_TITLE": "YOUR GATEWAY TO UNIVERSITY LIFE\n BEYOND THE CLASSROOM!",
+    "HERO_SUB": "Connect, Collaborate, and GROW TOGETHER",
+    "START_NOW": "START NOW",
+    "WHO_TITLE": "WHO WE ARE",
+    "WHO_BODY": "We are a platform dedicated to empowering\n student clubs and connecting university\n communities in one place.",
+    "VISION_TITLE": "OUR VISION",
+    "VISION_BODY": "To become the central hub for student life, where\n every student finds opportunities to grow, lead,\n and belong.",
+    "STUDENT_CLUBS": "STUDENT CLUBS"
+  }
+}

@@ -1,1 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
+
+@import './styles/fonts.css';
+@import './styles/colors.css';
+@import './styles/buttons.css';
+@import './styles/forms.css';
+
+.agree a {
+  color: var(--color-gray-light);
+  text-decoration: underline;
+}
+
+.alt a {
+  color: var(--color-orange);
+  text-decoration: underline;
+}
