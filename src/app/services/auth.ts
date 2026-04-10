@@ -5,14 +5,14 @@ import { environment } from '../../environments/environment';
   providedIn: 'root',
 })
 export class Auth {
-    private apiUrl = environment.apiUrl;
+  private apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
 
   login(username: string, password: string) {
     return this.http.post(`${this.apiUrl}/token/`, {
       username,
-      password
+      password,
     });
   }
 }

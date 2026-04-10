@@ -1,0 +1,87 @@
+<section class="landing">
+  <div class="hero">
+    <div class="hero-inner">
+      <img src="assets/images/sparkhub.png" alt="SparkHub Logo" class="logo-image" />
+      <h1 class="title">{{ 'LANDING.HERO_TITLE' | translate }}</h1>
+      <p class="subtitle">{{ 'LANDING.HERO_SUB' | translate }}</p>
+
+      <a class="btn" [routerLink]="['/sign-up']">
+        {{ 'LANDING.START_NOW' | translate }}
+        <i class="bi"
+          [ngClass]="languageSelected === 'en' ? 'bi-arrow-right-short' : 'bi-arrow-left-short'">
+        </i>
+      </a>
+      
+    </div>
+
+    <div class="content">
+      <div class="container">
+        <div class="text">
+          <h2>{{ 'LANDING.WHO_TITLE' | translate }}</h2>
+          <p>{{ 'LANDING.WHO_BODY' | translate }}</p>
+
+          <h2>{{ 'LANDING.VISION_TITLE' | translate }}</h2>
+          <p>{{ 'LANDING.VISION_BODY' | translate }}</p>
+        </div>
+
+        <div class="aside">
+          <div class="big-mark">?</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="clubs">
+      <h4>{{ 'LANDING.STUDENT_CLUBS' | translate }}</h4>
+      <div class="marquee" aria-hidden="false">
+        <div class="marquee-track">
+          <div class="marquee-group">
+            <div class="club club-a">
+              <div class="logo-placeholder">
+                <img src="assets/images/AIclub.png" alt="Club Logo" class="club-logo" />
+              </div>
+            </div>
+            <div class="club club-b">
+              <div class="logo-placeholder">
+                <img src="assets/images/Cyclub.png" alt="Club Logo" class="club-logo" />
+              </div>
+            </div>
+            <div class="club club-a">
+              <div class="logo-placeholder">
+                <img src="assets/images/fablab.png" alt="Club Logo" class="club-logo" />
+              </div>
+            </div>
+            <div class="club club-b">
+              <div class="logo-placeholder">
+                <img src="assets/images/gamesclub.png" alt="Club Logo" class="club-logo" />
+              </div>
+            </div>
+          </div>
+
+          <!-- duplicated for seamless loop -->
+          <div class="marquee-group">
+            <div class="club club-a">
+              <div class="logo-placeholder">
+                <img src="assets/images/AIclub.png" alt="Club Logo" class="club-logo" />
+              </div>
+            </div>
+            <div class="club club-b">
+              <div class="logo-placeholder">
+                <img src="assets/images/Cyclub.png" alt="Club Logo" class="club-logo" />
+              </div>
+            </div>
+            <div class="club club-a">
+              <div class="logo-placeholder">
+                <img src="assets/images/fablab.png" alt="Club Logo" class="club-logo" />
+              </div>
+            </div>
+            <div class="club club-b">
+              <div class="logo-placeholder">
+                <img src="assets/images/gamesclub.png" alt="Club Logo" class="club-logo" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

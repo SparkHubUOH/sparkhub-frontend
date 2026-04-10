@@ -1,0 +1,47 @@
+<div class="signup-page">
+  <div class="signup-container">
+    <div class="signup-left">
+      <ng-container *ngIf="currentLang === 'en'; else arabicButton">
+        <a class="back" [routerLink]="['/home']">
+           <i class="bi bi-arrow-left-short" style="color: #657a99; font-size: 30px"></i>
+        </a>
+      </ng-container>
+
+      <ng-template #arabicButton>
+        <a class="back" [routerLink]="['/home']">
+          <i class="bi bi-arrow-right-short" style="color: #657a99; font-size: 30px"></i>
+        </a>
+      </ng-template>
+      <h1>{{ 'SIGNUP.TITLE' | translate }}</h1>
+      <form class="signup-form" novalidate>
+        <label class="full">
+          <span>{{ 'SIGNUP.EMAIL' | translate }}</span>
+          <input type="email" placeholder="{{ 'SIGNUP.EMAIL' | translate }}" />
+        </label>
+
+        <label class="full">
+          <span>{{ 'SIGNUP.PASSWORD' | translate }}</span>
+          <input type="password" placeholder="{{ 'SIGNUP.PASSWORD' | translate }}" />
+        </label>
+
+        <label class="agree">
+          <span [innerHTML]="'LOGIN.FORGOT' | translate"></span>
+        </label>
+
+        <button class="primary" type="submit">{{ 'LOGIN.CREATE' | translate }}</button>
+
+        <p class="alt" [innerHTML]="'LOGIN.NEW' | translate"></p>
+      </form>
+    </div>
+
+    <div class="signup-right" aria-hidden="true">
+      <div class="graphic">
+        <img
+          src="assets/images/sdhnn 1.png"
+          alt="Signup Graphic"
+          style="width: fit-content; height: 100%; object-fit: contain"
+        />
+      </div>
+    </div>
+  </div>
+</div>
