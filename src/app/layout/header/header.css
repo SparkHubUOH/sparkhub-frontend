@@ -46,6 +46,7 @@
   font-style: normal;
   font-weight: 600;
   line-height: normal;
+  cursor: pointer;
 }
 
 .nav-item:hover {
@@ -123,7 +124,6 @@
 
   .menu-toggle-btn {
     display: block;
-    border: 1px solid;
     width: 50px;
     height: 40px;
     border-radius: 5px;

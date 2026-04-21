@@ -9,22 +9,21 @@
   },
   "SIGNUP": {
     "TITLE": "Welcome to SparkHub",
-    "FULL_NAME": "Full name",
-    "USERNAME": "Username",
+    "FIRST_NAME": "First Name",
+    "LAST_NAME": "Last Name",
     "PHONE": "Phone Number",
     "UNIVERSITY_ID": "University ID",
     "EMAIL": "Email",
     "PASSWORD": "Password",
     "AGREE_HTML": "By creating an account, you agree to the <a href=\"/terms\">Terms of use</a> and <a href=\"/privacy\">Privacy Policy</a>.",
     "CREATE": "Create an account",
-    "ALREADY": "Already have an account? <a href=\"log-in\">Log in</a>"
+    "ALREADY": "Already have an account? <a href=\"login\">Log in</a>"
   },
   "LOGIN": {
-    "FORGOT": "<a href=\"sign-up\">Forgot password?</a>",
+    "FORGOT": "<a href=\"register\">Forgot password?</a>",
     "CREATE": "Continue",
-    "NEW": "Don’t have an account? <a href=\"sign-up\">Sign up</a>"
-  }
-  ,
+    "NEW": "Don’t have an account? <a href=\"register\">Sign up</a>"
+  },
   "LANDING": {
     "HERO_TITLE": "YOUR GATEWAY TO UNIVERSITY LIFE\n BEYOND THE CLASSROOM!",
     "HERO_SUB": "Connect, Collaborate, and GROW TOGETHER",
@@ -33,6 +32,242 @@
     "WHO_BODY": "We are a platform dedicated to empowering\n student clubs and connecting university\n communities in one place.",
     "VISION_TITLE": "OUR VISION",
     "VISION_BODY": "To become the central hub for student life, where\n every student finds opportunities to grow, lead,\n and belong.",
+    "ACTIVITIES_SECTION_TITLE": "Featured Activities",
+    "ACTIVITIES_SECTION_SUBTITLE": "Discover the kinds of workshops, panel discussions, and events students can join across campus.",
+    "ACTIVITIES_BUTTON": "Register now",
     "STUDENT_CLUBS": "STUDENT CLUBS"
+  },
+  "DASHBOARD": {
+    "SIDEBAR": {
+      "TITLE": "SparkHub",
+      "SUBTITLE": "Your student activity home",
+      "HOME": "<a href=\"dashboard\">Home</a>",
+      "CLUBS": "<a href=\"dashboard/clubs\">Clubs</a>",
+      "ACTIVITIES": "<a href=\"dashboard/activities\">Activities</a>",
+      "CHAT": "Chat",
+      "LOGOUT": "Log out"
+    },
+    "TOP": {
+      "SEARCH_PLACEHOLDER": "Search for clubs, events, or people...",
+      "PROFILE": "Profile",
+      "USER_NAME": "Sarah Ahmed"
+    },
+    "OF_MONTH": {
+      "TITLE": "Leaderboard",
+      "TABS": {
+        "CLUBS": "Clubs",
+        "STUDENTS": "Students"
+      },
+      "CARDS": {
+        "01": {
+          "LABEL": "Rank 01",
+          "TITLE": "AI Club",
+          "DESCRIPTION": "The club ranked first this month based on its overall performance, impactful events, and outstanding member achievements."
+        },
+        "02": {
+          "LABEL": "Rank 02",
+          "TITLE": "Fab Lab Club",
+          "DESCRIPTION": "The club ranked second this month based on its overall performance, impactful events, and outstanding member achievements."
+        },
+        "03": {
+          "LABEL": "Rank 03",
+          "TITLE": "CS Club",
+          "DESCRIPTION": "The club ranked third this month based on its overall performance, impactful events, and outstanding member achievements."
+        }
+      },
+      "STUDENTS": {
+        "CARDS": {
+          "01": {
+            "LABEL": "Rank 01",
+            "TITLE": "Sara Ahmed",
+            "DESCRIPTION": "The student ranked first this month for outstanding leadership, achievements, and community impact."
+          },
+          "02": {
+            "LABEL": "Rank 02",
+            "TITLE": "Ahmed Al-Mutairi",
+            "DESCRIPTION": "The student ranked second this month for academic excellence, participation, and event contributions."
+          },
+          "03": {
+            "LABEL": "Rank 03",
+            "TITLE": "Lina Al-Faisal",
+            "DESCRIPTION": "The student ranked third this month for creativity, collaboration, and exceptional involvement."
+          }
+        }
+      }
+    },
+    "CLUBS": {
+      "TITLE": "Clubs",
+      "CARDS": {
+        "01": {
+          "TITLE": "AI Club",
+          "DESCRIPTION": "A student club interested in artificial intelligence concepts and smart technology applications."
+        },
+        "02": {
+          "TITLE": "PGC Club",
+          "DESCRIPTION": "A student club that combines programming and game development to create interactive experiences."
+        },
+        "03": {
+          "TITLE": "Fab Lab Club",
+          "DESCRIPTION": "A student club focused on digital innovation and technical creativity."
+        }
+      }
+    },
+    "ACTIVITIES": {
+      "TITLE": "Activities",
+      "SUMMARY_TITLE": "Your student life, organized",
+      "SUMMARY_TEXT": "SparkHub brings every campus experience into one place so you can discover new communities, events, and learning opportunities without missing a moment.",
+      "SUMMARY_EVENTS": "Live events this month",
+      "SUMMARY_CLUBS": "Clubs hosting events",
+      "SUMMARY_RATING": "Participant satisfaction",
+      "CARDS": {
+        "01": {
+          "TITLE": "Workshop on AI-Driven Software Development",
+          "DESCRIPTION": "Learn how to combine modern AI tools with agile software workflows in a hands-on session.",
+          "DATE": "24-9-2025",
+          "LOCATION": "FabLab hall"
+        },
+        "02": {
+          "TITLE": "Panel Discussion with Majed Al-Juraibi",
+          "DESCRIPTION": "Join a guided conversation on student leadership, technology impact, and campus innovation.",
+          "DATE": "16-02-2026",
+          "LOCATION": "Center Theater"
+        },
+        "03": {
+          "TITLE": "Hail Municipality Hackathon",
+          "DESCRIPTION": "Bring your team and build solutions for local problems during this action-packed hackathon.",
+          "DATE": "27-01-2026",
+          "LOCATION": "University Hall"
+        },
+        "04": {
+          "TITLE": "Graduation Projects Exhibition",
+          "DESCRIPTION": "Explore final-year showcases from student teams across engineering and design departments.",
+          "DATE": "28-12-2025",
+          "LOCATION": "CSCE College"
+        }
+      }
+    },
+    "ACTIONS": {
+      "DETAILS": "Details",
+      "REGISTER": "Register now",
+      "MORE": "more"
+    }
+  },
+  "CLUBS_PAGE": {
+    "BACK": "Back",
+    "CREATE_CLUB": "Create Club",
+    "SEARCH_PLACEHOLDER": "Search clubs...",
+    "DISCOVER": "Discover",
+    "CARDS": {
+      "01": {
+        "TITLE": "AI Club",
+        "DESCRIPTION": "A student club interested in artificial intelligence concepts and smart technology applications."
+      },
+      "02": {
+        "TITLE": "Cyber Security Club",
+        "DESCRIPTION": "A student club focused on digital security, ethical hacking, and cyber awareness."
+      },
+      "03": {
+        "TITLE": "PGC Club",
+        "DESCRIPTION": "A student club that combines programming and game development to create interactive experiences."
+      },
+      "04": {
+        "TITLE": "Fab Lab Club",
+        "DESCRIPTION": "A student club focused on digital innovation and technical creativity."
+      }
+    }
+  },
+  "ACTIVITIES_PAGE": {
+    "TITLE": "Activities",
+    "PAGE_LABEL": "Campus Programs",
+    "PAGE_SUBTITLE": "Find upcoming student workshops, discussions, hackathons, and exhibitions with easy registration and event details.",
+    "FEATURED_TITLE": "Featured highlights",
+    "FEATURED_SUBTITLE": "Stay connected with the most engaging events happening on campus this season.",
+    "FEATURED_FOCUS": "Most popular",
+    "FEATURED_HIGHLIGHT": "AI workshop spotlight",
+    "UPCOMING_TITLE": "Upcoming events",
+    "UPCOMING_SUBTITLE": "Browse by category and choose the events that match your interests.",
+    "FILTER_ALL": "All",
+    "FILTER_WORKSHOPS": "Workshops",
+    "FILTER_DISCUSSIONS": "Discussions",
+    "FILTER_EXHIBITIONS": "Exhibitions",
+    "DETAILS": {
+      "DATE": "Date",
+      "LOCATION": "Location",
+      "HOST": "Host",
+      "SEATS": "Seats left"
+    },
+    "CARDS": {
+        "01": {
+          "TITLE": "Workshop on AI-Driven Software Development",
+          "DESCRIPTION": "Learn how to combine modern AI tools with agile software workflows in a hands-on session.",
+          "DATE": "24-9-2025",
+          "LOCATION": "FabLab hall"
+        },
+        "02": {
+          "TITLE": "Panel Discussion with Majed Al-Juraibi",
+          "DESCRIPTION": "Join a guided conversation on student leadership, technology impact, and campus innovation.",
+          "DATE": "16-02-2026",
+          "LOCATION": "Center Theater"
+        },
+        "03": {
+          "TITLE": "Hail Municipality Hackathon",
+          "DESCRIPTION": "Bring your team and build solutions for local problems during this action-packed hackathon.",
+          "DATE": "27-01-2026",
+          "LOCATION": "University Hall"
+        },
+        "04": {
+          "TITLE": "Graduation Projects Exhibition",
+          "DESCRIPTION": "Explore final-year showcases from student teams across engineering and design departments.",
+          "DATE": "28-12-2025",
+          "LOCATION": "CSCE College"
+        }
+      },
+    "STATS": {
+      "UPCOMING": "Upcoming events",
+      "ATTENDEES": "Total attendees",
+      "TODAY": "Events today"
+    },
+    "ACTIONS": {
+      "DETAILS": "Details",
+      "REGISTER": "Register now",
+      "MORE": "more"
+    }
+  },
+  "STUDENT_PROFILE": {
+    "TITLE": "Profile",
+    "EDIT": "Edit",
+    "FIRST_NAME": "First Name",
+    "LAST_NAME": "Last Name",
+    "EMAIL": "Email",
+    "PHONE": "Phone Number",
+    "OVERVIEW": "Overview",
+    "FAVORITE_CLUBS": "Favorite Clubs",
+    "ACTIVITIES_ATTENDED": "Activities Attended",
+    "CERTIFICATES": "Certificates & Achievements",
+    "SKILLS": "Skills",
+    "ACTIVITIES": "Activities",
+    "ORG_STRUCTURE": "Organizational Structure",
+    "REGISTER": "Register now",
+    "MORE": "more",
+    "ADD_CERTIFICATE": "+ Add New Certificate",
+    "ADD_SKILL": "+ Add New Skill"
+  },
+  "CONTACT": {
+    "TITLE": "Contact Us",
+    "SUBTITLE": "Whenever you have problems or need to contact our team, reach us by",
+    "HELP_LABEL": "Need help?",
+    "SUPPORT_TEXT": "Whether you have questions about events, club membership, or account access, our team is ready to support you quickly.",
+    "PHONE_TITLE": "Call Us",
+    "PHONE_NUMBER": "+966 12 345 6789",
+    "CALL_US": "Call Now",
+    "EMAIL_TITLE": "Email Us",
+    "EMAIL_ADDRESS": "support@sparkhub.edu",
+    "EMAIL_US": "Send Email",
+    "SUPPORT_TITLE": "Support Center",
+    "SUPPORT_DESCRIPTION": "We aim to answer every request promptly and make it easy for you to get the help you need.",
+    "SUPPORT_HOURS_LABEL": "Support hours",
+    "SUPPORT_HOURS": "Sunday - Thursday, 9 AM to 6 PM",
+    "RESPONSE_TIME_LABEL": "Response time",
+    "RESPONSE_TIME": "Within 24 hours"
   }
 }
