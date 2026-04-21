@@ -1,0 +1,43 @@
+<div class="clubs-container">
+  <app-sidebar></app-sidebar>
+  <div class="clubs-page" [class.rtl]="currentLang === 'ar'">
+    <header class="clubs-header">
+      <div class="header-actions">
+        <button type="button" class="create-button">
+          {{ 'CLUBS_PAGE.CREATE_CLUB' | translate }}
+        </button>
+      </div>
+
+      <div class="search-wrapper">
+        <span class="search-icon"></span>
+        <input type="text" placeholder="{{ 'CLUBS_PAGE.SEARCH_PLACEHOLDER' | translate }}" />
+      </div>
+    </header>
+
+    <section class="cards-grid">
+      <article class="club-card" *ngFor="let club of clubs">
+        <div class="club-card-info">
+          <div class="row" style="flex-direction: row">
+            <div
+              class="col-9"
+              style="flex-direction: row; display: flex; gap: 16px; align-items: center"
+            >
+              <div class="club-avatar">{{ club.avatar }}</div>
+              <div>
+                <h2>{{ club.titleKey | translate }}</h2>
+                <p>{{ club.descriptionKey | translate }}</p>
+              </div>
+            </div>
+            <div class="col-3" style="align-items: center; display: flex">
+              <div class="club-card-actions">
+                <button type="button" class="pill-button">
+                  {{ 'CLUBS_PAGE.DISCOVER' | translate }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+    </section>
+  </div>
+</div>

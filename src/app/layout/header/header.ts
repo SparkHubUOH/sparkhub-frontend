@@ -2,7 +2,7 @@ import { Component, HostListener, Inject, Renderer2 } from '@angular/core';
 import { TranslateService } from '../../services/translation/translation';
 import { TranslateModule } from '@ngx-translate/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -27,6 +27,7 @@ export class Header {
   constructor(
     private translate: TranslateService,
     private renderer: Renderer2,
+    private router: Router,
   ) {
     this.checkScreenSize();
     const initialLang = localStorage.getItem('lang') || 'en';
@@ -76,5 +77,21 @@ export class Header {
 
   toggleMenu() {
     this.menuOpen = !this.menuOpen;
+  }
+
+  scrollToSection(section: string) {
+    if (this.router.url === '/' || this.router.url === '/home') {
+      const element = document.getElementById(section);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      this.router.navigate(['/']).then(() => {
+        const element = document.getElementById(section);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    }
   }
 }

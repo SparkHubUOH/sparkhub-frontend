@@ -1,0 +1,115 @@
+<div class="student-profile" [class.rtl]="currentLang === 'ar'">
+  <header class="profile-header">
+    <div class="header-top">
+      <button type="button" class="back-button" [routerLink]="['/dashboard']">
+        <span class="back-arrow"></span>
+      </button>
+      <div class="header-actions">
+        <button type="button" class="icon-button" title="Edit">
+          <span class="edit-icon">✎</span>
+          {{ 'STUDENT_PROFILE.EDIT' | translate }}
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="profile-container">
+    <section class="profile-section">
+      <h1>{{ 'STUDENT_PROFILE.TITLE' | translate }}</h1>
+
+      <div class="profile-fields">
+        <div class="field-row">
+          <div class="field">
+            <label>{{ 'STUDENT_PROFILE.FIRST_NAME' | translate }}</label>
+            <input type="text" readonly [value]="profileData.firstName" />
+          </div>
+          <div class="field">
+            <label>{{ 'STUDENT_PROFILE.LAST_NAME' | translate }}</label>
+            <input type="text" readonly [value]="profileData.lastName" />
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label>{{ 'STUDENT_PROFILE.EMAIL' | translate }}</label>
+            <input type="text" readonly [value]="profileData.email" />
+          </div>
+          <div class="field">
+            <label>{{ 'STUDENT_PROFILE.PHONE' | translate }}</label>
+            <input type="text" readonly [value]="profileData.phoneNumber" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="profile-section">
+      <h2>{{ 'STUDENT_PROFILE.OVERVIEW' | translate }}</h2>
+      <div class="bio-box">
+        <p>{{ profileData.bio }}</p>
+      </div>
+    </section>
+
+    <section class="profile-section">
+      <h2>{{ 'STUDENT_PROFILE.FAVORITE_CLUBS' | translate }}</h2>
+      <div class="clubs-grid">
+        <article class="club-card" *ngFor="let club of profileData.favoriteClubs">
+          <div class="club-header">
+            <div class="club-avatar">{{ club.avatar }}</div>
+            <h3>{{ club.name }}</h3>
+          </div>
+          <p class="club-description">{{ club.description }}</p>
+          <div class="club-actions">
+            <button type="button" class="action-button">{{ 'STUDENT_PROFILE.ACTIVITIES' | translate }}</button>
+            <button type="button" class="action-button secondary">{{ 'STUDENT_PROFILE.ORG_STRUCTURE' | translate }}</button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="profile-section">
+      <h2>{{ 'STUDENT_PROFILE.ACTIVITIES_ATTENDED' | translate }}</h2>
+      <div class="activities-grid">
+        <article class="activity-card" *ngFor="let activity of profileData.activitiesAttended">
+          <div class="activity-image" [style.background]="'linear-gradient(135deg, #9fc5ea, #6aa6c8)'"></div>
+          <div class="activity-info">
+            <h3>{{ activity.title }}</h3>
+            <p class="date">📅 {{ activity.date }}</p>
+            <p class="location">📍 {{ activity.location }}</p>
+            <div class="activity-actions">
+              <button type="button" class="register-button" (click)="registerActivity(activity)">
+                {{ 'STUDENT_PROFILE.REGISTER' | translate }}
+              </button>
+              <a href="#" class="more-link">{{ 'STUDENT_PROFILE.MORE' | translate }} ></a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="profile-section">
+      <h2>{{ 'STUDENT_PROFILE.CERTIFICATES' | translate }}</h2>
+      <div class="certificates-grid">
+        <div class="certificate-card" *ngFor="let cert of profileData.certificates">
+          <h3>{{ cert.title }}</h3>
+          <p>📅 {{ cert.date }}</p>
+          <p>🔐 {{ cert.id }}</p>
+        </div>
+        <button type="button" class="add-button" (click)="addNewCertificate()">
+          {{ 'STUDENT_PROFILE.ADD_CERTIFICATE' | translate }}
+        </button>
+      </div>
+    </section>
+
+    <section class="profile-section">
+      <h2>{{ 'STUDENT_PROFILE.SKILLS' | translate }}</h2>
+      <div class="skills-container">
+        <div class="skills-grid">
+          <span class="skill-tag" *ngFor="let skill of profileData.skills">{{ skill }}</span>
+        </div>
+        <button type="button" class="add-skill-button" (click)="addNewSkill()">
+          {{ 'STUDENT_PROFILE.ADD_SKILL' | translate }}
+        </button>
+      </div>
+    </section>
+  </main>
+</div>

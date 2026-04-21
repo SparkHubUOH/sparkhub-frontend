@@ -1,0 +1,42 @@
+<app-header></app-header>
+<section class="contact-page">
+  <div class="page-shell">
+    <div class="intro-panel">
+      <span class="eyebrow">{{ 'CONTACT.HELP_LABEL' | translate }}</span>
+      <h1>{{ 'CONTACT.TITLE' | translate }}</h1>
+      <p class="lead">{{ 'CONTACT.SUBTITLE' | translate }}</p>
+      <p class="support-copy">{{ 'CONTACT.SUPPORT_TEXT' | translate }}</p>
+    </div>
+
+    <div class="content-grid">
+      <div class="contact-cards">
+        <article class="card" *ngFor="let channel of contactChannels">
+          <div class="card-icon">
+            <i class="bi" [ngClass]="channel.icon"></i>
+          </div>
+          <h3>{{ channel.titleKey | translate }}</h3>
+          <p>{{ channel.valueKey | translate }}</p>
+          <a [href]="channel.action" class="btn">{{ channel.actionText | translate }}</a>
+        </article>
+      </div>
+
+      <aside class="support-panel">
+        <div class="support-block">
+          <h2>{{ 'CONTACT.SUPPORT_TITLE' | translate }}</h2>
+          <p>{{ 'CONTACT.SUPPORT_DESCRIPTION' | translate }}</p>
+
+          <ul class="support-list">
+            <li>
+              <strong>{{ 'CONTACT.SUPPORT_HOURS_LABEL' | translate }}</strong>
+              <span>{{ 'CONTACT.SUPPORT_HOURS' | translate }}</span>
+            </li>
+            <li>
+              <strong>{{ 'CONTACT.RESPONSE_TIME_LABEL' | translate }}</strong>
+              <span>{{ 'CONTACT.RESPONSE_TIME' | translate }}</span>
+            </li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
