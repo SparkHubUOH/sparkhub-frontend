@@ -93,6 +93,100 @@
   line-height: normal;
 }
 
+.featured-activities {
+  max-width: 1180px;
+  margin: 30px;
+  margin-top: 90px;
+  text-align: center;
+  padding: 40px;
+  justify-self: center;
+}
+
+.featured-activities h4 {
+  margin-bottom: 18px;
+  color: var(--color-primary);
+  text-align: center;
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.featured-activities .section-description {
+  margin: 0 auto 28px;
+  max-width: 740px;
+  color: var(--color-primary);
+  font-size: 17px;
+  line-height: 1.8;
+}
+
+.activities-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.activity-card {
+  background: #ffffff;
+  border-radius: 24px;
+  overflow: hidden;
+  border: 1px solid rgba(82, 109, 147, 0.12);
+  box-shadow: 0 14px 30px rgba(73, 109, 149, 0.08);
+  text-align: left;
+}
+
+.activity-image {
+  min-height: 180px;
+  background: #eef5fb;
+  display: grid;
+  place-items: center;
+}
+
+.activity-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.activity-copy {
+  padding: 22px;
+}
+
+.activity-copy h5 {
+  margin: 0 0 12px;
+  color: #15335f;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.activity-meta {
+  margin: 0 0 8px;
+  color: #5b6d87;
+  font-size: 0.95rem;
+}
+
+.register-btn {
+  display: inline-flex;
+  margin-top: 12px;
+  background: #d35f30;
+  color: #ffffff;
+  border-radius: 24px;
+  padding: 10px 18px;
+  text-decoration: none;
+}
+
+.activity-blue {
+  background: linear-gradient(135deg, #9fc5ea 0%, #6aa6c8 100%);
+}
+
+.activity-purple {
+  background: linear-gradient(135deg, #c39af8 0%, #7b7af5 100%);
+}
+
+.activity-green {
+  background: linear-gradient(135deg, #88d497 0%, #4ab67a 100%);
+}
+
 .clubs {
   margin-top: 48px;
   text-align: center;

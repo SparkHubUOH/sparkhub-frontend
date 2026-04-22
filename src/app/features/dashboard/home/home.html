@@ -1,0 +1,186 @@
+<div class="dashboard-home" [class.rtl]="currentLang === 'ar'">
+<app-sidebar></app-sidebar>
+  <main class="main-panel">
+    <div class="top-bar">
+      <div class="sparkhub-logo">
+        <img src="assets/images/Sparkhub-logo.png" width="150px" alt="SparkHub Logo" />
+      </div>
+      <div class="search-card">
+        <span class="search-icon"></span>
+        <input type="text" placeholder="{{ 'DASHBOARD.TOP.SEARCH_PLACEHOLDER' | translate }}" />
+      </div>
+      <div class="profile-card" (click)="goToProfile()" style="cursor: pointer">
+        <div class="profile-avatar">{{ user?.first_name?.charAt(0) }}</div>
+        <div>
+          <span class="profile-label">{{ 'DASHBOARD.TOP.PROFILE' | translate }}</span>
+          <strong>{{ user?.first_name }} {{ user?.last_name }}</strong>
+        </div>
+      </div>
+    </div>
+
+    <section class="section-cutout">
+      <div class="section-header">
+        <div>
+          <h2>{{ 'DASHBOARD.OF_MONTH.TITLE' | translate }}</h2>
+        </div>
+        <div class="toggle-group">
+          <button
+            type="button"
+            class="toggle"
+            [class.active]="activeLeaderboard === 'CLUBS'"
+            (click)="setLeaderboardTab('CLUBS')"
+          >
+            {{ 'DASHBOARD.OF_MONTH.TABS.CLUBS' | translate }}
+          </button>
+          <button
+            type="button"
+            class="toggle"
+            [class.active]="activeLeaderboard === 'STUDENTS'"
+            (click)="setLeaderboardTab('STUDENTS')"
+          >
+            {{ 'DASHBOARD.OF_MONTH.TABS.STUDENTS' | translate }}
+          </button>
+        </div>
+      </div>
+
+      <div class="feature-grid" *ngIf="activeLeaderboard === 'CLUBS'">
+        <article class="feature-card feature-first">
+          <div class="feature-badge">01</div>
+          <span class="feature-label">{{ 'DASHBOARD.OF_MONTH.CARDS.01.LABEL' | translate }}</span>
+          <h3>{{ 'DASHBOARD.OF_MONTH.CARDS.01.TITLE' | translate }}</h3>
+          <p>{{ 'DASHBOARD.OF_MONTH.CARDS.01.DESCRIPTION' | translate }}</p>
+          <a href="#" class="link-action">{{ 'DASHBOARD.ACTIONS.DETAILS' | translate }}</a>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-badge">02</div>
+          <span class="feature-label">{{ 'DASHBOARD.OF_MONTH.CARDS.02.LABEL' | translate }}</span>
+          <h3>{{ 'DASHBOARD.OF_MONTH.CARDS.02.TITLE' | translate }}</h3>
+          <p>{{ 'DASHBOARD.OF_MONTH.CARDS.02.DESCRIPTION' | translate }}</p>
+          <a href="#" class="link-action">{{ 'DASHBOARD.ACTIONS.DETAILS' | translate }}</a>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-badge">03</div>
+          <span class="feature-label">{{ 'DASHBOARD.OF_MONTH.CARDS.03.LABEL' | translate }}</span>
+          <h3>{{ 'DASHBOARD.OF_MONTH.CARDS.03.TITLE' | translate }}</h3>
+          <p>{{ 'DASHBOARD.OF_MONTH.CARDS.03.DESCRIPTION' | translate }}</p>
+          <a href="#" class="link-action">{{ 'DASHBOARD.ACTIONS.DETAILS' | translate }}</a>
+        </article>
+      </div>
+
+      <div class="feature-grid" *ngIf="activeLeaderboard === 'STUDENTS'">
+        <article class="feature-card feature-first">
+          <div class="feature-badge">01</div>
+          <span class="feature-label">{{
+            'DASHBOARD.OF_MONTH.STUDENTS.CARDS.01.LABEL' | translate
+          }}</span>
+          <h3>{{ 'DASHBOARD.OF_MONTH.STUDENTS.CARDS.01.TITLE' | translate }}</h3>
+          <p>{{ 'DASHBOARD.OF_MONTH.STUDENTS.CARDS.01.DESCRIPTION' | translate }}</p>
+          <a href="#" class="link-action">{{ 'DASHBOARD.ACTIONS.DETAILS' | translate }}</a>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-badge">02</div>
+          <span class="feature-label">{{
+            'DASHBOARD.OF_MONTH.STUDENTS.CARDS.02.LABEL' | translate
+          }}</span>
+          <h3>{{ 'DASHBOARD.OF_MONTH.STUDENTS.CARDS.02.TITLE' | translate }}</h3>
+          <p>{{ 'DASHBOARD.OF_MONTH.STUDENTS.CARDS.02.DESCRIPTION' | translate }}</p>
+          <a href="#" class="link-action">{{ 'DASHBOARD.ACTIONS.DETAILS' | translate }}</a>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-badge">03</div>
+          <span class="feature-label">{{
+            'DASHBOARD.OF_MONTH.STUDENTS.CARDS.03.LABEL' | translate
+          }}</span>
+          <h3>{{ 'DASHBOARD.OF_MONTH.STUDENTS.CARDS.03.TITLE' | translate }}</h3>
+          <p>{{ 'DASHBOARD.OF_MONTH.STUDENTS.CARDS.03.DESCRIPTION' | translate }}</p>
+          <a href="#" class="link-action">{{ 'DASHBOARD.ACTIONS.DETAILS' | translate }}</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="section-block">
+      <div class="section-header small-header">
+        <h3>{{ 'DASHBOARD.CLUBS.TITLE' | translate }}</h3>
+      </div>
+
+      <div class="cards-row">
+        <article class="info-card">
+          <div class="card-icon">AI</div>
+          <h4>{{ 'DASHBOARD.CLUBS.CARDS.01.TITLE' | translate }}</h4>
+          <p>{{ 'DASHBOARD.CLUBS.CARDS.01.DESCRIPTION' | translate }}</p>
+          <a href="#" class="link-action small">{{ 'DASHBOARD.ACTIONS.DETAILS' | translate }}</a>
+        </article>
+
+        <article class="info-card">
+          <div class="card-icon">PG</div>
+          <h4>{{ 'DASHBOARD.CLUBS.CARDS.02.TITLE' | translate }}</h4>
+          <p>{{ 'DASHBOARD.CLUBS.CARDS.02.DESCRIPTION' | translate }}</p>
+          <a href="#" class="link-action small">{{ 'DASHBOARD.ACTIONS.DETAILS' | translate }}</a>
+        </article>
+
+        <article class="info-card">
+          <div class="card-icon">FL</div>
+          <h4>{{ 'DASHBOARD.CLUBS.CARDS.03.TITLE' | translate }}</h4>
+          <p>{{ 'DASHBOARD.CLUBS.CARDS.03.DESCRIPTION' | translate }}</p>
+          <a href="#" class="link-action small">{{ 'DASHBOARD.ACTIONS.DETAILS' | translate }}</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="section-block activities-block">
+      <div class="section-header small-header">
+        <h3>{{ 'DASHBOARD.ACTIVITIES.TITLE' | translate }}</h3>
+      </div>
+
+      <div class="activities-grid">
+        <article class="activity-card">
+          <div class="activity-visual visual-blue"></div>
+          <div class="activity-copy">
+            <h4>{{ 'DASHBOARD.ACTIVITIES.CARDS.01.TITLE' | translate }}</h4>
+            <p>{{ 'DASHBOARD.ACTIVITIES.CARDS.01.DATE' | translate }}</p>
+            <p>{{ 'DASHBOARD.ACTIVITIES.CARDS.01.LOCATION' | translate }}</p>
+            <button class="action-button">{{ 'DASHBOARD.ACTIONS.REGISTER' | translate }}</button>
+            <a href="#" class="link-action small">{{ 'DASHBOARD.ACTIONS.MORE' | translate }}</a>
+          </div>
+        </article>
+
+        <article class="activity-card">
+          <div class="activity-visual visual-purple"></div>
+          <div class="activity-copy">
+            <h4>{{ 'DASHBOARD.ACTIVITIES.CARDS.02.TITLE' | translate }}</h4>
+            <p>{{ 'DASHBOARD.ACTIVITIES.CARDS.02.DATE' | translate }}</p>
+            <p>{{ 'DASHBOARD.ACTIVITIES.CARDS.02.LOCATION' | translate }}</p>
+            <button class="action-button">{{ 'DASHBOARD.ACTIONS.REGISTER' | translate }}</button>
+            <a href="#" class="link-action small">{{ 'DASHBOARD.ACTIONS.MORE' | translate }}</a>
+          </div>
+        </article>
+
+        <article class="activity-card">
+          <div class="activity-visual visual-green"></div>
+          <div class="activity-copy">
+            <h4>{{ 'DASHBOARD.ACTIVITIES.CARDS.03.TITLE' | translate }}</h4>
+            <p>{{ 'DASHBOARD.ACTIVITIES.CARDS.03.DATE' | translate }}</p>
+            <p>{{ 'DASHBOARD.ACTIVITIES.CARDS.03.LOCATION' | translate }}</p>
+            <button class="action-button">{{ 'DASHBOARD.ACTIONS.REGISTER' | translate }}</button>
+            <a href="#" class="link-action small">{{ 'DASHBOARD.ACTIONS.MORE' | translate }}</a>
+          </div>
+        </article>
+
+        <article class="activity-card">
+          <div class="activity-visual visual-orange"></div>
+          <div class="activity-copy">
+            <h4>{{ 'DASHBOARD.ACTIVITIES.CARDS.04.TITLE' | translate }}</h4>
+            <p>{{ 'DASHBOARD.ACTIVITIES.CARDS.04.DATE' | translate }}</p>
+            <p>{{ 'DASHBOARD.ACTIVITIES.CARDS.04.LOCATION' | translate }}</p>
+            <button class="action-button">{{ 'DASHBOARD.ACTIONS.REGISTER' | translate }}</button>
+            <a href="#" class="link-action small">{{ 'DASHBOARD.ACTIONS.MORE' | translate }}</a>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+</div>

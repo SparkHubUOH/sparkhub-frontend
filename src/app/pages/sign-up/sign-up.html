@@ -13,42 +13,37 @@
         </a>
       </ng-template>
       <h1>{{ 'SIGNUP.TITLE' | translate }}</h1>
-      <form class="signup-form" novalidate>
+      <form class="signup-form" [formGroup]="form" (ngSubmit)="submit()">
         <div class="row two">
           <label>
-            <span>{{ 'SIGNUP.FULL_NAME' | translate }}</span>
-            <input type="text" placeholder="{{ 'SIGNUP.FULL_NAME' | translate }}" />
+            <span>{{ 'SIGNUP.FIRST_NAME' | translate }}</span>
+            <input type="text" formControlName="first_name" placeholder="{{ 'SIGNUP.FIRST_NAME' | translate }}" />
           </label>
           <label>
-            <span>{{ 'SIGNUP.USERNAME' | translate }}</span>
-            <input type="text" placeholder="{{ 'SIGNUP.USERNAME' | translate }}" />
+            <span>{{ 'SIGNUP.LAST_NAME' | translate }}</span>
+            <input type="text" formControlName="last_name" placeholder="{{ 'SIGNUP.LAST_NAME' | translate }}" />
           </label>
         </div>
 
         <div class="row two">
           <label>
             <span>{{ 'SIGNUP.PHONE' | translate }}</span>
-            <input type="tel" placeholder="{{ 'SIGNUP.PHONE' | translate }}" />
+            <input type="tel" formControlName="phone" placeholder="{{ 'SIGNUP.PHONE' | translate }}" />
           </label>
           <label>
             <span>{{ 'SIGNUP.UNIVERSITY_ID' | translate }}</span>
-            <input type="text" placeholder="{{ 'SIGNUP.UNIVERSITY_ID' | translate }}" />
+            <input type="text" formControlName="university_id" placeholder="{{ 'SIGNUP.UNIVERSITY_ID' | translate }}" />
           </label>
         </div>
 
         <label class="full">
           <span>{{ 'SIGNUP.EMAIL' | translate }}</span>
-          <input type="email" placeholder="{{ 'SIGNUP.EMAIL' | translate }}" />
+          <input type="email" formControlName="email" placeholder="{{ 'SIGNUP.EMAIL' | translate }}" />
         </label>
 
         <label class="full">
           <span>{{ 'SIGNUP.PASSWORD' | translate }}</span>
-          <input type="password" placeholder="{{ 'SIGNUP.PASSWORD' | translate }}" />
-        </label>
-
-        <label class="agree">
-          <input type="checkbox" />
-          <span [innerHTML]="'SIGNUP.AGREE_HTML' | translate"></span>
+          <input type="password" formControlName="password" placeholder="{{ 'SIGNUP.PASSWORD' | translate }}" />
         </label>
 
         <button class="primary" type="submit">{{ 'SIGNUP.CREATE' | translate }}</button>

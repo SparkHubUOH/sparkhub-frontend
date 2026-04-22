@@ -5,7 +5,7 @@
       <h1 class="title">{{ 'LANDING.HERO_TITLE' | translate }}</h1>
       <p class="subtitle">{{ 'LANDING.HERO_SUB' | translate }}</p>
 
-      <a class="btn" [routerLink]="['/sign-up']">
+      <a class="btn" [routerLink]="['/register']">
         {{ 'LANDING.START_NOW' | translate }}
         <i class="bi"
           [ngClass]="languageSelected === 'en' ? 'bi-arrow-right-short' : 'bi-arrow-left-short'">
@@ -14,7 +14,7 @@
       
     </div>
 
-    <div class="content">
+    <div class="content" id="about">
       <div class="container">
         <div class="text">
           <h2>{{ 'LANDING.WHO_TITLE' | translate }}</h2>
@@ -30,7 +30,7 @@
       </div>
     </div>
 
-    <div class="clubs">
+    <div class="clubs" id="clubs">
       <h4>{{ 'LANDING.STUDENT_CLUBS' | translate }}</h4>
       <div class="marquee" aria-hidden="false">
         <div class="marquee-track">
@@ -57,7 +57,7 @@
             </div>
           </div>
 
-          <!-- duplicated for seamless loop -->
+          <!-- duplicated  -->
           <div class="marquee-group">
             <div class="club club-a">
               <div class="logo-placeholder">
@@ -81,6 +81,21 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
+
+    <div class="featured-activities" id="featured-activities">
+      <h4>{{ 'LANDING.ACTIVITIES_SECTION_TITLE' | translate }}</h4>
+      <p class="section-description">{{ 'LANDING.ACTIVITIES_SECTION_SUBTITLE' | translate }}</p>
+      <div class="activities-grid">
+        <article class="activity-card" *ngFor="let activity of activities">
+          <div class="activity-image" [ngClass]="activity.colorClass"></div>
+          <div class="activity-copy">
+            <h5>{{ activity.titleKey | translate }}</h5>
+            <p class="activity-meta">{{ activity.dateKey | translate }}</p>
+            <p class="activity-meta">{{ activity.locationKey | translate }}</p>
+          </div>
+        </article>
       </div>
     </div>
   </div>
