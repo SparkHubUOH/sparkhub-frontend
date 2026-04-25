@@ -1,49 +1,56 @@
-<div class="signup-page">
-  <div class="signup-container">
-    <div class="signup-left">
-      <ng-container *ngIf="currentLang === 'en'; else arabicButton">
-        <a class="back" [routerLink]="['/home']">
-          <i class="bi bi-arrow-left-short" style="color: #657a99; font-size: 30px"></i>
-        </a>
+<div class="auth-page">
+
+  <div class="auth-card">
+
+    <a class="back" [routerLink]="['/home']">
+      <ng-container *ngIf="currentLang === 'en'; else arabicIcon">
+        <i class="bi bi-arrow-left-short"></i>
       </ng-container>
 
-      <ng-template #arabicButton>
-        <a class="back" [routerLink]="['/home']">
-          <i class="bi bi-arrow-right-short" style="color: #657a99; font-size: 30px"></i>
-        </a>
+      <ng-template #arabicIcon>
+        <i class="bi bi-arrow-right-short"></i>
       </ng-template>
-      <h1>{{ 'SIGNUP.TITLE' | translate }}</h1>
-      <form class="signup-form" [formGroup]="form" (ngSubmit)="login()">
-        <label class="full">
-          <span>{{ 'SIGNUP.EMAIL' | translate }}</span>
-          <input
-            type="email"
-            formControlName="email"
-            placeholder="{{ 'SIGNUP.EMAIL' | translate }}"
-          />
-        </label>
+    </a>
 
-        <label class="full">
-          <span>{{ 'SIGNUP.PASSWORD' | translate }}</span>
-          <input
-            type="password"
-            formControlName="password"
-            placeholder="{{ 'SIGNUP.PASSWORD' | translate }}"
-          />
-        </label>
-
-        <button class="primary" type="submit">{{ 'LOGIN.CREATE' | translate }}</button>
-      </form>
+    <div class="header">
+      <h1>{{ 'Welcome back' | translate }}</h1>
+      <p>Enter your information to log in</p>
     </div>
 
-    <div class="signup-right" aria-hidden="true">
-      <div class="graphic">
-        <img
-          src="assets/images/sdhnn 1.png"
-          alt="Signup Graphic"
-          style="width: fit-content; height: 100%; object-fit: contain; border-radius: 100px"
-        />
+    <form class="auth-form" [formGroup]="form" (ngSubmit)="login()" novalidate>
+
+      <label class="field full">
+        <span>{{ 'SIGNUP.EMAIL' | translate }}</span>
+        <input type="email" formControlName="email" />
+        <div *ngIf="form.get('email')?.touched && form.get('email')?.invalid">
+          <small>Enter a valid email</small>
+        </div>
+      </label>
+
+      <label class="field full">
+        <span>{{ 'SIGNUP.PASSWORD' | translate }}</span>
+        <input type="password" formControlName="password" />
+        <div *ngIf="form.get('password')?.touched && form.get('password')?.invalid">
+          <small>Password is required</small>
+        </div>
+      </label>
+
+      <div class="actions">
+        <span class="forgot" [innerHTML]="'LOGIN.FORGOT' | translate"></span>
       </div>
-    </div>
+
+      <button class="primary" type="submit" [disabled]="form.invalid">
+        {{ 'LOGIN.CREATE' | translate }}
+      </button>
+
+      <div *ngIf="form.errors?.['invalid']">
+        <small>Incorrect email or password</small>
+      </div>
+
+      <p class="alt" [innerHTML]="'LOGIN.NEW' | translate"></p>
+
+    </form>
+
   </div>
+
 </div>

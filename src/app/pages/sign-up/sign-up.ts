@@ -1,38 +1,49 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TranslateService } from '../../services/translation/translation';
-import { TranslateModule } from '@ngx-translate/core';
-import { RouterLink, Router } from '@angular/router';
-import { Header } from '../../layout/header/header';
-import { Auth } from '../../services/auth';
+import { Router, RouterLink } from '@angular/router';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
+import { TranslateService } from '../../services/translation/translation';
+import { Auth } from '../../services/auth';
 
 @Component({
   selector: 'app-sign-up',
-  imports: [TranslateModule, RouterLink, CommonModule, Header, ReactiveFormsModule],
+  standalone: true,
+  imports: [CommonModule, RouterLink, ReactiveFormsModule, TranslateModule],
   templateUrl: './sign-up.html',
   styleUrl: './sign-up.css',
 })
 export class SignUp {
-  currentLang = 'en';
-  private fb = inject(FormBuilder);
 
-  form = this.fb.group({
-    first_name: ['', Validators.required],
-    last_name: ['', Validators.required],
-    email: ['', [Validators.required, Validators.email]],
-    password: ['', Validators.required],
-    phone: ['', Validators.required],
-    university_id: ['', Validators.required],
-  });
+  currentLang = 'en';
+
+  private fb = inject(FormBuilder);
 
   constructor(
     private translate: TranslateService,
     private authService: Auth,
-    private router: Router,
+    private router: Router
   ) {
     this.translate.setDefaultLang('en');
   }
+
+  form = this.fb.group({
+    first_name: ['', [Validators.required, Validators.minLength(3)]],
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', [
+      Validators.required,
+      Validators.minLength(8),
+      Validators.pattern(/^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@#$!]).+$/)
+    ]],
+    phone: ['', [
+      Validators.required,
+      Validators.pattern(/^05\d{8}$/)
+    ]],
+    university_id: ['', [
+      Validators.required,
+      Validators.pattern(/^\d{10}$/)
+    ]],
+  });
 
   toggleLanguage() {
     this.currentLang = this.currentLang === 'en' ? 'ar' : 'en';
@@ -40,45 +51,25 @@ export class SignUp {
     document.documentElement.dir = this.currentLang === 'ar' ? 'rtl' : 'ltr';
   }
 
-  register() {
-    this.authService.register(this.form.value).subscribe(() => {
-      console.log('User created');
+  submit() {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
+
+    const formData = {
+      ...this.form.value,
+      username: this.form.value.email
+    };
+
+    this.authService.register(formData).subscribe({
+      next: () => {
+        this.router.navigate(['/login']);
+      },
+      error: (err) => {
+        console.error(err);
+        alert('Something went wrong');
+      }
     });
   }
-
-submit() {
-  if (this.form.invalid) return;
-
-  const formData = {
-    ...this.form.value,
-    username: this.form.value.email
-  };
-
-  this.authService.register(formData).subscribe({
-    next: () => {
-
-      const loginData = {
-        username: this.form.value.email,
-        password: this.form.value.password
-      };
-
-      this.authService.login(loginData).subscribe((res: any) => {
-
-        localStorage.setItem('access_token', res.access);
-
-        this.authService.getProfile().subscribe((user: any) => {
-
-          this.router.navigate(['/dashboard/']);
-
-        });
-
-      });
-
-    },
-    error: (err) => {
-      console.error(err);
-      alert('Something went wrong');
-    },
-  });
-}
 }
