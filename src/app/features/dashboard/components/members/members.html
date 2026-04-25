@@ -1,0 +1,144 @@
+<div class="members-page">
+
+  <header class="members-header">
+    <button class="back-btn" type="button">
+      <i class="bi bi-chevron-left"></i>
+    </button>
+
+    <div class="spark-logo">
+      <img src="assets/images/Sparkhub-logo.png" alt="SparkHub Logo" />
+    </div>
+  </header>
+
+  <div class="members-topbar">
+    <h1 class="page-title">Members</h1>
+
+    <button class="join-btn" type="button">
+      View Join Requests
+    </button>
+  </div>
+
+  <div class="main-cards">
+    <div class="top-card" *ngFor="let member of members.slice(0,2)">
+      <div class="role-label">
+        {{ member.role }}
+      </div>
+
+      <div class="member-name">
+        {{ member.name }}
+      </div>
+
+      <div class="actions">
+        <button class="icon-btn filled" type="button">
+          <i class="bi bi-chat-left-text"></i>
+        </button>
+
+        <button class="icon-btn" type="button" (click)="openAssignModal(member)">
+          <i class="bi bi-person"></i>
+        </button>
+
+        <button class="icon-btn" type="button" (click)="copyLink()">
+          <i class="bi" [ngClass]="copied ? 'bi-check-lg' : 'bi-link-45deg'"></i>
+        </button>
+
+        <button
+          class="icon-btn"
+          type="button"
+          (click)="selectedMemberName = member.name; showDeleteModal = true">
+          <i class="bi bi-trash"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="members-list-box">
+    <div class="member-row" *ngFor="let member of members">
+      <div class="role-label">
+        {{ member.role }}
+      </div>
+
+      <div class="member-name">
+        {{ member.name }}
+      </div>
+
+      <div class="actions">
+        <button class="icon-btn filled" type="button">
+          <i class="bi bi-chat-left-text"></i>
+        </button>
+
+        <button class="icon-btn" type="button" (click)="openAssignModal(member)">
+          <i class="bi bi-person"></i>
+        </button>
+
+        <button class="icon-btn" type="button" (click)="copyLink()">
+          <i class="bi" [ngClass]="copied ? 'bi-check-lg' : 'bi-link-45deg'"></i>
+        </button>
+
+        <button
+          class="icon-btn"
+          type="button"
+          (click)="selectedMemberName = member.name; showDeleteModal = true">
+          <i class="bi bi-trash"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" *ngIf="showAssignModal">
+    <div class="modal-card">
+      <button class="close-btn" type="button" (click)="closeAssignModal()">
+        ×
+      </button>
+
+      <h3>Assign Member Role</h3>
+
+      <div class="assign-row">
+        <div class="assign-box">
+          {{ selectedFromRole }}
+        </div>
+
+        <span class="arrow">
+          ↔
+        </span>
+
+        <select [(ngModel)]="selectedToRole" class="role-select">
+          <option>Club Leader</option>
+          <option>Vice Leader</option>
+          <option>Team Leader</option>
+          <option>Member</option>
+        </select>
+      </div>
+
+      <div class="modal-footer">
+        <button class="save-btn" type="button" (click)="saveAssignedRole()">
+          Save
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" *ngIf="showDeleteModal">
+    <div class="delete-card">
+      <button class="close-btn" type="button" (click)="showDeleteModal = false">
+        ×
+      </button>
+
+      <h3>Remove Member</h3>
+
+      <p>
+        Are you sure you Remove the member?
+      </p>
+
+      <div class="delete-actions">
+        <button class="no-btn" type="button" (click)="showDeleteModal = false">
+          No
+        </button>
+
+        <button class="yes-btn" type="button" (click)="removeMember()">
+          Yes, Remove
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div>
