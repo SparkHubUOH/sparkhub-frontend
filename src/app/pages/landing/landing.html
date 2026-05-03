@@ -1,102 +1,173 @@
-<section class="landing">
-  <div class="hero">
+<section class="landing-page">
+
+  <!-- HERO -->
+  <section class="hero">
+
+    <div class="hero-glow glow-1"></div>
+    <div class="hero-glow glow-2"></div>
+    <div class="hero-glow glow-3"></div>
+
+    <div class="hero-badge">
+      <span class="dot"></span>
+      <span>STUDENT COMMUNITY PLATFORM</span>
+    </div>
+
     <div class="hero-inner">
-      <img src="assets/images/sparkhub.png" alt="SparkHub Logo" class="logo-image" />
-      <h1 class="title">{{ 'LANDING.HERO_TITLE' | translate }}</h1>
-      <p class="subtitle">{{ 'LANDING.HERO_SUB' | translate }}</p>
 
-      <a class="btn" [routerLink]="['/register']">
-        {{ 'LANDING.START_NOW' | translate }}
-        <i class="bi"
-          [ngClass]="languageSelected === 'en' ? 'bi-arrow-right-short' : 'bi-arrow-left-short'">
-        </i>
-      </a>
-      
-    </div>
+      <img
+        src="assets/images/sparkhub.png"
+        alt="SparkHub Logo"
+        class="hero-logo"
+      />
 
-    <div class="content" id="about">
-      <div class="container">
-        <div class="text">
-          <h2>{{ 'LANDING.WHO_TITLE' | translate }}</h2>
-          <p>{{ 'LANDING.WHO_BODY' | translate }}</p>
+      <h1 class="hero-title">
+        {{ 'LANDING.HERO_TITLE' | translate }}
+      </h1>
 
-          <h2>{{ 'LANDING.VISION_TITLE' | translate }}</h2>
-          <p>{{ 'LANDING.VISION_BODY' | translate }}</p>
-        </div>
+      <p class="hero-subtitle">
+        {{ 'LANDING.HERO_SUB' | translate }}
+      </p>
 
-        <div class="aside">
-          <div class="big-mark">?</div>
-        </div>
+      <div class="hero-actions">
+
+        <!-- START NOW -->
+        <a class="btn-primary" [routerLink]="['/register']">
+          {{ 'LANDING.START_NOW' | translate }}
+
+          <i
+            class="bi"
+            [ngClass]="languageSelected === 'en'
+              ? 'bi-arrow-right-short'
+              : 'bi-arrow-left-short'">
+          </i>
+        </a>
+
       </div>
+
     </div>
 
-    <div class="clubs" id="clubs">
-      <h4>{{ 'LANDING.STUDENT_CLUBS' | translate }}</h4>
-      <div class="marquee" aria-hidden="false">
-        <div class="marquee-track">
-          <div class="marquee-group">
-            <div class="club club-a">
-              <div class="logo-placeholder">
-                <img src="assets/images/AIclub.png" alt="Club Logo" class="club-logo" />
-              </div>
-            </div>
-            <div class="club club-b">
-              <div class="logo-placeholder">
-                <img src="assets/images/Cyclub.png" alt="Club Logo" class="club-logo" />
-              </div>
-            </div>
-            <div class="club club-a">
-              <div class="logo-placeholder">
-                <img src="assets/images/fablab.png" alt="Club Logo" class="club-logo" />
-              </div>
-            </div>
-            <div class="club club-b">
-              <div class="logo-placeholder">
-                <img src="assets/images/gamesclub.png" alt="Club Logo" class="club-logo" />
-              </div>
-            </div>
-          </div>
+  </section>
 
-          <!-- duplicated  -->
-          <div class="marquee-group">
-            <div class="club club-a">
-              <div class="logo-placeholder">
-                <img src="assets/images/AIclub.png" alt="Club Logo" class="club-logo" />
-              </div>
-            </div>
-            <div class="club club-b">
-              <div class="logo-placeholder">
-                <img src="assets/images/Cyclub.png" alt="Club Logo" class="club-logo" />
-              </div>
-            </div>
-            <div class="club club-a">
-              <div class="logo-placeholder">
-                <img src="assets/images/fablab.png" alt="Club Logo" class="club-logo" />
-              </div>
-            </div>
-            <div class="club club-b">
-              <div class="logo-placeholder">
-                <img src="assets/images/gamesclub.png" alt="Club Logo" class="club-logo" />
-              </div>
-            </div>
-          </div>
-        </div>
+
+  <!-- STATS -->
+  <section class="stats-bar">
+
+    <div class="stat-box">
+      <h3>4+</h3>
+      <p>Student Clubs</p>
+    </div>
+
+    <div class="stat-box">
+      <h3>200K+</h3>
+      <p>Members</p>
+    </div>
+
+    <div class="stat-box">
+      <h3>50+</h3>
+      <p>Activities</p>
+    </div>
+
+    <div class="stat-box">
+      <h3>50+</h3>
+      <p>Events</p>
+    </div>
+
+  </section>
+
+
+  <!-- ABOUT -->
+  <section class="about-section" id="about">
+
+    <div class="about-left">
+
+      <span class="section-tag">
+        {{ 'LANDING.WHO_TITLE' | translate }}
+      </span>
+
+      <h2>Empowering Student Communities</h2>
+
+      <p>
+        {{ 'LANDING.WHO_BODY' | translate }}
+      </p>
+
+      <div class="vision-card">
+
+        <span class="mini-tag">
+          {{ 'LANDING.VISION_TITLE' | translate }}
+        </span>
+
+        <p>
+          {{ 'LANDING.VISION_BODY' | translate }}
+        </p>
+
       </div>
+
     </div>
 
-    <div class="featured-activities" id="featured-activities">
-      <h4>{{ 'LANDING.ACTIVITIES_SECTION_TITLE' | translate }}</h4>
-      <p class="section-description">{{ 'LANDING.ACTIVITIES_SECTION_SUBTITLE' | translate }}</p>
-      <div class="activities-grid">
-        <article class="activity-card" *ngFor="let activity of activities">
-          <div class="activity-image" [ngClass]="activity.colorClass"></div>
-          <div class="activity-copy">
-            <h5>{{ activity.titleKey | translate }}</h5>
-            <p class="activity-meta">{{ activity.dateKey | translate }}</p>
-            <p class="activity-meta">{{ activity.locationKey | translate }}</p>
-          </div>
-        </article>
+    <div class="about-right">
+
+      <div class="question-card">
+        <div class="question-mark">?</div>
+        <span>DISCOVER YOUR PATH</span>
       </div>
+
     </div>
-  </div>
+
+  </section>
+
+
+  <!-- CLUBS -->
+  <section class="clubs-section">
+
+    <div class="section-head">
+
+      <span class="section-tag">Explore</span>
+
+      <h2>
+        {{ 'LANDING.STUDENT_CLUBS' | translate }}
+      </h2>
+
+      <p>Find clubs that match your interests</p>
+
+    </div>
+
+    <div class="clubs-grid">
+
+      <div class="club-card">
+        <img src="assets/images/AIclub.png" class="club-logo">
+      </div>
+
+      <div class="club-card">
+        <img src="assets/images/Cyclub.png" class="club-logo">
+      </div>
+
+      <div class="club-card">
+        <img src="assets/images/fablab.png" class="club-logo">
+      </div>
+
+      <div class="club-card">
+        <img src="assets/images/gamesclub.png" class="club-logo">
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- CTA -->
+  <section class="bottom-cta">
+
+    <h2>Ready To Find Your Spark?</h2>
+
+    <p>
+      Join thousands of students building their future together
+    </p>
+
+    <!-- GET STARTED -->
+    <a class="btn-primary" [routerLink]="['/register']">
+      Get Started
+    </a>
+
+  </section>
+
 </section>

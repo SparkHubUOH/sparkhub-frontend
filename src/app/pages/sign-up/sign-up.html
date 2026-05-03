@@ -1,65 +1,88 @@
 <div class="signup-page">
-  <div class="signup-container">
-    <div class="signup-left">
-      <ng-container *ngIf="currentLang === 'en'; else arabicButton">
-        <a class="back" [routerLink]="['/home']">
-           <i class="bi bi-arrow-left-short" style="color: #657a99; font-size: 30px"></i>
-        </a>
+
+  <div class="signup-card">
+
+    <a class="back" [routerLink]="['/home']">
+      <ng-container *ngIf="currentLang === 'en'; else arabicIcon">
+        <i class="bi bi-arrow-left-short"></i>
       </ng-container>
 
-      <ng-template #arabicButton>
-        <a class="back" [routerLink]="['/home']">
-          <i class="bi bi-arrow-right-short" style="color: #657a99; font-size: 30px"></i>
-        </a>
+      <ng-template #arabicIcon>
+        <i class="bi bi-arrow-right-short"></i>
       </ng-template>
+    </a>
+
+    <div class="header">
       <h1>{{ 'SIGNUP.TITLE' | translate }}</h1>
-      <form class="signup-form" [formGroup]="form" (ngSubmit)="submit()">
-        <div class="row two">
-          <label>
-            <span>{{ 'SIGNUP.FIRST_NAME' | translate }}</span>
-            <input type="text" formControlName="first_name" placeholder="{{ 'SIGNUP.FIRST_NAME' | translate }}" />
-          </label>
-          <label>
-            <span>{{ 'SIGNUP.LAST_NAME' | translate }}</span>
-            <input type="text" formControlName="last_name" placeholder="{{ 'SIGNUP.LAST_NAME' | translate }}" />
-          </label>
-        </div>
-
-        <div class="row two">
-          <label>
-            <span>{{ 'SIGNUP.PHONE' | translate }}</span>
-            <input type="tel" formControlName="phone" placeholder="{{ 'SIGNUP.PHONE' | translate }}" />
-          </label>
-          <label>
-            <span>{{ 'SIGNUP.UNIVERSITY_ID' | translate }}</span>
-            <input type="text" formControlName="university_id" placeholder="{{ 'SIGNUP.UNIVERSITY_ID' | translate }}" />
-          </label>
-        </div>
-
-        <label class="full">
-          <span>{{ 'SIGNUP.EMAIL' | translate }}</span>
-          <input type="email" formControlName="email" placeholder="{{ 'SIGNUP.EMAIL' | translate }}" />
-        </label>
-
-        <label class="full">
-          <span>{{ 'SIGNUP.PASSWORD' | translate }}</span>
-          <input type="password" formControlName="password" placeholder="{{ 'SIGNUP.PASSWORD' | translate }}" />
-        </label>
-
-        <button class="primary" type="submit">{{ 'SIGNUP.CREATE' | translate }}</button>
-
-        <p class="alt" [innerHTML]="'SIGNUP.ALREADY' | translate"></p>
-      </form>
+      <p>Create your account and start your journey with SparkHub</p>
     </div>
 
-    <div class="signup-right" aria-hidden="true">
-      <div class="graphic">
-        <img
-          src="assets/images/sdhnn 1.png"
-          alt="Signup Graphic"
-          style="width: fit-content; height: 100%; object-fit: contain; border-radius: 100px;"
-        />
+    <form class="signup-form" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+
+      <div class="grid two">
+
+        <label class="field">
+          <span>{{ 'Full Name' | translate }}</span>
+          <input type="text" formControlName="first_name" />
+          <div *ngIf="form.get('first_name')?.touched && form.get('first_name')?.invalid">
+            <small>Full name is required (min 3 characters)</small>
+          </div>
+        </label>
+
+        <label class="field">
+          <span>{{ 'User Name' | translate }}</span>
+          <input type="text" />
+        </label>
+
       </div>
-    </div>
+
+      <div class="grid two">
+
+        <label class="field">
+          <span>{{ 'SIGNUP.PHONE' | translate }}</span>
+          <input type="tel" formControlName="phone" />
+          <div *ngIf="form.get('phone')?.touched && form.get('phone')?.invalid">
+            <small>Phone must start with 05 and be 10 digits</small>
+          </div>
+        </label>
+
+        <label class="field">
+          <span>{{ 'SIGNUP.UNIVERSITY_ID' | translate }}</span>
+          <input type="text" formControlName="university_id" />
+        
+          <small class="hint">
+            Must be exactly 10 digits
+          </small>
+        </label>
+
+      </div>
+
+      <label class="field full">
+        <span>{{ 'SIGNUP.EMAIL' | translate }}</span>
+        <input type="email" formControlName="email" />
+        <div *ngIf="form.get('email')?.touched && form.get('email')?.invalid">
+          <small>Invalid email address</small>
+        </div>
+      </label>
+
+      <label class="field full">
+        <span>{{ 'SIGNUP.PASSWORD' | translate }}</span>
+        <input type="password" formControlName="password" />
+        <div *ngIf="form.get('password')?.touched && form.get('password')?.invalid">
+          <small>
+            Password must be 8+ chars and include letters, numbers & (@ # $ !)
+          </small>
+        </div>
+      </label>
+
+      <button class="primary" type="submit" [disabled]="form.invalid">
+        {{ 'SIGNUP.CREATE' | translate }}
+      </button>
+
+      <p class="alt" [innerHTML]="'SIGNUP.ALREADY' | translate"></p>
+
+    </form>
+
   </div>
+
 </div>
