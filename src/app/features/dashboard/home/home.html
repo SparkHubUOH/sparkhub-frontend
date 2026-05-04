@@ -1,5 +1,5 @@
 <div class="dashboard-home" [class.rtl]="currentLang === 'ar'">
-<app-sidebar></app-sidebar>
+  <app-sidebar></app-sidebar>
   <main class="main-panel">
     <div class="top-bar">
       <div class="sparkhub-logo">
@@ -10,11 +10,18 @@
         <input type="text" placeholder="{{ 'DASHBOARD.TOP.SEARCH_PLACEHOLDER' | translate }}" />
       </div>
       <div class="profile-card" (click)="goToProfile()" style="cursor: pointer">
-        <div class="profile-avatar">{{ user?.first_name?.charAt(0) }}</div>
+        <div class="profile-avatar">{{ user?.first_name?.charAt(0) || '?' }}</div>
         <div>
-          <span class="profile-label">{{ 'DASHBOARD.TOP.PROFILE' | translate }}</span>
-          <strong>{{ user?.first_name }} {{ user?.last_name }}</strong>
+          <div *ngIf="user; else loadingUser">
+            <span class="profile-label">{{ 'DASHBOARD.TOP.PROFILE' | translate }}</span>
+            <strong>{{ user?.first_name }} {{ user?.last_name }}</strong>
+          </div>
         </div>
+        <ng-template #loadingUser>
+          <div>
+            <span class="profile-label">Loading...</span>
+          </div>
+        </ng-template>
       </div>
     </div>
 
@@ -43,97 +50,129 @@
         </div>
       </div>
 
-      <div class="feature-grid" *ngIf="activeLeaderboard === 'CLUBS'">
-        <article class="feature-card feature-first">
-          <div class="feature-badge">01</div>
-          <span class="feature-label">{{ 'DASHBOARD.OF_MONTH.CARDS.01.LABEL' | translate }}</span>
-          <h3>{{ 'DASHBOARD.OF_MONTH.CARDS.01.TITLE' | translate }}</h3>
-          <p>{{ 'DASHBOARD.OF_MONTH.CARDS.01.DESCRIPTION' | translate }}</p>
-          <a href="#" class="link-action">{{ 'DASHBOARD.ACTIONS.DETAILS' | translate }}</a>
-        </article>
+      <div class="feature-grid" *ngFor="let club of topClubs; let i = index">
+        <ng-container *ngIf="activeLeaderboard === 'CLUBS' && club.status === 'active'">
+          <article class="feature-card feature-first" [ngClass]="'feature-' + (i + 1)">
+            <div
+              style="
+                gap: 15px;
+                display: flex;
+                align-items: center;
+                margin-bottom: 15px;
+                justify-content: space-between;
+              "
+            >
+              <div>
+                <div class="feature-badge">0{{ i + 1 }}</div>
 
-        <article class="feature-card">
-          <div class="feature-badge">02</div>
-          <span class="feature-label">{{ 'DASHBOARD.OF_MONTH.CARDS.02.LABEL' | translate }}</span>
-          <h3>{{ 'DASHBOARD.OF_MONTH.CARDS.02.TITLE' | translate }}</h3>
-          <p>{{ 'DASHBOARD.OF_MONTH.CARDS.02.DESCRIPTION' | translate }}</p>
-          <a href="#" class="link-action">{{ 'DASHBOARD.ACTIONS.DETAILS' | translate }}</a>
-        </article>
+                <span class="feature-label">
+                  {{ 'DASHBOARD.OF_MONTH.CARDS.0' + (i + 1) + '.LABEL' | translate }}
+                </span>
+              </div>
 
-        <article class="feature-card">
-          <div class="feature-badge">03</div>
-          <span class="feature-label">{{ 'DASHBOARD.OF_MONTH.CARDS.03.LABEL' | translate }}</span>
-          <h3>{{ 'DASHBOARD.OF_MONTH.CARDS.03.TITLE' | translate }}</h3>
-          <p>{{ 'DASHBOARD.OF_MONTH.CARDS.03.DESCRIPTION' | translate }}</p>
-          <a href="#" class="link-action">{{ 'DASHBOARD.ACTIONS.DETAILS' | translate }}</a>
-        </article>
+              <small
+                class="text-primary-emphasis bg-primary-subtle rounded-3 p-1"
+                style="justify-content: end"
+                >{{ club.points !== undefined ? club.points : 0 }} Points</small
+              >
+            </div>
+            <div>
+              <h4>{{ currentLang === 'ar' ? club.club_name_ar : club.club_name }}</h4>
+              <p>{{ currentLang === 'ar' ? club.description_ar : club.description }}</p>
+              <a [routerLink]="['/clubs', club.id]" class="link-action small">
+                {{ 'DASHBOARD.ACTIONS.DETAILS' | translate }}
+              </a>
+            </div>
+          </article>
+        </ng-container>
       </div>
 
       <div class="feature-grid" *ngIf="activeLeaderboard === 'STUDENTS'">
-        <article class="feature-card feature-first">
-          <div class="feature-badge">01</div>
-          <span class="feature-label">{{
-            'DASHBOARD.OF_MONTH.STUDENTS.CARDS.01.LABEL' | translate
-          }}</span>
-          <h3>{{ 'DASHBOARD.OF_MONTH.STUDENTS.CARDS.01.TITLE' | translate }}</h3>
-          <p>{{ 'DASHBOARD.OF_MONTH.STUDENTS.CARDS.01.DESCRIPTION' | translate }}</p>
-          <a href="#" class="link-action">{{ 'DASHBOARD.ACTIONS.DETAILS' | translate }}</a>
-        </article>
+        <ng-container *ngFor="let student of topStudents; let i = index">
+          <article class="feature-card feature-first" [ngClass]="'feature-' + (i + 1)">
+            <div
+              style="
+                gap: 15px;
+                display: flex;
+                align-items: center;
+                margin-bottom: 15px;
+                justify-content: space-between;
+              "
+            >
+              <div style="display: flex; align-items: center; gap: 10px">
+                <div class="feature-badge">0{{ i + 1 }}</div>
 
-        <article class="feature-card">
-          <div class="feature-badge">02</div>
-          <span class="feature-label">{{
-            'DASHBOARD.OF_MONTH.STUDENTS.CARDS.02.LABEL' | translate
-          }}</span>
-          <h3>{{ 'DASHBOARD.OF_MONTH.STUDENTS.CARDS.02.TITLE' | translate }}</h3>
-          <p>{{ 'DASHBOARD.OF_MONTH.STUDENTS.CARDS.02.DESCRIPTION' | translate }}</p>
-          <a href="#" class="link-action">{{ 'DASHBOARD.ACTIONS.DETAILS' | translate }}</a>
-        </article>
+                <span class="feature-label">
+                  {{ 'DASHBOARD.OF_MONTH.STUDENTS.CARDS.0' + (i + 1) + '.LABEL' | translate }}
+                </span>
 
-        <article class="feature-card">
-          <div class="feature-badge">03</div>
-          <span class="feature-label">{{
-            'DASHBOARD.OF_MONTH.STUDENTS.CARDS.03.LABEL' | translate
-          }}</span>
-          <h3>{{ 'DASHBOARD.OF_MONTH.STUDENTS.CARDS.03.TITLE' | translate }}</h3>
-          <p>{{ 'DASHBOARD.OF_MONTH.STUDENTS.CARDS.03.DESCRIPTION' | translate }}</p>
-          <a href="#" class="link-action">{{ 'DASHBOARD.ACTIONS.DETAILS' | translate }}</a>
-        </article>
+                <span *ngIf="i === 0" class="crown-icon" title="Top Student">👑</span>
+              </div>
+
+              <small class="text-primary-emphasis bg-primary-subtle rounded-3 p-1">
+                {{ student.points || 0 }} Points
+              </small>
+            </div>
+
+            <div>
+              <h4>{{ student.first_name }} {{ student.last_name }}</h4>
+
+              <p class="text-truncate">{{ student.bio || 'Active SparkHub Student' }}</p>
+
+            </div>
+          </article>
+        </ng-container>
       </div>
     </section>
 
     <section class="section-block">
       <div class="section-header small-header">
         <h3>{{ 'DASHBOARD.CLUBS.TITLE' | translate }}</h3>
+        <ng-container *ngIf="currentLang === 'en'; else arabicArrow">
+          <button class="arrow" [routerLink]="['/dashboard/clubs']">
+            <i class="bi bi-arrow-right"></i>
+          </button>
+        </ng-container>
+
+        <ng-template #arabicArrow>
+          <button class="arrow" [routerLink]="['/dashboard/clubs']">
+            <i class="bi bi-arrow-left"></i>
+          </button>
+        </ng-template>
       </div>
 
       <div class="cards-row">
-        <article class="info-card">
-          <div class="card-icon">AI</div>
-          <h4>{{ 'DASHBOARD.CLUBS.CARDS.01.TITLE' | translate }}</h4>
-          <p>{{ 'DASHBOARD.CLUBS.CARDS.01.DESCRIPTION' | translate }}</p>
-          <a href="#" class="link-action small">{{ 'DASHBOARD.ACTIONS.DETAILS' | translate }}</a>
-        </article>
-
-        <article class="info-card">
-          <div class="card-icon">PG</div>
-          <h4>{{ 'DASHBOARD.CLUBS.CARDS.02.TITLE' | translate }}</h4>
-          <p>{{ 'DASHBOARD.CLUBS.CARDS.02.DESCRIPTION' | translate }}</p>
-          <a href="#" class="link-action small">{{ 'DASHBOARD.ACTIONS.DETAILS' | translate }}</a>
-        </article>
-
-        <article class="info-card">
-          <div class="card-icon">FL</div>
-          <h4>{{ 'DASHBOARD.CLUBS.CARDS.03.TITLE' | translate }}</h4>
-          <p>{{ 'DASHBOARD.CLUBS.CARDS.03.DESCRIPTION' | translate }}</p>
-          <a href="#" class="link-action small">{{ 'DASHBOARD.ACTIONS.DETAILS' | translate }}</a>
-        </article>
+        <ng-container *ngFor="let club of clubs | slice: 0 : 3">
+          <article class="info-card" *ngIf="club.status === 'active'">
+            <div *ngIf="club.status === 'active'">
+              <div class="card-icon">
+                {{ club.club_name?.charAt(0) }}
+              </div>
+              <h4>{{ currentLang === 'ar' ? club.club_name_ar : club.club_name }}</h4>
+              <p>{{ currentLang === 'ar' ? club.description_ar : club.description }}</p>
+              <a href="#" class="link-action small">{{
+                'DASHBOARD.ACTIONS.DETAILS' | translate
+              }}</a>
+            </div>
+          </article>
+        </ng-container>
       </div>
     </section>
 
     <section class="section-block activities-block">
       <div class="section-header small-header">
         <h3>{{ 'DASHBOARD.ACTIVITIES.TITLE' | translate }}</h3>
+        <ng-container *ngIf="currentLang === 'en'; else arabicArrow">
+          <button class="arrow" [routerLink]="['/dashboard/activities']">
+            <i class="bi bi-arrow-right"></i>
+          </button>
+        </ng-container>
+
+        <ng-template #arabicArrow>
+          <button class="arrow" [routerLink]="['/dashboard/activities']">
+            <i class="bi bi-arrow-left"></i>
+          </button>
+        </ng-template>
       </div>
 
       <div class="activities-grid">

@@ -1,15 +1,16 @@
 import { Component, HostListener, Renderer2 } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ChangeDetectorRef } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslateService } from '../../../services/translation/translation';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { Auth } from '../../../services/auth';
-import { Sidebar } from "../sidebar/sidebar";
+import { Sidebar } from '../sidebar/sidebar';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, TranslateModule, Sidebar],
+  imports: [CommonModule, TranslateModule, Sidebar, RouterLink],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
@@ -17,6 +18,8 @@ export class Home {
   currentLang = 'en';
   activeLeaderboard: 'CLUBS' | 'STUDENTS' = 'CLUBS';
   user: any;
+  clubs: any[] = [];
+  students: any[] = [];
   languageSelected: string;
   showLangMenu = false;
   showMobileLangMenu = false;
@@ -26,12 +29,12 @@ export class Home {
     private authService: Auth,
     private router: Router,
     private renderer: Renderer2,
+    private cdr: ChangeDetectorRef,
   ) {
     this.authService.userProfile$.subscribe((data) => {
       this.user = data;
     });
 
-    this.checkScreenSize();
     const initialLang = localStorage.getItem('lang') || 'en';
     this.languageSelected = initialLang;
     this.translate.use(initialLang);
@@ -45,12 +48,35 @@ export class Home {
   ngOnInit() {
     this.currentLang = this.translate.currentLang;
 
-    this.translate.onLangChange.subscribe((event) => {
-      this.currentLang = event.lang;
-
-      const user = JSON.parse(localStorage.getItem('user') || '{}');
-      this.user = user;
+    const savedUser = localStorage.getItem('user');
+    if (savedUser) {
+      this.user = JSON.parse(savedUser);
+    }
+    this.authService.userProfile$.subscribe((data) => {
+      if (data) {
+        this.user = data;
+        this.cdr.detectChanges();
+      }
     });
+
+    this.authService.getWinnerClub().subscribe({
+      next: (data) => {
+        this.clubs = data;
+        this.cdr.detectChanges();
+        console.log('Clubs Data:', this.clubs);
+      },
+      error: (err) => {
+        console.error(err);
+      },
+    });
+
+    this.authService.getStudents().subscribe({
+    next: (data) => {
+      this.students = data;
+      this.cdr.detectChanges();
+    },
+    error: (err) => console.error('Failed to load students', err)
+  });
   }
 
   setLeaderboardTab(tab: 'CLUBS' | 'STUDENTS') {
@@ -58,7 +84,11 @@ export class Home {
   }
 
   goToProfile() {
-    this.router.navigate(['/dashboard/' + this.user.role]);
+    if (this.user && this.user.role) {
+      this.router.navigate(['/dashboard/' + this.user.role]);
+    } else {
+      console.error('User data not loaded yet');
+    }
   }
 
   toggleLanguage() {
@@ -78,36 +108,16 @@ export class Home {
     this.showMobileLangMenu = false;
   }
 
-  isMobile: boolean = false;
-  menuOpen: boolean = false;
-
-  @HostListener('window:resize', ['$event'])
-  onResize(event: any) {
-    this.checkScreenSize();
-    if (!this.isMobile) {
-      this.menuOpen = false;
-    }
+  get topClubs() {
+    return this.clubs
+      .filter((club) => club.points !== undefined)
+      .sort((a, b) => (b.points || 0) - (a.points || 0))
+      .slice(0, 3);
   }
 
-  checkScreenSize() {
-    this.isMobile = window.innerWidth < 900;
-  }
-
-  toggleLangMenu() {
-    this.showLangMenu = !this.showLangMenu;
-    this.showMobileLangMenu = false;
-  }
-
-  toggleMobileLangMenu() {
-    this.showMobileLangMenu = !this.showMobileLangMenu;
-    this.showLangMenu = false;
-  }
-
-  toggleMenu() {
-    this.menuOpen = !this.menuOpen;
-  }
-
-  onLogout() {
-    this.authService.logout();
+  get topStudents() {
+    return this.students
+      .sort((a, b) => (b.points || 0) - (a.points || 0))
+      .slice(0, 3);
   }
 }

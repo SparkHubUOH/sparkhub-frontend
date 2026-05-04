@@ -7,7 +7,6 @@
   padding: 20px;
 }
 
-/* CARD */
 .auth-card {
   width: 100%;
   max-width: 520px;
@@ -19,7 +18,6 @@
   position: relative;
 }
 
-/* BACK */
 .back {
   position: absolute;
   top: 20px;
@@ -29,7 +27,6 @@
   text-decoration: none;
 }
 
-/* HEADER */
 .header {
   text-align: center;
   margin-bottom: 30px;
@@ -47,7 +44,6 @@
   margin-top: 8px;
 }
 
-/* FORM */
 .auth-form {
   display: flex;
   flex-direction: column;
@@ -61,7 +57,6 @@
   display: block;
 }
 
-/* INPUT */
 input {
   width: 100%;
   height: 46px;
@@ -83,7 +78,6 @@ input:focus {
   width: 100%;
 }
 
-/* FORGOT */
 .actions {
   display: flex;
   justify-content: flex-end;
@@ -96,7 +90,6 @@ input:focus {
   text-decoration: underline;
 }
 
-/* BUTTON */
 .primary {
   height: 48px;
   border: none;
@@ -113,7 +106,6 @@ input:focus {
   box-shadow: 0 10px 25px rgba(79, 110, 247, 0.25);
 }
 
-/* ALT */
 .alt {
   font-size: 13px;
   text-align: center;
@@ -121,7 +113,12 @@ input:focus {
   margin-top: 10px;
 }
 
-/* RESPONSIVE */
+.error-message {
+  color: #e53e3e;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
 @media (max-width: 768px) {
   .auth-card {
     padding: 30px;

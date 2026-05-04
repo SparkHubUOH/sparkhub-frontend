@@ -184,3 +184,70 @@ a {
   width: 100%;
   margin-top: 10px;
 }
+
+@media (max-width: 900px) {
+  .sidebar {
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 18px;
+    height: auto;
+    width: 100%;
+  }
+
+  .brand-block {
+    width: 100%;
+  }
+
+  .nav-list {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+  }
+
+  .nav-link {
+    text-align: center;
+    padding: 14px 5px;
+  }
+
+  .section-cutout,
+  .section-block {
+    padding: 22px;
+  }
+
+  .feature-grid,
+  .cards-row,
+  .activities-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 620px) {
+  .dashboard-home {
+    padding: 18px;
+  }
+
+  .top-bar,
+  .search-card,
+  .profile-card {
+    width: 100%;
+  }
+
+  .search-card {
+    padding: 12px 14px;
+  }
+
+  .profile-card {
+    padding: 12px 14px;
+  }
+
+  .toggle-group {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .toggle {
+    flex: 1;
+    text-align: center;
+  }
+}

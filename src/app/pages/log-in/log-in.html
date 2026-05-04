@@ -23,7 +23,7 @@
         <span>{{ 'SIGNUP.EMAIL' | translate }}</span>
         <input type="email" formControlName="email" />
         <div *ngIf="form.get('email')?.touched && form.get('email')?.invalid">
-          <small>Enter a valid email</small>
+          <small class="error-message">Enter a valid email</small>
         </div>
       </label>
 
@@ -31,7 +31,7 @@
         <span>{{ 'SIGNUP.PASSWORD' | translate }}</span>
         <input type="password" formControlName="password" />
         <div *ngIf="form.get('password')?.touched && form.get('password')?.invalid">
-          <small>Password is required</small>
+          <small class="error-message">Password is required</small>
         </div>
       </label>
 
@@ -44,7 +44,7 @@
       </button>
 
       <div *ngIf="form.errors?.['invalid']">
-        <small>Incorrect email or password</small>
+        <small class="error-message">Incorrect email or password</small>
       </div>
 
       <p class="alt" [innerHTML]="'LOGIN.NEW' | translate"></p>

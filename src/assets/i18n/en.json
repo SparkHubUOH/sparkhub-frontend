@@ -1,6 +1,6 @@
 {
   "HEADER": {
-    "SIGN_IN": "Sign In",
+    "SIGN_IN": "Log In",
     "DISCOVER": "Discover",
     "CLUBS": "Clubs",
     "ACTIVITIES": "Activities",
@@ -249,8 +249,40 @@
     "ORG_STRUCTURE": "Organizational Structure",
     "REGISTER": "Register now",
     "MORE": "more",
-    "ADD_CERTIFICATE": "+ Add New Certificate",
-    "ADD_SKILL": "+ Add New Skill"
+    "ADD_CERTIFICATE": "Add New Certificate",
+    "CERTIFICATE_NAME": "Certificate Name",
+    "DATE": "Date",
+    "CANCEL": "Cancel",
+    "ADD": "Add",
+    "ADD_SKILL": "Add New Skill",
+    "SKILL_NAME": "Skill Name"
+  },
+  "STAFF": {
+    "PROFILE_TITLE": "Staff Profile",
+    "CHANGE_PASSWORD": "Change Password",
+    "CURRENT_PASSWORD": "Current Password",
+    "NEW_PASSWORD": "New Password",
+    "CONFIRM_PASSWORD": "Confirm Password",
+    "ENTER_CURRENT_PASSWORD": "Enter your current password",
+    "ENTER_NEW_PASSWORD": "Enter new password",
+    "CONFIRM_NEW_PASSWORD": "Confirm new password",
+    "CHANGE_PASSWORD_BTN": "Change Password",
+    "PROMOTE_USER": "Promote User to Club Leader",
+    "PROMOTE_DESCRIPTION": "Search for a student by their University ID to promote them to club leader. This will allow them to create and manage clubs.",
+    "UNIVERSITY_ID": "University ID",
+    "ENTER_UNIVERSITY_ID": "Enter University ID",
+    "SEARCH": "Search",
+    "PROMOTE_TO_LEADER": "Promote to Leader",
+    "ALREADY_LEADER": "Already a Club Leader",
+    "CLEAR": "Clear"
+  },
+  "PROFILE_SIDEBAR": {
+    "PROFILE": "Profile",
+    "CLUB_MANAGEMENT": "Club Management",
+    "ORGANIZATIONAL_STRUCTURE": "Organizational Structure",
+    "CLUBS": "Clubs",
+    "ANALYTICS": "Analytics",
+    "LANGUAGE": "Language"
   },
   "CONTACT": {
     "TITLE": "Contact Us",

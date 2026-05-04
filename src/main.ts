@@ -1,6 +1,7 @@
 import { bootstrapApplication } from '@angular/platform-browser';
 import { App } from './app/app';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { appConfig } from './app/app.config';
+import { provideHttpClient, withInterceptors, withInterceptorsFromDi } from '@angular/common/http';
 import { provideRouter } from '@angular/router';
 import { routes } from './app/app.routes';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
@@ -11,10 +12,11 @@ import {
     TranslateHttpLoader, 
     TRANSLATE_HTTP_LOADER_CONFIG 
 } from '@ngx-translate/http-loader'; 
+import { authInterceptor } from './app/interceptors/auth-interceptor';
 
-bootstrapApplication(App, {
+bootstrapApplication(App,{
   providers: [
-    provideHttpClient(withInterceptorsFromDi()),
+    provideHttpClient(withInterceptors([authInterceptor])),
     provideRouter(routes),
     TranslateService,
     {

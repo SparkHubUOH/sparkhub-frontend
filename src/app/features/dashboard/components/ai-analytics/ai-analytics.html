@@ -1,0 +1,57 @@
+<div class="analytics-layout">
+  <main class="analytics-content">
+    <header>
+      <h1>AI & Data Analytics</h1>
+      <nav class="tabs">
+        <button [class.active]="selectedTab === 'data'" (click)="selectedTab = 'data'">Data Analysis</button>
+        <button [class.active]="selectedTab === 'predictive'" (click)="selectedTab = 'predictive'">Predictive Analytics</button>
+        <button [class.active]="selectedTab === 'ai_tools'" (click)="selectedTab = 'ai_tools'">AI Tools</button>
+        <button [class.active]="selectedTab === 'summary'" (click)="selectedTab = 'summary'">System Overview</button>
+      </nav>
+    </header>
+
+    <section class="tab-content" *ngIf="selectedTab === 'data'">
+      <h2>Data Analysis Preview</h2>
+      <button class="btn" (click)="loadDataPreview()" [disabled]="loading">Load Data Sample</button>
+      <div *ngIf="loading">Loading data...</div>
+      <table *ngIf="dataPreview.length">
+        <thead>
+          <tr>
+            <th *ngFor="let key of dataPreview[0] | keyvalue">{{ key.key }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of dataPreview">
+            <td *ngFor="let key of row | keyvalue">{{ key.value }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="tab-content" *ngIf="selectedTab === 'predictive'">
+      <h2>Predictive Forecast</h2>
+      <button class="btn" (click)="runPrediction()" [disabled]="loading">Run Prophet Forecast</button>
+      <div *ngIf="loading">Running prediction...</div>
+      <div *ngIf="predictionResults">
+        <h3>Results</h3>
+        <pre>{{ predictionResults | json }}</pre>
+      </div>
+    </section>
+
+    <section class="tab-content" *ngIf="selectedTab === 'ai_tools'">
+      <h2>Machine Learning Models</h2>
+      <p>Coming soon: train and evaluate Scikit-Learn models interactively.</p>
+    </section>
+
+    <section class="tab-content" *ngIf="selectedTab === 'summary'">
+      <h2>System Overview</h2>
+      <ul>
+        <li>📊 Data Analysis: Pandas</li>
+        <li>🤖 ML Models: Scikit-Learn</li>
+        <li>📅 Forecasting: Prophet</li>
+        <li>🏆 Gamification: Landing Page</li>
+      </ul>
+    </section>
+  </main>
+  <app-profile-sidebar></app-profile-sidebar>
+</div>
