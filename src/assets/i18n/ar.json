@@ -216,8 +216,40 @@
     "ORG_STRUCTURE": "الهيكل التنظيمي",
     "REGISTER": "سجل الآن",
     "MORE": "المزيد",
-    "ADD_CERTIFICATE": "+ إضافة شهادة جديدة",
-    "ADD_SKILL": "+ إضافة مهارة جديدة"
+    "ADD_CERTIFICATE": "إضافة شهادة جديدة",
+    "CERTIFICATE_NAME": "اسم الشهادة",
+    "DATE": "التاريخ",
+    "CANCEL": "إلغاء",
+    "ADD": "إضافة",
+    "ADD_SKILL": "إضافة مهارة جديدة",
+    "SKILL_NAME": "اسم المهارة"
+  },
+  "STAFF": {
+    "PROFILE_TITLE": "الملف الشخصي",
+    "CHANGE_PASSWORD": "تغيير كلمة المرور",
+    "CURRENT_PASSWORD": "كلمة المرور الحالية",
+    "NEW_PASSWORD": "كلمة المرور الجديدة",
+    "CONFIRM_PASSWORD": "تأكيد كلمة المرور",
+    "ENTER_CURRENT_PASSWORD": "أدخل كلمة المرور الحالية",
+    "ENTER_NEW_PASSWORD": "أدخل كلمة المرور الجديدة",
+    "CONFIRM_NEW_PASSWORD": "أكد كلمة المرور الجديدة",
+    "CHANGE_PASSWORD_BTN": "تغيير كلمة المرور",
+    "PROMOTE_USER": "ترقية مستخدم إلى قائد نادي",
+    "PROMOTE_DESCRIPTION": "ابحث عن طالب بواسطة الرقم الجامعي لترقيته إلى قائد نادي. سيتمكن بعدها من إنشاء وإدارة الأندية.",
+    "UNIVERSITY_ID": "الرقم الجامعي",
+    "ENTER_UNIVERSITY_ID": "أدخل الرقم الجامعي",
+    "SEARCH": "بحث",
+    "PROMOTE_TO_LEADER": "ترقية إلى قائد",
+    "ALREADY_LEADER": "قائد نادي بالفعل",
+    "CLEAR": "مسح"
+  },
+  "PROFILE_SIDEBAR": {
+    "PROFILE": "الملف الشخصي",
+    "CLUB_MANAGEMENT": "إدارة الأندية",
+    "ORGANIZATIONAL_STRUCTURE": "الهيكل التنظيمي",
+    "CLUBS": "الأندية",
+    "ANALYTICS": "التحليلات",
+    "LANGUAGE": "اللغة"
   },
   "CONTACT": {
     "TITLE": "اتصل بنا",

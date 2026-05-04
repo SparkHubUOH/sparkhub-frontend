@@ -1,7 +1,5 @@
 <div class="signup-page">
-
   <div class="signup-card">
-
     <a class="back" [routerLink]="['/home']">
       <ng-container *ngIf="currentLang === 'en'; else arabicIcon">
         <i class="bi bi-arrow-left-short"></i>
@@ -17,51 +15,47 @@
       <p>Create your account and start your journey with SparkHub</p>
     </div>
 
-    <form class="signup-form" [formGroup]="form" (ngSubmit)="submit()" novalidate>
-
+    <form class="signup-form" [formGroup]="form" (ngSubmit)="submit()">
       <div class="grid two">
-
         <label class="field">
-          <span>{{ 'Full Name' | translate }}</span>
+          <span>{{ 'SIGNUP.FIRST_NAME' | translate }}</span>
           <input type="text" formControlName="first_name" />
           <div *ngIf="form.get('first_name')?.touched && form.get('first_name')?.invalid">
-            <small>Full name is required (min 3 characters)</small>
+            <small class="error-message">Full name is required (min 3 characters)</small>
           </div>
         </label>
 
         <label class="field">
-          <span>{{ 'User Name' | translate }}</span>
-          <input type="text" />
+          <span>{{ 'SIGNUP.LAST_NAME' | translate }}</span>
+          <input type="text" formControlName="last_name" />
+          <div *ngIf="form.get('last_name')?.touched && form.get('last_name')?.invalid">
+            <small class="error-message">Last name is required</small>
+          </div>
         </label>
-
       </div>
 
       <div class="grid two">
-
         <label class="field">
           <span>{{ 'SIGNUP.PHONE' | translate }}</span>
           <input type="tel" formControlName="phone" />
           <div *ngIf="form.get('phone')?.touched && form.get('phone')?.invalid">
-            <small>Phone must start with 05 and be 10 digits</small>
+            <small class="error-message">Phone must start with 05 and be 10 digits</small>
           </div>
         </label>
 
         <label class="field">
           <span>{{ 'SIGNUP.UNIVERSITY_ID' | translate }}</span>
           <input type="text" formControlName="university_id" />
-        
-          <small class="hint">
-            Must be exactly 10 digits
-          </small>
-        </label>
 
+          <small class="hint"> Must be exactly 9 digits </small>
+        </label>
       </div>
 
       <label class="field full">
         <span>{{ 'SIGNUP.EMAIL' | translate }}</span>
         <input type="email" formControlName="email" />
         <div *ngIf="form.get('email')?.touched && form.get('email')?.invalid">
-          <small>Invalid email address</small>
+          <small class="error-message">Invalid email address</small>
         </div>
       </label>
 
@@ -69,7 +63,7 @@
         <span>{{ 'SIGNUP.PASSWORD' | translate }}</span>
         <input type="password" formControlName="password" />
         <div *ngIf="form.get('password')?.touched && form.get('password')?.invalid">
-          <small>
+          <small class="error-message">
             Password must be 8+ chars and include letters, numbers & (@ # $ !)
           </small>
         </div>
@@ -80,9 +74,6 @@
       </button>
 
       <p class="alt" [innerHTML]="'SIGNUP.ALREADY' | translate"></p>
-
     </form>
-
   </div>
-
 </div>

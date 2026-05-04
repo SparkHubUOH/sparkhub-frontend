@@ -29,6 +29,7 @@ export class SignUp {
 
   form = this.fb.group({
     first_name: ['', [Validators.required, Validators.minLength(3)]],
+    last_name: ['', [Validators.required, Validators.minLength(3)]],
     email: ['', [Validators.required, Validators.email]],
     password: ['', [
       Validators.required,
@@ -41,7 +42,7 @@ export class SignUp {
     ]],
     university_id: ['', [
       Validators.required,
-      Validators.pattern(/^\d{10}$/)
+      Validators.pattern(/^\d{9}$/)
     ]],
   });
 

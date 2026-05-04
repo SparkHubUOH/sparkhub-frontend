@@ -17,7 +17,10 @@ export class Auth {
     this.userProfile.next(user);
   }
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+  ) {}
 
   login(data: any) {
     return this.http.post(`${this.apiUrl}/login/`, data);
@@ -41,10 +44,33 @@ export class Auth {
   }
 
   logout() {
-  localStorage.removeItem('access_token');
-  
-  this.userProfile.next(null);
-  
-  this.router.navigate(['/login']);
-}
+    localStorage.removeItem('access_token');
+    this.userProfile.next(null);
+    this.router.navigate(['/login']);
+  }
+
+  getClubs() {
+    return this.http.get<any[]>(`${this.apiUrl}/clubs/`);
+  }
+
+  getWinnerClub() {
+    return this.http.get<any[]>(`${this.apiUrl}/clubs/list/`);
+  }
+
+  getStudents() {
+    return this.http.get<any[]>(`${this.apiUrl}/students/`);
+  }
+
+  getUserRole(): string {
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    return user.role || '';
+  }
+
+  createClub(formData: FormData) {
+    return this.http.post(`${this.apiUrl}/clubs/`, formData);
+  }
+
+  approveClub(clubId: number, action: string) {
+    return this.http.patch(`${this.apiUrl}/clubs/${clubId}/approve/`, { action });
+  }
 }

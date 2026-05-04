@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule, NgClass } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterLink } from "@angular/router";
+import { ProfileSidebar } from "../../../roles/profile-sidebar/profile-sidebar";
 
 export interface Team {
   name: string;
@@ -14,7 +16,7 @@ export interface Team {
 @Component({
   selector: 'app-org-chart',
   standalone: true,
-  imports: [CommonModule, FormsModule, NgClass],
+  imports: [CommonModule, FormsModule, NgClass, RouterLink, ProfileSidebar],
   templateUrl: './org-chart.html',
   styleUrl: './org-chart.css'
 })

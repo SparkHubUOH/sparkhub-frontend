@@ -5,9 +5,9 @@
         <span class="back-arrow"></span>
       </button>
       <div class="header-actions">
-        <button type="button" class="icon-button" title="Edit">
+        <button type="button" class="icon-button" title="Edit" (click)="toggleEdit()">
           <span class="edit-icon">✎</span>
-          {{ 'STUDENT_PROFILE.EDIT' | translate }}
+          {{ isEditing ? 'Save' : ('STUDENT_PROFILE.EDIT' | translate) }}
         </button>
       </div>
     </div>
@@ -21,52 +21,288 @@
         <div class="field-row">
           <div class="field">
             <label>{{ 'STUDENT_PROFILE.FIRST_NAME' | translate }}</label>
-            <input type="text" readonly [value]="profileData.firstName" />
+            <input type="text" [readOnly]="!isEditing" [(ngModel)]="profileData.first_name" />
           </div>
           <div class="field">
             <label>{{ 'STUDENT_PROFILE.LAST_NAME' | translate }}</label>
-            <input type="text" readonly [value]="profileData.lastName" />
+            <input type="text" [readOnly]="!isEditing" [(ngModel)]="profileData.last_name" />
           </div>
         </div>
 
         <div class="field-row">
           <div class="field">
             <label>{{ 'STUDENT_PROFILE.EMAIL' | translate }}</label>
-            <input type="text" readonly [value]="profileData.email" />
+            <input type="text" [readOnly]="!isEditing" [(ngModel)]="profileData.email" />
           </div>
           <div class="field">
             <label>{{ 'STUDENT_PROFILE.PHONE' | translate }}</label>
-            <input type="text" readonly [value]="profileData.phoneNumber" />
+            <input type="text" [readOnly]="!isEditing" [(ngModel)]="profileData.phone" />
           </div>
         </div>
       </div>
     </section>
 
-    <section class="profile-section">
+    <section
+      class="profile-section"
+      *ngIf="authService.getUserRole() === 'student' || authService.getUserRole() === 'leader'"
+    >
       <h2>{{ 'STUDENT_PROFILE.OVERVIEW' | translate }}</h2>
       <div class="bio-box">
-        <p>{{ profileData.bio }}</p>
+        <textarea *ngIf="isEditing" [(ngModel)]="profileData.bio"> </textarea>
+        <p *ngIf="!isEditing">{{ profileData.bio }}</p>
       </div>
     </section>
 
-    <section class="profile-section">
-      <h2>{{ 'STUDENT_PROFILE.FAVORITE_CLUBS' | translate }}</h2>
-      <div class="clubs-grid">
-        <article class="club-card" *ngFor="let club of profileData.favoriteClubs">
-          <div class="club-header">
-            <div class="club-avatar">{{ club.avatar }}</div>
-            <h3>{{ club.name }}</h3>
-          </div>
-          <p class="club-description">{{ club.description }}</p>
-          <div class="club-actions">
-            <button type="button" class="action-button">{{ 'STUDENT_PROFILE.ACTIVITIES' | translate }}</button>
-            <button type="button" class="action-button secondary">{{ 'STUDENT_PROFILE.ORG_STRUCTURE' | translate }}</button>
-          </div>
-        </article>
+    <section
+      class="profile-section"
+      *ngIf="authService.getUserRole() === 'student' || authService.getUserRole() === 'leader'"
+    >
+      <h2>{{ 'STUDENT_PROFILE.CERTIFICATES' | translate }}</h2>
+      <div class="certificates-grid">
+        <div class="certificate-card" *ngFor="let cert of profileData.certificates">
+          <h3>{{ cert.name }}</h3>
+          <p>{{ cert.date }}</p>
+          <button class="btn btn-danger" (click)="deleteCertificate(cert.id)">Delete</button>
+        </div>
+        <button type="button" class="add-button" (click)="openCertificateModal()">
+          {{ 'STUDENT_PROFILE.ADD_CERTIFICATE' | translate }}
+        </button>
       </div>
     </section>
 
-    <section class="profile-section">
+    <section
+      class="profile-section"
+      *ngIf="authService.getUserRole() === 'student' || authService.getUserRole() === 'leader'"
+    >
+      <h2>{{ 'STUDENT_PROFILE.SKILLS' | translate }}</h2>
+      <div class="skills-container">
+        <div class="skills-grid">
+          <span class="skill-tag" *ngFor="let skill of profileData.skills">
+            {{ skill.name }}
+            <button class="btn-secondary" (click)="deleteSkill(skill.id)">x</button>
+          </span>
+        </div>
+        <button type="button" class="add-skill-button" (click)="openSkillModal()">
+          {{ 'STUDENT_PROFILE.ADD_SKILL' | translate }}
+        </button>
+      </div>
+    </section>
+
+    <section class="profile-section" *ngIf="authService.getUserRole() === 'staff'">
+      <div class="section-header" (click)="toggleSection('password')">
+        <h1>{{ 'STAFF.CHANGE_PASSWORD' | translate }}</h1>
+      </div>
+      <div class="section-content" *ngIf="activeSection === 'password'">
+        <div class="form-group">
+          <label for="currentPassword">{{ 'STAFF.CURRENT_PASSWORD' | translate }}</label>
+          <input
+            type="password"
+            id="currentPassword"
+            [(ngModel)]="currentPassword"
+            class="form-control"
+            placeholder="{{ 'STAFF.ENTER_CURRENT_PASSWORD' | translate }}"
+          />
+        </div>
+        <div class="form-group">
+          <label for="newPassword">{{ 'STAFF.NEW_PASSWORD' | translate }}</label>
+          <input
+            type="password"
+            id="newPassword"
+            [(ngModel)]="newPassword"
+            class="form-control"
+            placeholder="{{ 'STAFF.ENTER_NEW_PASSWORD' | translate }}"
+          />
+        </div>
+        <div class="form-group">
+          <label for="confirmPassword">{{ 'STAFF.CONFIRM_PASSWORD' | translate }}</label>
+          <input
+            type="password"
+            id="confirmPassword"
+            [(ngModel)]="confirmPassword"
+            class="form-control"
+            placeholder="{{ 'STAFF.CONFIRM_NEW_PASSWORD' | translate }}"
+          />
+        </div>
+        <div class="message error" *ngIf="passwordError">
+          <i class="bi bi-exclamation-circle"></i> {{ passwordError }}
+        </div>
+        <div class="message success" *ngIf="passwordMessage as passwordMessage">
+          <i class="bi bi-check-circle"></i> {{ passwordMessage }}
+        </div>
+        <button
+          class="btn btn-primary"
+          (click)="onChangePassword()"
+          [disabled]="isChangingPassword"
+        >
+          <span *ngIf="isChangingPassword" class="spinner"></span>
+          {{ 'STAFF.CHANGE_PASSWORD_BTN' | translate }}
+        </button>
+      </div>
+    </section>
+
+    <section class="profile-section" *ngIf="authService.getUserRole() === 'staff'">
+      <div class="section-header">
+        <h1>{{ 'STAFF.PROMOTE_USER' | translate }}</h1>
+      </div>
+      <div class="section-content">
+        <p class="section-description">
+          {{ 'STAFF.PROMOTE_DESCRIPTION' | translate }}
+        </p>
+        <div class="search-row">
+          <div class="form-group flex-grow">
+            <label for="universityId">{{ 'STAFF.UNIVERSITY_ID' | translate }}</label>
+            <div style="flex-direction: row; display: flex; gap: 10px;">
+            <input
+              type="text"
+              id="universityId"
+              [(ngModel)]="searchUniversityId"
+              class="form-control"
+              placeholder="{{ 'STAFF.ENTER_UNIVERSITY_ID' | translate }}"
+              (keyup.enter)="onSearchUser()"
+            />
+            <button
+            class="btn btn-secondary search-btn"
+            (click)="onSearchUser()"
+            [disabled]="isSearching"
+          >
+            <i class="bi bi-search"></i>
+            {{ 'STAFF.SEARCH' | translate }}
+          </button>
+          </div>
+          </div>
+          
+        </div>
+        <div class="message error" *ngIf="userSearchError">
+          <i class="bi bi-exclamation-circle"></i> {{ userSearchError }}
+        </div>
+
+        <div class="user-card" *ngIf="foundUser">
+          <div class="user-info">
+            <div class="user-avatar">
+            </div>
+            <div class="user-details">
+              <h3>{{ foundUser.full_name }}</h3>
+              <p class="university-id">{{ foundUser.university_id }}</p>
+              <p class="email">{{ foundUser.email }}</p>
+              <span class="role-badge" [class]="foundUser.role">
+                {{ foundUser.role | titlecase }}
+              </span>
+            </div>
+          </div>
+          <div class="user-actions">
+            <div class="message success" *ngIf="promoteMessage">
+              <i class="bi bi-check-circle"></i> {{ promoteMessage }}
+            </div>
+            <button
+              class="btn btn-primary"
+              (click)="onPromoteUser()"
+              [disabled]="isPromoting || foundUser.role === 'leader'"
+              *ngIf="foundUser.role !== 'leader'"
+            >
+              <span *ngIf="isPromoting" class="spinner"></span>
+              <i class="bi bi-arrow-up-circle" *ngIf="!isPromoting"></i>
+              {{ 'STAFF.PROMOTE_TO_LEADER' | translate }}
+            </button>
+            <button class="btn btn-outline" (click)="clearSearch()">
+              {{ 'STAFF.CLEAR' | translate }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Certificate Pop up -->
+  <div class="modal-overlay" *ngIf="showCertificateModal" (click)="closeCertificateModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>{{ 'STUDENT_PROFILE.ADD_CERTIFICATE' | translate }}</h2>
+        <button type="button" class="modal-close" (click)="closeCertificateModal()">×</button>
+      </div>
+      <div class="modal-body">
+        <form (ngSubmit)="submitCertificate()" novalidate>
+          <div class="form-group">
+            <label>{{ 'STUDENT_PROFILE.CERTIFICATE_NAME' | translate }}</label>
+            <input
+              type="text"
+              class="form-input"
+              [(ngModel)]="certificateForm.name"
+              name="certificateName"
+              placeholder="e.g., AWS Certification"
+              (ngModelChange)="certificateError = ''"
+            />
+          </div>
+
+          <div class="form-group">
+            <label>{{ 'STUDENT_PROFILE.DATE' | translate }}</label>
+            <input
+              type="date"
+              class="form-input"
+              [(ngModel)]="certificateForm.date"
+              name="certificateDate"
+              (ngModelChange)="certificateError = ''"
+            />
+          </div>
+
+          <p class="field-error" *ngIf="certificateError">{{ certificateError }}</p>
+
+          <div class="modal-footer">
+            <button type="button" class="btn-secondary" (click)="closeCertificateModal()">
+              {{ 'STUDENT_PROFILE.CANCEL' | translate }}
+            </button>
+            <button
+              type="submit"
+              class="btn-primary"
+              [disabled]="!certificateForm.name || !certificateForm.date"
+            >
+              {{ 'STUDENT_PROFILE.ADD' | translate }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Skill Pop up -->
+  <div class="modal-overlay" *ngIf="showSkillModal" (click)="closeSkillModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>{{ 'STUDENT_PROFILE.ADD_SKILL' | translate }}</h2>
+        <button type="button" class="modal-close" (click)="closeSkillModal()">×</button>
+      </div>
+      <div class="modal-body">
+        <form (ngSubmit)="submitSkill()" novalidate>
+          <div class="form-group">
+            <label>{{ 'STUDENT_PROFILE.SKILL_NAME' | translate }}</label>
+            <input
+              type="text"
+              class="form-input"
+              [(ngModel)]="skillForm.name"
+              name="skillName"
+              placeholder="e.g., Angular, TypeScript"
+              (ngModelChange)="skillError = ''"
+            />
+          </div>
+
+          <p class="field-error" *ngIf="skillError">{{ skillError }}</p>
+
+          <div class="modal-footer">
+            <button type="button" class="btn-secondary" (click)="closeSkillModal()">
+              {{ 'STUDENT_PROFILE.CANCEL' | translate }}
+            </button>
+            <button type="submit" class="btn-primary" [disabled]="!skillForm.name">
+              {{ 'STUDENT_PROFILE.ADD' | translate }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- <section class="profile-section">
       <h2>{{ 'STUDENT_PROFILE.ACTIVITIES_ATTENDED' | translate }}</h2>
       <div class="activities-grid">
         <article class="activity-card" *ngFor="let activity of profileData.activitiesAttended">
@@ -84,32 +320,4 @@
           </div>
         </article>
       </div>
-    </section>
-
-    <section class="profile-section">
-      <h2>{{ 'STUDENT_PROFILE.CERTIFICATES' | translate }}</h2>
-      <div class="certificates-grid">
-        <div class="certificate-card" *ngFor="let cert of profileData.certificates">
-          <h3>{{ cert.title }}</h3>
-          <p>📅 {{ cert.date }}</p>
-          <p>🔐 {{ cert.id }}</p>
-        </div>
-        <button type="button" class="add-button" (click)="addNewCertificate()">
-          {{ 'STUDENT_PROFILE.ADD_CERTIFICATE' | translate }}
-        </button>
-      </div>
-    </section>
-
-    <section class="profile-section">
-      <h2>{{ 'STUDENT_PROFILE.SKILLS' | translate }}</h2>
-      <div class="skills-container">
-        <div class="skills-grid">
-          <span class="skill-tag" *ngFor="let skill of profileData.skills">{{ skill }}</span>
-        </div>
-        <button type="button" class="add-skill-button" (click)="addNewSkill()">
-          {{ 'STUDENT_PROFILE.ADD_SKILL' | translate }}
-        </button>
-      </div>
-    </section>
-  </main>
-</div>
+    </section> -->

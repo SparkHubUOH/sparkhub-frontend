@@ -3,7 +3,12 @@
   <div class="clubs-page" [class.rtl]="currentLang === 'ar'">
     <header class="clubs-header">
       <div class="header-actions">
-        <button type="button" class="create-button">
+        <button
+          *ngIf="auth.getUserRole() === 'staff' || auth.getUserRole() === 'leader'"
+          type="button"
+          class="create-button"
+          (click)="openCreateModal()"
+        >
           {{ 'CLUBS_PAGE.CREATE_CLUB' | translate }}
         </button>
       </div>
@@ -15,29 +20,148 @@
     </header>
 
     <section class="cards-grid">
-      <article class="club-card" *ngFor="let club of clubs">
-        <div class="club-card-info">
-          <div class="row" style="flex-direction: row">
-            <div
-              class="col-9"
-              style="flex-direction: row; display: flex; gap: 16px; align-items: center"
-            >
-              <div class="club-avatar">{{ club.avatar }}</div>
-              <div>
-                <h2>{{ club.titleKey | translate }}</h2>
-                <p>{{ club.descriptionKey | translate }}</p>
-              </div>
+      <ng-container *ngFor="let club of clubs">
+      <article class="club-card" *ngIf="club.status === 'active'">
+        <div class="club-card-content">
+          <div class="club-main-info">
+            <div class="club-avatar">
+              <img
+                *ngIf="club.logo; else fallback"
+                [src]="'http://127.0.0.1:8000' + club.logo"
+                alt="Logo"
+              />
+              <ng-template #fallback>
+                <span>{{
+                  currentLang === 'ar'
+                    ? club.club_name_ar?.slice(0, 1)
+                    : club.club_name?.slice(0, 1)
+                }}</span>
+              </ng-template>
             </div>
-            <div class="col-3" style="align-items: center; display: flex">
-              <div class="club-card-actions">
-                <button type="button" class="pill-button">
-                  {{ 'CLUBS_PAGE.DISCOVER' | translate }}
-                </button>
-              </div>
+
+            <div class="club-text">
+              <span
+                *ngIf="auth.getUserRole() === 'staff' && club.status === 'inactive'"
+                style="
+                  color: #dc3545;
+                  font-size: 0.8rem;
+                  font-weight: bold;
+                  text-transform: uppercase;
+                  display: block;
+                  margin-bottom: 4px;
+                "
+              >
+                ● Rejected Request
+              </span>
+
+              <span
+                *ngIf="club.status === 'pending'"
+                style="
+                  color: #f39c12;
+                  font-size: 0.8rem;
+                  font-weight: bold;
+                  display: block;
+                  margin-bottom: 4px;
+                "
+              >
+                ● Pending Review
+              </span>
+              <h2>{{ currentLang === 'ar' ? club.club_name_ar : club.club_name }}</h2>
+              <p>{{ currentLang === 'ar' ? club.description_ar : club.description }}</p>
             </div>
+          </div>
+
+          <!-- <div
+            *ngIf="auth.getUserRole() === 'staff' && club.status === 'pending'"
+            class="admin-actions"
+          >
+            <button (click)="approveClub(club.id, 'approve')" class="badge badge-success">
+              Approve
+            </button>
+            <button (click)="approveClub(club.id, 'reject')" class="badge badge-danger">
+              Reject
+            </button>
+          </div> -->
+        </div>
+        <div class="col-3" *ngIf="club.status === 'active'"
+            class="admin-actions"
+             style="align-items: center; display: flex">
+          <div class="club-card-actions">
+            <button type="button" class="pill-button">
+              {{ 'CLUBS_PAGE.DISCOVER' | translate }}
+            </button>
           </div>
         </div>
       </article>
+      </ng-container>
     </section>
+  </div>
+</div>
+<div class="modal-overlay" *ngIf="showCreateModal">
+  <div class="modal-dialog" [attr.dir]="currentLang === 'ar' ? 'rtl' : 'ltr'">
+    <div class="modal-header">
+      <div>
+        <h2>{{ 'CLUBS_PAGE.CREATE_CLUB' | translate }}</h2>
+        <p>Enter the club details and upload the logo URL.</p>
+      </div>
+      <button type="button" class="modal-close" (click)="closeCreateModal()">×</button>
+    </div>
+
+    <form class="modal-form" (ngSubmit)="saveNewClub()">
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label">Club Name</label>
+          <input
+            class="form-input"
+            type="text"
+            [(ngModel)]="newClub.club_name"
+            name="club_name"
+            placeholder="Club Name"
+          />
+        </div>
+        <div class="form-group">
+          <label class="form-label">الاسم بالعربية</label>
+          <input
+            class="form-input"
+            type="text"
+            [(ngModel)]="newClub.club_name_ar"
+            name="club_name_ar"
+            placeholder="Club Name Arabic"
+          />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Description</label>
+          <textarea
+            class="form-textarea"
+            [(ngModel)]="newClub.description"
+            name="description"
+            placeholder="Description"
+          ></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">الوصف بالعربية</label>
+          <textarea
+            class="form-textarea"
+            [(ngModel)]="newClub.description_ar"
+            name="description_ar"
+            placeholder="الوصف بالعربية"
+          ></textarea>
+        </div>
+        <div class="form-group full-width">
+          <label class="form-label">Club Logo</label>
+          <input
+            class="form-input"
+            type="file"
+            (change)="onFileSelected($event)"
+            accept="image/*"
+          />
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn-secondary" (click)="closeCreateModal()">Cancel</button>
+        <button type="button" class="btn-primary" (click)="saveNewClub()">Submit</button>
+      </div>
+    </form>
   </div>
 </div>

@@ -121,7 +121,6 @@ input:focus {
   box-shadow: 0 10px 25px rgba(79, 110, 247, 0.25);
 }
 
-/* ALT */
 .alt {
   font-size: 13px;
   text-align: center;
@@ -129,7 +128,11 @@ input:focus {
   margin-top: 10px;
 }
 
-/* RESPONSIVE */
+.error-message {
+  color: #e53e3e;
+  font-size: 12px;
+  margin-top: 4px;
+}
 @media (max-width: 768px) {
   .signup-card {
     padding: 30px;

@@ -1,19 +1,21 @@
 import { Component } from '@angular/core';
+import { Clubs } from "../clubs/clubs";
+import { ProfileSidebar } from "../../../roles/profile-sidebar/profile-sidebar";
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ChangeDetectorRef } from '@angular/core';
 import { Sidebar } from '../../sidebar/sidebar';
 import { Auth } from '../../../../services/auth';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-clubs',
-  standalone: true,
-  imports: [CommonModule, FormsModule, TranslateModule, Sidebar],
-  templateUrl: './clubs.html',
-  styleUrls: ['./clubs.css'],
+  selector: 'app-clubs-approvement',
+  imports: [CommonModule, FormsModule, TranslateModule, ProfileSidebar, RouterLink],
+  templateUrl: './clubs-approvement.html',
+  styleUrl: './clubs-approvement.css',
 })
-export class Clubs {
+export class ClubsApprovement {
   currentLang = 'en';
   selectedFile: File | null = null;
 
@@ -31,6 +33,7 @@ export class Clubs {
     private translate: TranslateService,
     public auth: Auth,
     private cdr: ChangeDetectorRef,
+    private router: Router,
   ) {}
 
   ngOnInit() {
@@ -109,4 +112,5 @@ export class Clubs {
       logo: '',
     };
   }
+
 }
