@@ -1,0 +1,279 @@
+<div class="club-page">
+
+  <!-- Header -->
+  <div class="club-header">
+    <button class="back-btn" type="button" (click)="goBack()">
+      <i class="bi bi-chevron-left"></i>
+    </button>
+
+    <div class="logo-wrap">
+      <img
+src="assets/images/Sparkhub-logo.png"
+class="sparkhub-logo"
+alt="SparkHub Logo"
+/>
+     
+    </div>
+  </div>
+
+  <!-- Hero -->
+  <div class="club-hero">
+
+    <div class="hero-left">
+      <div class="club-logo-circle">
+        <i class="bi bi-people-fill"></i>
+      </div>
+
+      <div class="club-card">
+        <div class="club-card-top">
+
+          <div class="club-info">
+            <h2 class="club-name">Ai Club</h2>
+            <p class="club-desc">
+              A student club interested in artificial intelligence concepts
+              and smart technology applications.
+            </p>
+          </div>
+
+          <div class="stats-inline">
+            <div class="stat">
+              <span class="stat-num">+33</span>
+              <span class="stat-lbl">member</span>
+            </div>
+
+            <div class="stat">
+              <span class="stat-num">+85</span>
+              <span class="stat-lbl">events</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="hero-right">
+
+      <button
+        class="btn-join"
+        type="button"
+        [class.joined]="isJoined"
+        (click)="toggleJoin()">
+
+        {{ isJoined ? 'Joined ' : 'Request to join' }}
+      </button>
+
+      <div class="icon-btns">
+
+        <button
+          class="icon-btn-r"
+          type="button"
+          [class.active]="isNotified"
+          (click)="toggleNotify()">
+
+          <i
+            class="bi"
+            [ngClass]="isNotified ? 'bi-bell-fill' : 'bi-bell'">
+          </i>
+
+        </button>
+
+        <div class="menu-wrapper">
+          <button
+            class="icon-btn-r"
+            type="button"
+            (click)="toggleMenu()">
+
+            <i class="bi bi-three-dots-vertical"></i>
+          </button>
+
+          <div class="dots-menu" *ngIf="isMenuOpen">
+            <button type="button" (click)="addItem()">Add</button>
+            <button type="button" (click)="shareClub()">Share</button>
+            <button type="button" class="delete-option" (click)="deleteClub()">Delete</button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Posts -->
+  <div class="section">
+
+    <div class="section-header">
+      <span class="section-title">Posts</span>
+
+      <button
+        *ngIf="isLeader"
+        class="btn-create"
+        type="button"
+        (click)="createPost()">
+
+        <i class="bi bi-plus-circle-fill"></i>
+        Create Post
+
+      </button>
+    </div>
+
+    <div class="posts-grid">
+
+      <div class="post-card" *ngFor="let post of visiblePosts">
+
+        <div class="post-img-placeholder">
+          <i class="bi bi-image"></i>
+        </div>
+
+        <div class="post-body">
+
+          <p class="post-title">
+            {{ post.title }}
+          </p>
+
+          <div class="post-meta">
+
+            <button
+              class="post-readmore"
+              type="button"
+              (click)="readMore(post)">
+              Read more
+            </button>
+
+            <span class="post-date">
+              {{ post.date }}
+            </span>
+
+          </div>
+
+          <div class="post-actions">
+
+            <button
+              class="post-act-btn"
+              type="button"
+              (click)="toggleLike(post)">
+
+              <i
+                class="bi"
+                [ngClass]="post.liked ? 'bi-hand-thumbs-up-fill' : 'bi-hand-thumbs-up'">
+              </i>
+
+            </button>
+
+            <button
+              class="post-act-btn"
+              type="button"
+              (click)="copyPostLink(post)">
+
+              <i class="bi bi-link-45deg"></i>
+
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="show-more-row" *ngIf="posts.length > 3">
+      <button
+        class="btn-show-more"
+        type="button"
+        (click)="showAllPosts = !showAllPosts">
+
+        {{ showAllPosts ? 'Show less ←' : 'Show more →' }}
+
+      </button>
+    </div>
+
+  </div>
+
+  <!-- Events -->
+  <div class="section">
+
+    <div class="section-header">
+      <span class="section-title">Events</span>
+
+      <button
+        *ngIf="isLeader"
+        class="btn-create"
+        type="button"
+        (click)="createEvent()">
+
+        <i class="bi bi-plus-circle-fill"></i>
+        Create Event
+
+      </button>
+    </div>
+
+    <div class="events-grid">
+
+      <div class="event-card" *ngFor="let event of visibleEvents">
+
+        <div class="event-img-placeholder">
+          <i class="bi bi-calendar-event"></i>
+        </div>
+
+        <div class="event-body">
+
+          <p class="event-title">
+            {{ event.title }}
+          </p>
+
+          <div class="event-meta">
+            <span>
+              <i class="bi bi-calendar3"></i>
+              {{ event.date }}
+            </span>
+
+            <span>
+              <i class="bi bi-geo-alt"></i>
+              {{ event.location }}
+            </span>
+          </div>
+
+          <div class="event-footer">
+
+            <button
+              class="btn-register"
+              type="button"
+              (click)="registerEvent(event)">
+
+              Register now
+
+            </button>
+
+            <button
+              class="btn-more"
+              type="button"
+              (click)="viewEvent(event)">
+
+              more ›
+
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="show-more-row" *ngIf="events.length > 4">
+      <button
+        class="btn-show-more"
+        type="button"
+        (click)="showAllEvents = !showAllEvents">
+
+        {{ showAllEvents ? 'Show less ←' : 'Show more →' }}
+
+      </button>
+    </div>
+
+  </div>
+
+</div>
