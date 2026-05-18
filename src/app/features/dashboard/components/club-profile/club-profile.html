@@ -17,28 +17,28 @@
           <div class="club-card-top">
             <div class="club-info">
               <div class="club-name-wrapper">
-                <h2 class="club-name">{{ club.club_name }}</h2>
+                <h2 class="club-name">{{ currentLang === 'ar' ? club.club_name_ar : club.club_name }}</h2>
 
                 <span class="points-badge" *ngIf="club">
                   <i class="bi bi-star-fill" style="margin-inline-end: 5px; font-size: 0.7rem"></i>
-                  {{ club.points || 0 }} {{ 'POINTS' | translate }}
+                  {{ club.points || 0 }} {{ 'CLUB_PROFILE.POINTS' | translate }}
                 </span>
               </div>
 
               <p class="club-desc">
-                {{ club.description }}
+                {{ currentLang === 'ar' ? club.description_ar : club.description }}
               </p>
             </div>
 
             <div class="stats-inline">
               <div class="stat">
                 <span class="stat-num">{{ club?.members_count || 0 }}</span>
-                <span class="stat-lbl">member</span>
+                <span class="stat-lbl">{{ 'CLUB_PROFILE.MEMBER' | translate }}</span>
               </div>
 
               <div class="stat">
                 <span class="stat-num">{{ club?.event_count || 0 }}</span>
-                <span class="stat-lbl">events</span>
+                <span class="stat-lbl">{{ 'CLUB_PROFILE.EVENTS' | translate }}</span>
               </div>
             </div>
           </div>
@@ -52,13 +52,17 @@
           [disabled]="isJoined"
           (click)="!isJoined && requestToJoin()"
         >
-          {{ isJoined ? 'Request Sent' : 'Request to Join' }}
+          {{
+            isJoined
+              ? ('CLUB_PROFILE.REQUEST_SENT' | translate)
+              : ('CLUB_PROFILE.REQUEST_TO_JOIN' | translate)
+          }}
         </button>
 
         <button
           class="btn-org"
           type="button"
-          [routerLink]="['/dashboard/organizational-structure' , clubId]"
+          [routerLink]="['/dashboard/organizational-structure', clubId]"
         >
           {{ 'CLUB_PROFILE.ORGANIZATIONAL_STRUCTURE' | translate }}
         </button>
@@ -67,7 +71,7 @@
 
     <div class="section">
       <div class="section-header">
-        <span class="section-title">Posts</span>
+        <span class="section-title">{{ 'CLUB_PROFILE.POSTS' | translate }}</span>
       </div>
 
       <div class="posts-grid">
@@ -83,7 +87,7 @@
 
             <div class="post-meta">
               <button class="post-readmore" type="button" (click)="readMore(post)">
-                Read more
+                {{ 'CLUB_PROFILE.READ_MORE' | translate }}
               </button>
 
               <span class="post-date">
@@ -96,20 +100,29 @@
 
       <div class="show-more-row" *ngIf="posts.length > 3">
         <button class="btn-show-more" type="button" (click)="showAllPosts = !showAllPosts">
-          {{ showAllPosts ? 'Show less <' : 'Show more >' }}
+          {{
+            showAllPosts
+              ? ('CLUB_PROFILE.SHOW_LESS' | translate)
+              : ('CLUB_PROFILE.SHOW_MORE' | translate)
+          }}
         </button>
       </div>
     </div>
 
     <div class="section">
       <div class="section-header">
-        <span class="section-title">Events</span>
+        <span class="section-title">{{ 'CLUB_PROFILE.EVENTS_SECTION' | translate }}</span>
       </div>
 
       <div class="events-grid">
         <div class="event-card" *ngFor="let event of visibleEvents">
           <div class="event-img-placeholder">
-            <img *ngIf="event.image" class="banner" [src]="event.image" alt="Activity banner" />
+            <img
+              *ngIf="event.image"
+              class="banner"
+              [src]="event.image"
+              [alt]="'CLUB_PROFILE.ACTIVITY_BANNER_ALT' | translate"
+            />
           </div>
 
           <div class="event-body">
@@ -144,7 +157,11 @@
 
       <div class="show-more-row" *ngIf="events.length > 4">
         <button class="btn-show-more" type="button" (click)="showAllEvents = !showAllEvents">
-          {{ showAllEvents ? 'Show less ←' : 'Show more →' }}
+          {{
+            showAllEvents
+              ? ('CLUB_PROFILE.SHOW_LESS' | translate)
+              : ('CLUB_PROFILE.SHOW_MORE' | translate)
+          }}
         </button>
       </div>
     </div>
@@ -155,7 +172,6 @@
         <button class="close-btn" (click)="close()">×</button>
 
         <h2>{{ currentLang === 'ar' ? selectedActivity.title_ar : selectedActivity.title }}</h2>
-
         <p class="description">
           {{
             currentLang === 'ar' ? selectedActivity.description_ar : selectedActivity.description
@@ -163,24 +179,18 @@
         </p>
 
         <div class="details">
-          <div>
-            <i class="bi bi-geo-alt"></i>
-            {{ selectedActivity.location }}
-          </div>
-
-          <div>
-            <i class="bi bi-calendar"></i>
-            {{ selectedActivity.date | date: 'dd-MM-yyyy' }}
-          </div>
+          <div><i class="bi bi-geo-alt"></i> {{ selectedActivity.location }}</div>
+          <div><i class="bi bi-calendar"></i> {{ selectedActivity.date | date: 'dd-MM-yyyy' }}</div>
 
           <div>
             <i class="bi bi-people"></i>
-            Max attendees: {{ selectedActivity.max_attendees }}
+            {{ currentLang === 'ar' ? 'العدد الأقصى: ' : 'Max attendees: ' }}
+            {{ selectedActivity.max_attendees }}
           </div>
 
           <div>
             <i class="bi bi-star"></i>
-            Earn points: 3
+            {{ currentLang === 'ar' ? 'نقاط النشاط: ' : 'Earn points: ' }} 3
           </div>
         </div>
 
@@ -189,20 +199,26 @@
           *ngIf="!isPast(selectedActivity)"
           (click)="register(selectedActivity.id)"
         >
-          Register now
+          {{ currentLang === 'ar' ? 'سجل الآن' : 'Register now' }}
         </button>
       </div>
     </div>
   </div>
+
   <div class="modal-overlay" *ngIf="showPostDetailModal" (click)="closePostDetailModal()">
     <div class="modal-content post-detail-modal" (click)="$event.stopPropagation()">
       <div class="modal-header">
-        <h3>Post Details</h3>
+        <h3>{{ 'CLUB_PROFILE.POST_DETAILS' | translate }}</h3>
         <button class="close-btn" (click)="closePostDetailModal()">×</button>
       </div>
 
       <div class="modal-body" *ngIf="selectedPost">
-        <img *ngIf="selectedPost.image" [src]="selectedPost.image" class="full-post-img" />
+        <img
+          *ngIf="selectedPost.image"
+          [src]="selectedPost.image"
+          class="full-post-img"
+          [alt]="'CLUB_PROFILE.POST_IMAGE_ALT' | translate"
+        />
         <p class="full-post-content">{{ selectedPost.content }}</p>
         <span class="post-date">{{ selectedPost.created_at | date: 'fullDate' }}</span>
       </div>

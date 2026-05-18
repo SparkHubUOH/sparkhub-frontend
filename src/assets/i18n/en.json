@@ -9,6 +9,7 @@
   },
   "SIGNUP": {
     "TITLE": "Welcome to SparkHub",
+    "SUBTITLE": "Create your account and start your journey with SparkHub",
     "FIRST_NAME": "First Name",
     "LAST_NAME": "Last Name",
     "PHONE": "Phone Number",
@@ -17,12 +18,23 @@
     "PASSWORD": "Password",
     "AGREE_HTML": "By creating an account, you agree to the <a href=\"/terms\">Terms of use</a> and <a href=\"/privacy\">Privacy Policy</a>.",
     "CREATE": "Create an account",
-    "ALREADY": "Already have an account? <a href=\"login\">Log in</a>"
+    "ALREADY": "Already have an account? <a href=\"login\">Log in</a>",
+    "FIRST_NAME_ERROR": "First name is required (min 3 characters)",
+    "LAST_NAME_ERROR": "Last name is required",
+    "PHONE_ERROR": "Phone must start with 05 and be 10 digits",
+    "UNIVERSITY_ID_HINT": "Must be exactly 9 digits",
+    "EMAIL_ERROR": "Invalid email address",
+    "PASSWORD_ERROR": "Password must be 8+ chars and include letters, numbers & (@ # $ !)"
   },
   "LOGIN": {
     "FORGOT": "<a href=\"contact\">Forgot password?</a>",
     "CREATE": "Continue",
-    "NEW": "Don’t have an account? <a href=\"register\">Sign up</a>"
+    "NEW": "Don’t have an account? <a href=\"register\">Sign up</a>",
+    "TITLE": "Welcome back",
+    "SUBTITLE": "Enter your information to log in",
+    "EMAIL_ERROR": "Enter a valid email",
+    "PASSWORD_ERROR": "Password is required",
+    "INVALID_CREDENTIALS": "Incorrect email or password"
   },
   "LANDING": {
     "HERO_TITLE": "YOUR GATEWAY TO UNIVERSITY LIFE\n BEYOND THE CLASSROOM!",
@@ -35,7 +47,16 @@
     "ACTIVITIES_SECTION_TITLE": "Featured Activities",
     "ACTIVITIES_SECTION_SUBTITLE": "Discover the kinds of workshops, panel discussions, and events students can join across campus.",
     "ACTIVITIES_BUTTON": "Register now",
-    "STUDENT_CLUBS": "STUDENT CLUBS"
+    "STUDENT_CLUBS": "STUDENT CLUBS",
+    "DISCOVER_PATH": "DISCOVER YOUR PATH",
+    "EXPLORE": "Explore",
+    "CLUBS_SECTION_DESC": "Find clubs that match your interests",
+      "STATS": {
+        "CLUBS": "Clubs",
+        "MEMBERS": "Members",
+        "ACTIVITIES": "Activities",
+        "EVENTS": "Events"
+      }
   },
   "DASHBOARD": {
     "SIDEBAR": {
@@ -44,7 +65,7 @@
       "HOME": "<a href=\"dashboard\">Home</a>",
       "CLUBS": "<a href=\"dashboard/clubs\">Clubs</a>",
       "ACTIVITIES": "<a href=\"dashboard/activities\">Activities</a>",
-      "CHAT": "Chat",
+      "CHAT": "<a href=\"https://discord.gg/puXVauCU\" target=\"_blank\">Chat</a>",
       "LOGOUT": "Log out"
     },
     "TOP": {
@@ -60,57 +81,32 @@
       },
       "CARDS": {
         "01": {
-          "LABEL": "Rank 01",
-          "TITLE": "AI Club",
-          "DESCRIPTION": "The club ranked first this month based on its overall performance, impactful events, and outstanding member achievements."
+          "LABEL": "Rank 01"
         },
         "02": {
-          "LABEL": "Rank 02",
-          "TITLE": "Fab Lab Club",
-          "DESCRIPTION": "The club ranked second this month based on its overall performance, impactful events, and outstanding member achievements."
+          "LABEL": "Rank 02"
         },
         "03": {
-          "LABEL": "Rank 03",
-          "TITLE": "CS Club",
-          "DESCRIPTION": "The club ranked third this month based on its overall performance, impactful events, and outstanding member achievements."
-        }
+          "LABEL": "Rank 03"
+        },
+        "POINTS": " Points"
       },
       "STUDENTS": {
         "CARDS": {
           "01": {
-            "LABEL": "Rank 01",
-            "TITLE": "Sara Ahmed",
-            "DESCRIPTION": "The student ranked first this month for outstanding leadership, achievements, and community impact."
+            "LABEL": "Rank 01"
           },
           "02": {
-            "LABEL": "Rank 02",
-            "TITLE": "Ahmed Al-Mutairi",
-            "DESCRIPTION": "The student ranked second this month for academic excellence, participation, and event contributions."
+            "LABEL": "Rank 02"
           },
           "03": {
-            "LABEL": "Rank 03",
-            "TITLE": "Lina Al-Faisal",
-            "DESCRIPTION": "The student ranked third this month for creativity, collaboration, and exceptional involvement."
+            "LABEL": "Rank 03"
           }
         }
       }
     },
     "CLUBS": {
-      "TITLE": "Clubs",
-      "CARDS": {
-        "01": {
-          "TITLE": "AI Club",
-          "DESCRIPTION": "A student club interested in artificial intelligence concepts and smart technology applications."
-        },
-        "02": {
-          "TITLE": "PGC Club",
-          "DESCRIPTION": "A student club that combines programming and game development to create interactive experiences."
-        },
-        "03": {
-          "TITLE": "Fab Lab Club",
-          "DESCRIPTION": "A student club focused on digital innovation and technical creativity."
-        }
-      }
+      "TITLE": "Clubs"
     },
     "ACTIVITIES": {
       "TITLE": "Activities",
@@ -118,33 +114,7 @@
       "SUMMARY_TEXT": "SparkHub brings every campus experience into one place so you can discover new communities, events, and learning opportunities without missing a moment.",
       "SUMMARY_EVENTS": "Live events this month",
       "SUMMARY_CLUBS": "Clubs hosting events",
-      "SUMMARY_RATING": "Participant satisfaction",
-      "CARDS": {
-        "01": {
-          "TITLE": "Workshop on AI-Driven Software Development",
-          "DESCRIPTION": "Learn how to combine modern AI tools with agile software workflows in a hands-on session.",
-          "DATE": "24-9-2025",
-          "LOCATION": "FabLab hall"
-        },
-        "02": {
-          "TITLE": "Panel Discussion with Majed Al-Juraibi",
-          "DESCRIPTION": "Join a guided conversation on student leadership, technology impact, and campus innovation.",
-          "DATE": "16-02-2026",
-          "LOCATION": "Center Theater"
-        },
-        "03": {
-          "TITLE": "Hail Municipality Hackathon",
-          "DESCRIPTION": "Bring your team and build solutions for local problems during this action-packed hackathon.",
-          "DATE": "27-01-2026",
-          "LOCATION": "University Hall"
-        },
-        "04": {
-          "TITLE": "Graduation Projects Exhibition",
-          "DESCRIPTION": "Explore final-year showcases from student teams across engineering and design departments.",
-          "DATE": "28-12-2025",
-          "LOCATION": "CSCE College"
-        }
-      }
+      "SUMMARY_RATING": "Participant satisfaction"
     },
     "ACTIONS": {
       "DETAILS": "Details",
@@ -188,7 +158,71 @@
     "LEADER": "Club Leader",
     "CREATE_POST": "Create Post",
     "CREATE_EVENT": "Create Event",
-    "EDIT_CLUB": "Edit Club"
+    "EDIT_CLUB": "Edit Club",
+    "MEMBER": "Member",
+    "EVENTS_LABEL": "Events",
+    "REQUEST_SENT": "Request Sent",
+    "REQUEST_TO_JOIN": "Request to Join",
+    "POSTS": "Posts",
+    "READ_MORE": "Read more",
+    "SHOW_MORE": "Show more >",
+    "SHOW_LESS": "Show less <",
+    "EVENTS_SECTION": "Events",
+    "ACTIVITY_BANNER_ALT": "Activity banner",
+    "MAX_ATTENDEES": "Max attendees: {{count}}",
+    "EARN_POINTS": "Earn points: {{count}}",
+    "POST_DETAILS": "Post Details",
+    "POST_IMAGE_ALT": "Post image",
+    "VIEW_PARTICIPANTS": "View Participants",
+    "DELETE_ACTIVITY": "Delete Activity",
+    "CLUB_NAME": "Club Name",
+    "CLUB_NAME_AR": "Club Name Arabic",
+    "ARABIC_DESCRIPTION": "Arabic Description",
+    "CLUB_LOGO": "Club Logo",
+    "CANCEL": "Cancel",
+    "SAVE_CHANGES": "Save Changes",
+    "POST_CONTENT": "Post Content",
+    "POST_IMAGE": "Post Image",
+    "PUBLISH_POST": "Publish Post",
+    "TITLE_LABEL": "Title",
+    "ARABIC_TITLE_LABEL": "Arabic Title",
+    "LOCATION": "Location",
+    "DATE": "Date",
+    "MAX_ATTENDEES_LABEL": "Max Attendees",
+    "CATEGORY": "Category",
+    "WORKSHOPS": "Workshops",
+    "DISCUSSIONS": "Discussions",
+    "EXHIBITIONS": "Exhibitions",
+    "OTHER": "Other",
+    "EVENT_IMAGE_LABEL": "Event Image",
+    "POINTS": "Points"
+  },
+  "ACTIVITY_PARTICIPANTS": {
+    "TITLE_SUFFIX": "Participants",
+    "LOADING": "Loading...",
+    "EXPORT_LIST": "Export List",
+    "NAME": "Name",
+    "ROLE": "Role",
+    "ACTIONS": "Actions",
+    "VIEW_PROFILE": "View Profile",
+    "REMOVE_FROM_ACTIVITY": "Remove from Activity",
+    "ID_PREFIX": "ID:",
+    "NO_PARTICIPANTS": "No participants registered yet.",
+    "EMPTY_TITLE": "Empty",
+    "NO_PARTICIPANTS_EXPORT": "No participants to export",
+    "STUDENT_NAME": "Student Name",
+    "UNIVERSITY_ID": "University ID",
+    "CONFIRM_TITLE": "Are you sure?",
+    "CONFIRM_TEXT": "This user will be removed from the activity list!",
+    "CONFIRM_BUTTON": "Yes, remove them!",
+    "REMOVED_TITLE": "Removed!",
+    "REMOVED_TEXT": "User has been removed from activity.",
+    "ERROR_TITLE": "Error",
+    "REMOVE_FAILED": "Failed to remove user",
+    "SUCCESS_TITLE": "Success",
+    "FILE_DOWNLOADED": "File downloaded successfully",
+    "ATTENDANCE_LIST": "Attendance List",
+    "ATTENDANCE_FILE_SUFFIX": "Attendance"
   },
   "ACTIVITIES_PAGE": {
     "TITLE": "Activities",
@@ -259,7 +293,11 @@
     "ADD_POST_SUCCESS": "Your post was added successfully",
     "ADD_POST_ERROR": "Please write something before submitting your post.",
     "POST_DETAILS": "Post Details",
-    "POINTS": "Points"
+    "POINTS": "Points",
+    "MEMBER_OF": "Member of",
+    "NO_BIO": "No bio available",
+    "VERIFIED_CERTIFICATE": "Verified Certificate",
+    "POST_IMAGE_ALT": "Post image"
   },
   "STAFF": {
     "PROFILE_TITLE": "Staff Profile",

@@ -141,7 +141,6 @@ app-profile-sidebar {
 .btn-share {
   min-height: 70px;
   border-radius: 14px;
-  font-family: 'Poppins', sans-serif;
   font-size: 0.95rem;
   font-weight: 700;
   cursor: pointer;
@@ -189,7 +188,6 @@ app-profile-sidebar {
   color: #1e3a5f;
   font-weight: 700;
   cursor: pointer;
-  font-family: 'Poppins', sans-serif;
 }
 
 .posts-grid {
@@ -339,7 +337,6 @@ app-profile-sidebar {
   padding: 12px;
   border: 1px solid #d6e4f2;
   border-radius: 8px;
-  font-family: 'Poppins', sans-serif;
 }
 
 .edit-bio-input {
@@ -538,7 +535,6 @@ app-profile-sidebar {
   background: #f8fafc;
   color: #253656;
   font-size: 0.98rem;
-  font-family: inherit;
   transition: all 0.2s ease;
 }
 

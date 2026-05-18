@@ -76,6 +76,12 @@ export class MyClubProfile implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.currentLang = this.translate.currentLang || localStorage.getItem('lang') || 'en';
+
+    this.translate.onLangChange.subscribe((event) => {
+      this.currentLang = event.lang;
+      this.cdr.detectChanges();
+    });
     this.clubId = Number(this.route.snapshot.paramMap.get('id'));
     if (this.clubId) {
       this.getClubDetails();

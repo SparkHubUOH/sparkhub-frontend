@@ -26,7 +26,7 @@
               <h2 *ngIf="!isEditing">{{ profileData.first_name }} {{ profileData.last_name }}</h2>
               <small class="text-primary-emphasis bg-primary-subtle rounded-3 p-2 fw-bold">
                 <i class="bi bi-star-fill me-1"></i> {{ profileData.points || 0 }}
-                {{ 'POINTS' | translate }}
+                {{ 'STUDENT_PROFILE.POINTS' | translate }}
               </small>
             </div>
             <div class="section" *ngIf="isEditing">

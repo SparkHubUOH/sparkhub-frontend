@@ -65,6 +65,10 @@ export class Home {
 
     const userId = this.route.snapshot.paramMap.get('id');
     const savedUser = localStorage.getItem('user');
+    this.translate.onLangChange.subscribe((event) => {
+      this.currentLang = event.lang;
+      this.onSearch();
+    });
 
     if (userId) {
       this.loadPublicProfile(userId);
@@ -138,7 +142,7 @@ export class Home {
         `${student.first_name} ${student.last_name}`.toLowerCase().includes(search),
       )
       .map((student: any) => ({
-        type: 'Student',
+        type: this.currentLang === 'ar' ? 'طالب' : 'Student',
         name: `${student.first_name} ${student.last_name}`,
         description: student.bio,
         id: student.id,

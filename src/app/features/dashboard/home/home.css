@@ -136,7 +136,6 @@
   color: var(--color-gray-dark);
 
   background: transparent;
-  font-family: inherit;
 }
 
 .search-card input::placeholder {
@@ -564,7 +563,7 @@ i {
 .close-btn {
   position: absolute;
   top: 14px;
-  right: 14px;
+  inset-inline-end: 14px;
   border: none;
   background: none;
   font-size: 26px;

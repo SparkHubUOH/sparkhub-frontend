@@ -1,5 +1,5 @@
 import { Component, OnInit, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Auth } from './services/auth';
 
@@ -7,22 +7,26 @@ import { Auth } from './services/auth';
   selector: 'app-root',
   imports: [RouterOutlet, TranslateModule],
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrl: './app.css',
 })
 export class App implements OnInit {
-
   protected readonly title = signal('sparkhubfrontend');
 
   constructor(
-    private authService: Auth, 
-    private translate: TranslateService) {
-    this.translate.setDefaultLang('en');
-    this.translate.use('en');
+    private authService: Auth,
+    private translate: TranslateService,
+    private router: Router
+  ) {
+    this.router.events.subscribe(() => {
+      const savedLang = localStorage.getItem('lang') || 'en';
+      this.translate.use(savedLang);
+      document.documentElement.dir = savedLang === 'ar' ? 'rtl' : 'ltr';
+    });
   }
-  
+
   ngOnInit() {
     const token = localStorage.getItem('access_token');
-    
+
     if (token) {
       this.authService.getProfile().subscribe({
         next: (user) => {
@@ -32,7 +36,8 @@ export class App implements OnInit {
         error: (err) => {
           console.error('Session expired or invalid token', err);
           localStorage.removeItem('access_token');
-        }
+        },
       });
-    }}
+    }
+  }
 }

@@ -109,6 +109,7 @@ app-profile-sidebar {
 }
 
 .activity-category-badge {
+  height: 40px;
   background: #eef2ff;
   color: #4b5dcc;
   padding: 7px 16px;

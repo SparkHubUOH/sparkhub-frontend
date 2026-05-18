@@ -5,6 +5,21 @@
 @import './styles/buttons.css';
 @import './styles/forms.css';
 
+@font-face {
+  font-family: 'Thmanyah';
+  src: url('/assets/fonts/thmanyahseriftext-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+}
+
+html[dir='rtl'] body {
+  font-family: 'Thmanyah', sans-serif;
+}
+
 .agree a {
   color: var(--color-gray-light);
   text-decoration: underline;

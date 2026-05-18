@@ -24,21 +24,21 @@
         <div class="club-card">
           <div class="club-card-top">
             <div class="club-info">
-              <h2 class="club-name">{{ club?.club_name }}</h2>
+              <h2 class="club-name">{{ currentLang === 'ar' ? club?.club_name_ar : club?.club_name }}</h2>
               <p class="club-desc">
-                {{ club?.description }}
+                {{ currentLang === 'ar' ? club?.description_ar : club?.description }}
               </p>
             </div>
 
             <div class="stats-inline">
               <div class="stat">
                 <span class="stat-num">{{ club?.members_count || 0 }}</span>
-                <span class="stat-lbl">member</span>
+                <span class="stat-lbl">{{ 'CLUB_PROFILE.MEMBER' | translate }}</span>
               </div>
 
               <div class="stat">
                 <span class="stat-num">{{ club?.event_count || 0 }}</span>
-                <span class="stat-lbl">events</span>
+                <span class="stat-lbl">{{ 'CLUB_PROFILE.EVENTS' | translate }}</span>
               </div>
             </div>
           </div>
@@ -68,11 +68,11 @@
 
     <div class="section">
       <div class="section-header">
-        <span class="section-title">Posts</span>
+        <span class="section-title">{{ 'CLUB_PROFILE.POSTS' | translate }}</span>
 
         <button class="btn-create" type="button" (click)="createPost()">
           <i class="bi bi-plus-circle" style="color: white"></i>
-          Create Post
+          {{ 'CLUB_PROFILE.CREATE_POST' | translate }}
         </button>
       </div>
 
@@ -91,7 +91,7 @@
 
             <div class="post-meta">
               <button class="post-readmore" type="button" (click)="readMore(post)">
-                Read more
+                {{ 'CLUB_PROFILE.READ_MORE' | translate }}
               </button>
 
               <span class="post-date">
@@ -104,24 +104,24 @@
 
       <div class="show-more-row" *ngIf="posts.length > 3">
         <button class="btn-show-more" type="button" (click)="showAllPosts = !showAllPosts">
-          {{ showAllPosts ? 'Show less <' : 'Show more >' }}
+          {{ showAllPosts ? ('CLUB_PROFILE.SHOW_LESS' | translate) : ('CLUB_PROFILE.SHOW_MORE' | translate) }}
         </button>
       </div>
     </div>
 
     <div class="section">
       <div class="section-header">
-        <span class="section-title">Events</span>
+        <span class="section-title">{{ 'CLUB_PROFILE.EVENTS_SECTION' | translate }}</span>
         <button class="btn-create" type="button" (click)="createEvent()">
           <i class="bi bi-plus-circle" style="color: white"></i>
-          Create Event
+          {{ 'CLUB_PROFILE.CREATE_EVENT' | translate }}
         </button>
       </div>
 
       <div class="events-grid">
         <div class="event-card" *ngFor="let event of visibleEvents">
           <div class="event-img-placeholder">
-            <img *ngIf="event.image" class="banner" [src]="event.image" alt="Activity banner" />
+            <img *ngIf="event.image" class="banner" [src]="event.image" [alt]="('CLUB_PROFILE.ACTIVITY_BANNER_ALT' | translate)" />
           </div>
 
           <div class="event-body">
@@ -150,7 +150,7 @@
                 <button
                   (click)="viewParticipants(event.id)"
                   class="btn-icon"
-                  title="View Participants"
+                  [title]="'CLUB_PROFILE.VIEW_PARTICIPANTS' | translate"
                 >
                   <i class="bi bi-people"></i>
                 </button>
@@ -158,7 +158,7 @@
                 <button
                   (click)="confirmDeleteActivity(event.id)"
                   class="btn-icon delete"
-                  title="Delete Activity"
+                  [title]="'CLUB_PROFILE.DELETE_ACTIVITY' | translate"
                 >
                   <i class="bi bi-trash"></i>
                 </button>
@@ -170,7 +170,7 @@
 
       <div class="show-more-row" *ngIf="events.length > 4">
         <button class="btn-show-more" type="button" (click)="showAllEvents = !showAllEvents">
-          {{ showAllEvents ? 'Show less ←' : 'Show more →' }}
+          {{ showAllEvents ? ('CLUB_PROFILE.SHOW_LESS' | translate) : ('CLUB_PROFILE.SHOW_MORE' | translate) }}
         </button>
       </div>
     </div>
@@ -208,17 +208,17 @@
 
           <div>
             <i class="bi bi-people"></i>
-            Max attendees: {{ selectedActivity.max_attendees }}
+            {{ 'CLUB_PROFILE.MAX_ATTENDEES' | translate:{count: selectedActivity.max_attendees} }}
           </div>
 
           <div>
             <i class="bi bi-star"></i>
-            Earn points: 3
+            {{ 'CLUB_PROFILE.EARN_POINTS' | translate:{count: selectedActivity.points || 3} }}
           </div>
         </div>
 
         <button class="action-button big" (click)="register(selectedActivity.id)">
-          Register now
+          {{ 'DASHBOARD.ACTIONS.REGISTER' | translate }}
         </button>
       </div>
     </div>
@@ -226,12 +226,12 @@
     <div class="modal-overlay" *ngIf="showPostDetailModal" (click)="closePostDetailModal()">
       <div class="modal-content post-detail-modal" (click)="$event.stopPropagation()">
         <div class="modal-header">
-          <h3>Post Details</h3>
+          <h3>{{ 'CLUB_PROFILE.POST_DETAILS' | translate }}</h3>
           <button class="close-btn" (click)="closePostDetailModal()">×</button>
         </div>
 
         <div class="modal-body" *ngIf="selectedPost">
-          <img *ngIf="selectedPost.image" [src]="selectedPost.image" class="full-post-img" />
+          <!-- <img *ngIf="selectedPost.image" [src]="selectedPost.image" class="full-post-img" /> -->
           <p class="full-post-content">{{ selectedPost.content }}</p>
           <span class="post-date">{{ selectedPost.created_at | date: 'fullDate' }}</span>
         </div>
@@ -241,29 +241,29 @@
     <div class="modal-overlay" *ngIf="showEditClubModal" (click)="closeEditClubModal()">
       <div class="modal-content" (click)="$event.stopPropagation()">
         <div class="modal-header">
-          <h2>Edit Club</h2>
+          <h2>{{ 'CLUB_PROFILE.EDIT_CLUB' | translate }}</h2>
 
           <button type="button" class="modal-close" (click)="closeEditClubModal()">×</button>
         </div>
 
         <div class="modal-body">
           <div class="form-group">
-            <label>Club Name</label>
+            <label>{{ 'CLUB_PROFILE.CLUB_NAME' | translate }}</label>
             <input type="text" class="form-input" [(ngModel)]="editClubForm.club_name" />
           </div>
 
           <div class="form-group">
-            <label>Club Name Arabic</label>
+            <label>{{ 'CLUB_PROFILE.CLUB_NAME_AR' | translate }}</label>
             <input type="text" class="form-input" [(ngModel)]="editClubForm.club_name_ar" />
           </div>
 
           <div class="form-group">
-            <label>Description</label>
+            <label>{{ 'CLUB_PROFILE.DESCRIPTION' | translate }}</label>
             <textarea class="form-input" rows="5" [(ngModel)]="editClubForm.description"></textarea>
           </div>
 
           <div class="form-group">
-            <label>Arabic Description</label>
+            <label>{{ 'CLUB_PROFILE.ARABIC_DESCRIPTION' | translate }}</label>
             <textarea
               class="form-input"
               rows="5"
@@ -272,7 +272,7 @@
           </div>
 
           <div class="form-group">
-            <label>Club Logo</label>
+            <label>{{ 'CLUB_PROFILE.CLUB_LOGO' | translate }}</label>
             <input
               type="file"
               class="form-input"
@@ -289,9 +289,9 @@
           </div>
 
           <div class="modal-footer">
-            <button class="btn-secondary" (click)="closeEditClubModal()">Cancel</button>
+            <button class="btn-secondary" (click)="closeEditClubModal()">{{ 'CLUB_PROFILE.CANCEL' | translate }}</button>
 
-            <button class="btn-primary" (click)="saveClubChanges()">Save Changes</button>
+            <button class="btn-primary" (click)="saveClubChanges()">{{ 'CLUB_PROFILE.SAVE_CHANGES' | translate }}</button>
           </div>
         </div>
       </div>
@@ -301,21 +301,21 @@
       <div class="modal-content" (click)="$event.stopPropagation()">
         <div class="modal-header">
           <div style="display: flex; gap: 10px; align-items: center">
-            <h2>Create Post</h2>
-            <small class="text-primary-emphasis bg-primary-subtle rounded-3 p-1"> 10 Points </small>
+            <h2>{{ 'CLUB_PROFILE.CREATE_POST' | translate }}</h2>
+            <small class="text-primary-emphasis bg-primary-subtle rounded-3 p-1">{{ 10 }} {{ 'CLUB_PROFILE.POINTS' | translate }}</small>
           </div>
           <button type="button" class="modal-close" (click)="closeCreatePostModal()">×</button>
         </div>
 
         <div class="modal-body">
           <div class="form-group">
-            <label>Post Content</label>
+            <label>{{ 'CLUB_PROFILE.POST_CONTENT' | translate }}</label>
 
             <textarea class="form-input" rows="5" [(ngModel)]="postForm.content"></textarea>
           </div>
 
           <div class="form-group">
-            <label>Post Image</label>
+            <label>{{ 'CLUB_PROFILE.POST_IMAGE' | translate }}</label>
 
             <input
               type="file"
@@ -333,9 +333,9 @@
           </div>
 
           <div class="modal-footer">
-            <button class="btn-secondary" (click)="closeCreatePostModal()">Cancel</button>
+            <button class="btn-secondary" (click)="closeCreatePostModal()">{{ 'CLUB_PROFILE.CANCEL' | translate }}</button>
 
-            <button class="btn-primary" (click)="publishPost()">Publish Post</button>
+            <button class="btn-primary" (click)="publishPost()">{{ 'CLUB_PROFILE.PUBLISH_POST' | translate }}</button>
           </div>
         </div>
       </div>
@@ -345,8 +345,8 @@
       <div class="modal-content" (click)="$event.stopPropagation()">
         <div class="modal-header">
           <div style="display: flex; gap: 10px; align-items: center">
-            <h2>Create Event</h2>
-            <small class="text-primary-emphasis bg-primary-subtle rounded-3 p-1"> 15 Points </small>
+            <h2>{{ 'CLUB_PROFILE.CREATE_EVENT' | translate }}</h2>
+            <small class="text-primary-emphasis bg-primary-subtle rounded-3 p-1">{{ 15 }} {{ 'CLUB_PROFILE.POINTS' | translate }}</small>
           </div>
 
           <button type="button" class="modal-close" (click)="closeCreateEventModal()">×</button>
@@ -354,54 +354,54 @@
 
         <div class="modal-body">
           <div class="form-group">
-            <label>Title</label>
+            <label>{{ 'CLUB_PROFILE.TITLE_LABEL' | translate }}</label>
 
             <input type="text" class="form-input" [(ngModel)]="eventForm.title" />
           </div>
 
           <div class="form-group">
-            <label>Arabic Title</label>
+            <label>{{ 'CLUB_PROFILE.ARABIC_TITLE_LABEL' | translate }}</label>
 
             <input type="text" class="form-input" [(ngModel)]="eventForm.title_ar" />
           </div>
 
           <div class="form-group">
-            <label>Description</label>
+            <label>{{ 'CLUB_PROFILE.DESCRIPTION' | translate }}</label>
 
             <textarea rows="4" class="form-input" [(ngModel)]="eventForm.description"></textarea>
           </div>
 
           <div class="form-group">
-            <label>Location</label>
+            <label>{{ 'CLUB_PROFILE.LOCATION' | translate }}</label>
 
             <input type="text" class="form-input" [(ngModel)]="eventForm.location" />
           </div>
 
           <div class="form-group">
-            <label>Date</label>
+            <label>{{ 'CLUB_PROFILE.DATE' | translate }}</label>
 
             <input type="datetime-local" class="form-input" [(ngModel)]="eventForm.date" />
           </div>
 
           <div class="form-group">
-            <label>Max Attendees</label>
+            <label>{{ 'CLUB_PROFILE.MAX_ATTENDEES_LABEL' | translate }}</label>
 
             <input type="number" class="form-input" [(ngModel)]="eventForm.max_attendees" />
           </div>
 
           <div class="form-group">
-            <label>Category</label>
+            <label>{{ 'CLUB_PROFILE.CATEGORY' | translate }}</label>
 
             <select class="form-input" [(ngModel)]="eventForm.category">
-              <option value="WORKSHOPS">Workshops</option>
-              <option value="DISCUSSIONS">Discussions</option>
-              <option value="EXHIBITIONS">Exhibitions</option>
-              <option value="OTHER">Other</option>
+              <option value="WORKSHOPS">{{ 'CLUB_PROFILE.WORKSHOPS' | translate }}</option>
+              <option value="DISCUSSIONS">{{ 'CLUB_PROFILE.DISCUSSIONS' | translate }}</option>
+              <option value="EXHIBITIONS">{{ 'CLUB_PROFILE.EXHIBITIONS' | translate }}</option>
+              <option value="OTHER">{{ 'CLUB_PROFILE.OTHER' | translate }}</option>
             </select>
           </div>
 
           <div class="form-group">
-            <label>Event Image</label>
+            <label>{{ 'CLUB_PROFILE.EVENT_IMAGE_LABEL' | translate }}</label>
 
             <input
               type="file"
@@ -413,9 +413,9 @@
           </div>
 
           <div class="modal-footer">
-            <button class="btn-secondary" (click)="closeCreateEventModal()">Cancel</button>
+            <button class="btn-secondary" (click)="closeCreateEventModal()">{{ 'CLUB_PROFILE.CANCEL' | translate }}</button>
 
-            <button class="btn-primary" (click)="submitEvent()">Create Event</button>
+            <button class="btn-primary" (click)="submitEvent()">{{ 'CLUB_PROFILE.CREATE_EVENT' | translate }}</button>
           </div>
         </div>
       </div>

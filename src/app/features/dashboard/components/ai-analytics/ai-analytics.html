@@ -1,57 +1,264 @@
 <div class="analytics-layout">
   <main class="analytics-content">
-    <header>
+    <div class="profile-header">
+      <ng-container *ngIf="currentLang === 'en'; else arabicArrow">
+        <button class="back-btn" type="button" [routerLink]="['/dashboard']">
+          <i class="bi bi-chevron-left"></i>
+        </button>
+      </ng-container>
+
+      <ng-template #arabicArrow>
+        <button class="back-btn" [routerLink]="['/dashboard']">
+          <i class="bi bi-chevron-right"></i>
+        </button>
+      </ng-template>
+    </div>
+
+    <header class="analytics-header">
       <h1>AI & Data Analytics</h1>
       <nav class="tabs">
-        <button [class.active]="selectedTab === 'data'" (click)="selectedTab = 'data'">Data Analysis</button>
-        <button [class.active]="selectedTab === 'predictive'" (click)="selectedTab = 'predictive'">Predictive Analytics</button>
-        <button [class.active]="selectedTab === 'ai_tools'" (click)="selectedTab = 'ai_tools'">AI Tools</button>
-        <button [class.active]="selectedTab === 'summary'" (click)="selectedTab = 'summary'">System Overview</button>
+        <button [class.active]="selectedTab === 'overview'" (click)="selectedTab = 'overview'">
+          Overview
+        </button>
+
+        <button
+          [class.active]="selectedTab === 'clubs_analytics'"
+          (click)="selectedTab = 'clubs_analytics'"
+        >
+          Clubs Analytics
+        </button>
+
+        <button
+          [class.active]="selectedTab === 'students_analytics'"
+          (click)="selectedTab = 'students_analytics'"
+        >
+          Students Analytics
+        </button>
+
+        <button
+          [class.active]="selectedTab === 'activities_analytics'"
+          (click)="selectedTab = 'activities_analytics'"
+        >
+          Activities Analytics
+        </button>
+
+        <button
+          [class.active]="selectedTab === 'predictions'"
+          (click)="selectedTab = 'predictions'"
+        >
+          Predictions
+        </button>
+
+        <button
+          [class.active]="selectedTab === 'ai_insights'"
+          (click)="selectedTab = 'ai_insights'"
+        >
+          AI Insights
+        </button>
       </nav>
     </header>
 
-    <section class="tab-content" *ngIf="selectedTab === 'data'">
-      <h2>Data Analysis Preview</h2>
-      <button class="btn" (click)="loadDataPreview()" [disabled]="loading">Load Data Sample</button>
-      <div *ngIf="loading">Loading data...</div>
-      <table *ngIf="dataPreview.length">
-        <thead>
-          <tr>
-            <th *ngFor="let key of dataPreview[0] | keyvalue">{{ key.key }}</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let row of dataPreview">
-            <td *ngFor="let key of row | keyvalue">{{ key.value }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
-
-    <section class="tab-content" *ngIf="selectedTab === 'predictive'">
-      <h2>Predictive Forecast</h2>
-      <button class="btn" (click)="runPrediction()" [disabled]="loading">Run Prophet Forecast</button>
-      <div *ngIf="loading">Running prediction...</div>
-      <div *ngIf="predictionResults">
-        <h3>Results</h3>
-        <pre>{{ predictionResults | json }}</pre>
+    <section class="tab-content" *ngIf="selectedTab === 'overview'">
+      <div class="section-card">
+        <h2>Data Analysis</h2>
       </div>
     </section>
 
-    <section class="tab-content" *ngIf="selectedTab === 'ai_tools'">
-      <h2>Machine Learning Models</h2>
-      <p>Coming soon: train and evaluate Scikit-Learn models interactively.</p>
+    <section class="tab-content" *ngIf="selectedTab === 'clubs_analytics'">
+      <div class="section-card">
+        <h2>Clubs Analytics</h2>
+
+        <div *ngIf="clubStatistics" class="stats-grid">
+          <div class="stat-card">
+            <h3>Total Clubs</h3>
+
+            <p>{{ clubStatistics.total_clubs }}</p>
+          </div>
+
+          <div class="stat-card">
+            <h3>Most Active Club</h3>
+
+            <p>
+              {{ clubStatistics.most_active_club?.[0]?.club_name }}
+            </p>
+          </div>
+
+          <div class="stat-card">
+            <h3>Highest Engagement</h3>
+
+            <p>
+              {{ clubStatistics.highest_engagement?.[0]?.club_name }}
+            </p>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <div *ngIf="clubStatistics?.clubs?.length" class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Club</th>
+                  <th>Members</th>
+                  <th>Activities</th>
+                  <th>Participants</th>
+                  <th>Average Attendance</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr *ngFor="let club of clubStatistics.clubs">
+                  <td>{{ club.club_name }}</td>
+                  <td>{{ club.members_count }}</td>
+                  <td>{{ club.activities_count }}</td>
+                  <td>{{ club.participants_count }}</td>
+                  <td>{{ club.avg_participants }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <section class="tab-content" *ngIf="selectedTab === 'summary'">
-      <h2>System Overview</h2>
-      <ul>
-        <li>📊 Data Analysis: Pandas</li>
-        <li>🤖 ML Models: Scikit-Learn</li>
-        <li>📅 Forecasting: Prophet</li>
-        <li>🏆 Gamification: Landing Page</li>
-      </ul>
+    <section class="tab-content" *ngIf="selectedTab === 'students_analytics'">
+      <div class="section-card">
+        <h2>Students Analytics</h2>
+
+        <p>Coming soon: train and evaluate Scikit-Learn models interactively.</p>
+      </div>
+    </section>
+
+    <section class="tab-content" *ngIf="selectedTab === 'activities_analytics'">
+
+      <div class="section-card">
+        <h2>Activities Analytics</h2>
+
+        <h3>Activities Per Club</h3>
+        <div class="chart-container">
+          <canvas
+            baseChart
+            [data]="clubStatsChartData"
+            [options]="clubChartOptions"
+            chartType="bar"
+          >
+          </canvas>
+        </div>
+      </div>
+    </section>
+
+    <section class="tab-content" *ngIf="selectedTab === 'predictions'">
+      <div class="section-card">
+        <h2>Predictions</h2>
+
+        <p>Coming soon: interactive ML predictions and what-if analysis.</p>
+      </div>
+    </section>
+
+    <section class="tab-content" *ngIf="selectedTab === 'ai_insights'">
+      <div class="section-card">
+        <h2>AI Insights</h2>
+
+        <div class="controls">
+          <input
+            class="form-control"
+            type="text"
+            [(ngModel)]="dataFile"
+            placeholder="CSV file name e.g. sample.csv"
+          />
+
+          <button class="btn" (click)="loadPreview()" [disabled]="loading">Load Preview</button>
+        </div>
+      </div>
+
+      <div *ngIf="dataPreview.length" class="section-card">
+        <h3>Preview Data</h3>
+
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th *ngFor="let k of dataPreview[0] || {} | keyvalue">
+                  {{ k.key }}
+                </th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr *ngFor="let row of dataPreview">
+                <td *ngFor="let k of row | keyvalue">
+                  {{ k.value }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div *ngIf="dataPreview.length" class="section-card">
+        <h3>Summary Statistics</h3>
+
+        <div class="summary-controls">
+          <label> Select columns for summary </label>
+
+          <input
+            class="form-control"
+            type="text"
+            [ngModel]="columnsSelected.join(',')"
+            (ngModelChange)="onColumnsChange($event)"
+          />
+
+          <button class="btn" (click)="loadSummary()" [disabled]="loading">Get Summary</button>
+        </div>
+
+        <div *ngIf="summary" class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Metric</th>
+
+                <th *ngFor="let col of summary | keyvalue">
+                  {{ col.key }}
+                </th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr *ngFor="let metric of summary | keyvalue">
+                <td>{{ metric.key }}</td>
+
+                <td *ngFor="let col of summary | keyvalue">
+                  {{ summary?.[col.key]?.[metric.key] }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <h3>Histogram</h3>
+
+        <div class="hist-controls">
+          <input
+            class="form-control"
+            type="text"
+            [(ngModel)]="histCol"
+            placeholder="Numeric column name"
+          />
+
+          <input class="form-control" type="number" [(ngModel)]="histBins" min="5" max="50" />
+
+          <button class="btn" (click)="loadHistogram()" [disabled]="loading || !histCol">
+            Build Histogram
+          </button>
+        </div>
+
+        <div class="chart-container" *ngIf="histChartData.labels?.length">
+          <canvas baseChart [data]="histChartData" chartType="bar"> </canvas>
+        </div>
+      </div>
     </section>
   </main>
+
   <app-profile-sidebar></app-profile-sidebar>
 </div>
