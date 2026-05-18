@@ -1,54 +1,37 @@
 <div class="profile-layout" style="flex-direction: row-reverse; display: flex">
-  <app-profile-sidebar></app-profile-sidebar>
+  <app-profile-sidebar *ngIf="isClubLeader"></app-profile-sidebar>
   <div class="org-chart-page">
-    <!-- Header -->
-    <div class="org-header">
-      <!-- <div class="club-logo">
-        <img src="assets/images/Sparkhub-logo.png" alt="SparkHub Logo" />
+    <div class="org-header"></div>
+
+    <div class="action-bar" *ngIf="isClubLeader">
+      <button class="back-btn" type="button" [routerLink]="['/dashboard']">
+        <i class="bi bi-chevron-left"></i>
+      </button>
+      <!-- <div style="flex-direction: row; display: flex; gap: 10px">
+        <button class="btn-edit" type="button" (click)="toggleEdit()">
+          <i class="bi" [ngClass]="isEditMode ? 'bi-check-lg' : 'bi-pencil'"></i>
+          {{ isEditMode ? 'Save' : 'Edit' }}
+        </button>
       </div> -->
     </div>
 
-    <!-- Action Bar -->
-    <div class="action-bar">
-      <button class="back-btn" type="button" [routerLink]="['/dashboard/leader']">
-        <i class="bi bi-chevron-left"></i>
-      </button>
-      <div style="flex-direction: row; display: flex; gap: 10px;">
-      <button class="btn-edit" type="button" (click)="toggleEdit()">
-        <i class="bi" [ngClass]="isEditMode ? 'bi-check-lg' : 'bi-pencil'"></i>
-        {{ isEditMode ? 'Save' : 'Edit' }}
-      </button>
-      <button class="btn-share" type="button" (click)="copyLink()">
-        <i class="bi" [ngClass]="copied ? 'bi-check-lg' : 'bi-link-45deg'"></i>
-      </button>
-      </div>
-    </div>
-
-    <!-- Top Hierarchy -->
     <div class="top-hierarchy">
-      <div class="hierarchy-card supervisor">
-        <div class="card-label">Club Supervisor</div>
-        <div class="card-name">د. غربي الشهري</div>
-      </div>
-      <div class="connector-line vertical"></div>
       <div class="hierarchy-card leader">
         <div class="card-label">Club Leader</div>
-        <div class="card-name">غادة التميمي</div>
+        <div class="card-name">{{ clubLeader }}</div>
       </div>
       <div class="connector-line vertical"></div>
       <div class="hierarchy-card vice-leader">
         <div class="card-label">Vice Leader</div>
-        <div class="card-name">مشاري الحيص</div>
+        <div class="card-name">{{ clubViceLeader }}</div>
       </div>
     </div>
 
-    <!-- Teams -->
     <div class="teams-container">
       <div class="teams-border-box">
-        <div class="teams-title">Club Teams Structure</div>
+        <div class="teams-title">Club's Structure</div>
         <div class="teams-grid">
           <ng-container *ngFor="let team of teams">
-            <!-- Desktop Tree -->
             <div class="team-section d-none d-md-flex">
               <div class="team-tree">
                 <div class="team-header-row">
@@ -84,7 +67,6 @@
               </div>
             </div>
 
-            <!-- Mobile Accordion -->
             <div class="team-accordion d-flex d-md-none flex-column">
               <div class="accordion-header" [class.open]="team.expanded" (click)="toggleTeam(team)">
                 <div class="team-badge-sm">{{ team.name }}</div>
@@ -117,7 +99,6 @@
       </div>
     </div>
 
-    <!-- Modal -->
     <div class="modal-overlay" *ngIf="selectedTeam" (click)="closeModal()">
       <div class="modal-card" (click)="$event.stopPropagation()">
         <div class="modal-header">
@@ -127,7 +108,6 @@
           </button>
         </div>
         <div class="modal-body">
-          <!-- Team Leader -->
           <div class="modal-row">
             <span class="drag-handle"><i class="bi bi-grid-3x2-gap-fill"></i></span>
             <input
@@ -140,7 +120,6 @@
             <button class="icon-btn delete" type="button"><i class="bi bi-trash3"></i></button>
           </div>
 
-          <!-- Vice Leader -->
           <div class="modal-row">
             <span class="drag-handle"><i class="bi bi-grid-3x2-gap-fill"></i></span>
             <input
@@ -155,7 +134,6 @@
 
           <hr />
 
-          <!-- Members -->
           <div
             class="modal-row"
             *ngFor="let m of selectedTeam.editableMembers; let i = index; trackBy: trackByIndex"
@@ -179,4 +157,5 @@
       </div>
     </div>
   </div>
+  <app-sidebar *ngIf="!isClubLeader"></app-sidebar>
 </div>

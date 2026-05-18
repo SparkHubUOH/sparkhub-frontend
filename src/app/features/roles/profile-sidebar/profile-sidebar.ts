@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { TranslateService } from '../../../services/translation/translation';
 import { Auth } from '../../../services/auth';
 import { TranslateModule } from '@ngx-translate/core';
+import { ClubService } from '../../../services/club-service/club-service';
+import Swal from 'sweetalert2';
 
 @Component({
   standalone: true,
@@ -26,6 +28,7 @@ export class ProfileSidebar {
     private router: Router,
     private renderer: Renderer2,
     public authService: Auth,
+    private clubService: ClubService,
   ) {
     this.authService.userProfile$.subscribe((data) => {
       this.user = data;
@@ -54,11 +57,30 @@ export class ProfileSidebar {
   }
 
   goToProfile() {
-    this.router.navigate(['/dashboard/leader']);
+    if (this.user && this.user.role) {
+      const rolePath = this.user.role.toLowerCase();
+      this.router.navigate(['/dashboard/' + rolePath]);
+    } else {
+      const savedUser = JSON.parse(localStorage.getItem('user') || '{}');
+      if (savedUser.role) {
+        this.router.navigate(['/dashboard/' + savedUser.role.toLowerCase()]);
+      } else {
+        console.error('User data not loaded yet');
+      }
+    }
+  }
+
+  goToAttendedActivities() {
+    this.router.navigate(['dashboard/activities-attended']);
   }
 
   goToClub() {
-    this.router.navigate(['/dashboard/club-profile']);
+    this.clubService.getMyClubId().subscribe({
+      next: (res) => {
+        this.router.navigate(['dashboard/my-club-profile', res.id]);
+        this.menuOpen = false;
+      },
+    });
   }
 
   goToClubs() {
@@ -70,11 +92,24 @@ export class ProfileSidebar {
   }
 
   goToStaffProfile(): void {
-  this.router.navigate(['/dashboard/staff-profile']);
-}
+    this.router.navigate(['/dashboard/staff-profile']);
+  }
 
-  goToOrganizationalStructure()  {
-    this.router.navigate(['/dashboard/organizational-structure']);
+  goToOrganizationalStructure() {
+    this.clubService.getMyClubId().subscribe({
+      next: (res) => {
+        if (res && res.id) {
+          this.router.navigate(['/dashboard/organizational-structure', res.id]);
+          this.menuOpen = false;
+        } else {
+          Swal.fire('Error', 'Could not fetch club ID', 'error');
+        }
+      },
+      error: (err) => {
+        console.error('Error fetching club ID for org-structure:', err);
+        Swal.fire('Error', 'Failed to fetch club data', 'error');
+      },
+    });
   }
 
   toggle(): void {
@@ -90,6 +125,7 @@ export class ProfileSidebar {
     this.translate.use(this.currentLang);
 
     document.documentElement.dir = this.currentLang === 'ar' ? 'rtl' : 'ltr';
+    this.menuOpen = false;
   }
 
   setLanguage(lang: string) {
@@ -99,6 +135,7 @@ export class ProfileSidebar {
     const direction = lang === 'ar' ? 'rtl' : 'ltr';
     this.renderer.setAttribute(document.documentElement, 'dir', direction);
     this.showLangMenu = false;
+    this.menuOpen = false;
     this.showMobileLangMenu = false;
   }
 
@@ -120,11 +157,13 @@ export class ProfileSidebar {
   toggleLangMenu() {
     this.showLangMenu = !this.showLangMenu;
     this.showMobileLangMenu = false;
+    this.menuOpen = false;
   }
 
   toggleMobileLangMenu() {
     this.showMobileLangMenu = !this.showMobileLangMenu;
     this.showLangMenu = false;
+    this.menuOpen = false;
   }
 
   toggleMenu() {

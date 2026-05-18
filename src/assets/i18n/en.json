@@ -20,7 +20,7 @@
     "ALREADY": "Already have an account? <a href=\"login\">Log in</a>"
   },
   "LOGIN": {
-    "FORGOT": "<a href=\"register\">Forgot password?</a>",
+    "FORGOT": "<a href=\"contact\">Forgot password?</a>",
     "CREATE": "Continue",
     "NEW": "Don’t have an account? <a href=\"register\">Sign up</a>"
   },
@@ -176,6 +176,20 @@
       }
     }
   },
+  "CLUB_PROFILE": {
+    "BACK": "Back",
+    "JOIN": "Join Club",
+    "MEMBERS": "Members",
+    "CLUB_MEMBERS": "Club Members",
+    "ORGANIZATIONAL_STRUCTURE": "Organizational Structure",
+    "SHARE_CLUB": "Share Club",
+    "EVENTS": "Events",
+    "DESCRIPTION": "Description",
+    "LEADER": "Club Leader",
+    "CREATE_POST": "Create Post",
+    "CREATE_EVENT": "Create Event",
+    "EDIT_CLUB": "Edit Club"
+  },
   "ACTIVITIES_PAGE": {
     "TITLE": "Activities",
     "PAGE_LABEL": "Campus Programs",
@@ -190,42 +204,17 @@
     "FILTER_WORKSHOPS": "Workshops",
     "FILTER_DISCUSSIONS": "Discussions",
     "FILTER_EXHIBITIONS": "Exhibitions",
+    "FILTER_OTHERS": "Others",
     "DETAILS": {
       "DATE": "Date",
       "LOCATION": "Location",
       "HOST": "Host",
       "SEATS": "Seats left"
     },
-    "CARDS": {
-        "01": {
-          "TITLE": "Workshop on AI-Driven Software Development",
-          "DESCRIPTION": "Learn how to combine modern AI tools with agile software workflows in a hands-on session.",
-          "DATE": "24-9-2025",
-          "LOCATION": "FabLab hall"
-        },
-        "02": {
-          "TITLE": "Panel Discussion with Majed Al-Juraibi",
-          "DESCRIPTION": "Join a guided conversation on student leadership, technology impact, and campus innovation.",
-          "DATE": "16-02-2026",
-          "LOCATION": "Center Theater"
-        },
-        "03": {
-          "TITLE": "Hail Municipality Hackathon",
-          "DESCRIPTION": "Bring your team and build solutions for local problems during this action-packed hackathon.",
-          "DATE": "27-01-2026",
-          "LOCATION": "University Hall"
-        },
-        "04": {
-          "TITLE": "Graduation Projects Exhibition",
-          "DESCRIPTION": "Explore final-year showcases from student teams across engineering and design departments.",
-          "DATE": "28-12-2025",
-          "LOCATION": "CSCE College"
-        }
-      },
     "STATS": {
-      "UPCOMING": "Upcoming events",
+      "MONTHLY": "Activities of the month",
       "ATTENDEES": "Total attendees",
-      "TODAY": "Events today"
+      "TOTAL": "Total activities"
     },
     "ACTIONS": {
       "DETAILS": "Details",
@@ -241,21 +230,36 @@
     "EMAIL": "Email",
     "PHONE": "Phone Number",
     "OVERVIEW": "Overview",
+    "SHARE": "Share Profile",
     "FAVORITE_CLUBS": "Favorite Clubs",
     "ACTIVITIES_ATTENDED": "Activities Attended",
-    "CERTIFICATES": "Certificates & Achievements",
+    "CERTIFICATES": "Certificates",
     "SKILLS": "Skills",
     "ACTIVITIES": "Activities",
     "ORG_STRUCTURE": "Organizational Structure",
     "REGISTER": "Register now",
     "MORE": "more",
-    "ADD_CERTIFICATE": "Add New Certificate",
+    "PERSONAL_INFO": "Personal Information",
+    "ADD_CERTIFICATE": "+ Add New Certificate",
     "CERTIFICATE_NAME": "Certificate Name",
     "DATE": "Date",
     "CANCEL": "Cancel",
     "ADD": "Add",
-    "ADD_SKILL": "Add New Skill",
-    "SKILL_NAME": "Skill Name"
+    "ADD_SKILL": "+ Add New Skill",
+    "SKILL_NAME": "Skill Name",
+    "ADD_POST": "+ Add New Post",
+    "POST_CONTENT": "Post Content",
+    "POST_IMAGE": "Post Image",
+    "POSTS": "Posts",
+    "READ_MORE": "Read more",
+    "READ_LESS": "Read less",
+    "SHOW_MORE": "Show more >",
+    "SHOW_LESS": "Show less <",
+    "NO_POSTS": "No posts published yet.",
+    "ADD_POST_SUCCESS": "Your post was added successfully",
+    "ADD_POST_ERROR": "Please write something before submitting your post.",
+    "POST_DETAILS": "Post Details",
+    "POINTS": "Points"
   },
   "STAFF": {
     "PROFILE_TITLE": "Staff Profile",
@@ -278,6 +282,7 @@
   },
   "PROFILE_SIDEBAR": {
     "PROFILE": "Profile",
+    "ACTIVITIES_REGISTERED": "Activities Registered",
     "CLUB_MANAGEMENT": "Club Management",
     "ORGANIZATIONAL_STRUCTURE": "Organizational Structure",
     "CLUBS": "Clubs",
@@ -301,5 +306,17 @@
     "SUPPORT_HOURS": "Sunday - Thursday, 9 AM to 6 PM",
     "RESPONSE_TIME_LABEL": "Response time",
     "RESPONSE_TIME": "Within 24 hours"
+  },
+  "ACTIVITIES_REGISTERED": {
+    "TITLE": "Activities Registered",
+    "DESC": "Review the activities you have registered for.",
+    "TOTAL_ACTIVITIES": "Total Activities",
+    "UPCOMING": "Upcoming",
+    "PAST": "Past",
+    "DATE": "Date",
+    "LOCATION": "Location",
+    "HOST": "Host",
+    "VIEW_DETAILS": "View Details",
+    "NO_DATA": "You have not registered for any activities yet."
   }
 }

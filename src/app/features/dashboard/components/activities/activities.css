@@ -1,16 +1,19 @@
-.activities-page {
-  min-height: 100vh;
-  padding: 26px;
-  background: linear-gradient(180deg, #f7f9ff 0%, #edf2fb 100%);
-  color: #15233d;
-  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  /* margin-inline-start: 240px; */
-  min-height: 100vh;
+.layout-grid {
+  display: grid;
   grid-template-columns: 280px 1fr;
+}
+
+app-sidebar {
+  box-sizing: none !important;
 }
 
 .activities-page.rtl {
   direction: rtl;
+}
+
+.activities-page {
+  padding: 55px;
+  padding-inline-start: 0;
 }
 
 .activities-hero {
@@ -231,20 +234,20 @@
   font-size: 0.76rem;
 }
 
-.activity-blue {
-  background: #3f6fd2;
+.activity-img-wrapper {
+  width: 100%;
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  overflow: hidden;
 }
 
-.activity-purple {
-  background: #7f57e8;
-}
-
-.activity-green {
-  background: #1c9e75;
-}
-
-.activity-orange {
-  background: #ea7d21;
+.activity-img {
+  width: 100%;
+  height: 300px;
+  object-fit: contain;
 }
 
 .activity-card h3 {
@@ -314,7 +317,9 @@
   border-radius: 18px;
   padding: 14px 22px;
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
   font-weight: 700;
 }
 
@@ -381,6 +386,10 @@
 }
 
 @media (max-width: 1080px) {
+  .activities-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
   .activities-hero {
     grid-template-columns: 1fr;
   }
@@ -398,9 +407,36 @@
   }
 }
 
+@media (max-width: 900px) {
+  .activities-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .activities-page {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    padding: 50px;
+  }
+
+  .layout-grid {
+    grid-template-columns: 1fr;
+  }
+
+  app-sidebar {
+    width: 100%;
+  }
+}
+
 @media (max-width: 820px) {
   .activities-grid {
     grid-template-columns: 1fr;
+  }
+
+  app-sidebar {
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
   }
 
   .detail-grid {
@@ -414,10 +450,6 @@
 }
 
 @media (max-width: 640px) {
-  .activities-page {
-    padding: 18px;
-  }
-
   .activities-toolbar {
     align-items: stretch;
   }
@@ -428,6 +460,12 @@
   }
 
   .summary-cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .activities-grid {
     grid-template-columns: 1fr;
   }
 }

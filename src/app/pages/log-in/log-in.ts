@@ -14,7 +14,6 @@ import { Auth } from '../../services/auth';
   styleUrl: './log-in.css',
 })
 export class LogIn {
-
   currentLang = 'en';
 
   form;
@@ -23,16 +22,14 @@ export class LogIn {
     private translate: TranslateService,
     private authService: Auth,
     private router: Router,
-    private fb: FormBuilder
+    private fb: FormBuilder,
   ) {
-
     this.translate.setDefaultLang('en');
     this.translate.use('en');
 
-    // ✅ هنا الحل
     this.form = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required]]
+      password: ['', [Validators.required]],
     });
   }
 
@@ -50,7 +47,7 @@ export class LogIn {
 
     const loginData = {
       username: this.form.value.email,
-      password: this.form.value.password
+      password: this.form.value.password,
     };
 
     this.authService.login(loginData).subscribe({
@@ -58,14 +55,24 @@ export class LogIn {
         localStorage.setItem('access_token', res.access);
 
         this.authService.getProfile().subscribe((user: any) => {
-          localStorage.setItem('user', JSON.stringify(user));
+          console.log('PROFILE DATA', user);
+          localStorage.setItem(
+            'user',
+            JSON.stringify({
+              id: user.id,
+              first_name: user.first_name,
+              last_name: user.last_name,
+              email: user.email,
+              role: user.role,
+            }),
+          );
           this.router.navigate(['/dashboard']);
         });
       },
 
       error: () => {
         this.form.setErrors({ invalid: true });
-      }
+      },
     });
   }
 }

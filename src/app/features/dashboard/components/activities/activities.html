@@ -1,4 +1,4 @@
-<div class="dashboard-container" style="flex-direction: row; display: flex">
+<div class="layout-grid">
   <app-sidebar></app-sidebar>
   <div class="activities-page" [class.rtl]="currentLang === 'ar'">
     <section class="activities-hero">
@@ -20,16 +20,18 @@
           <div class="col">
             <div class="stats-row">
               <article class="stat-card">
-                <span>{{ 'ACTIVITIES_PAGE.STATS.UPCOMING' | translate }}</span>
-                <strong>12</strong>
+                <span>{{ 'ACTIVITIES_PAGE.STATS.MONTHLY' | translate }}</span>
+                <strong>{{ monthlyActivities }}</strong>
               </article>
+
               <article class="stat-card">
                 <span>{{ 'ACTIVITIES_PAGE.STATS.ATTENDEES' | translate }}</span>
-                <strong>3.5K</strong>
+                <strong>{{ totalAttendees }}</strong>
               </article>
+
               <article class="stat-card">
-                <span>{{ 'ACTIVITIES_PAGE.STATS.TODAY' | translate }}</span>
-                <strong>4</strong>
+                <span>{{ 'ACTIVITIES_PAGE.STATS.TOTAL' | translate }}</span>
+                <strong>{{ totalActivities }}</strong>
               </article>
             </div>
           </div>
@@ -52,13 +54,23 @@
     </section>
 
     <section class="activities-grid">
-      <article class="activity-card" *ngFor="let activity of filteredActivities">
+      <article class="activity-card" *ngFor="let activity of activities | categoryFilter:selectedCategory">
         <div class="card-header">
-          <span class="activity-type">{{ activity.type }}</span>
-          <span class="activity-chip" [ngClass]="activity.colorClass">{{ activity.tags[0] }}</span>
+          <span class="activity-type">
+            {{ (activity.category ? getCategoryKey(activity.category) : 'EVENT') | translate }}
+          </span>
+          <div class="activity-img-wrapper">
+            <ng-container *ngIf="activity?.image && !imageError; else fallback">
+              <img [src]="activity.image" class="activity-img" alt="Activity image" />
+            </ng-container>
+
+            <ng-template #fallback>
+              <i class="bi bi-image" style="font-size: xxx-large"></i>
+            </ng-template>
+          </div>
         </div>
-        <h3>{{ activity.titleKey | translate }}</h3>
-        <p>{{ activity.descriptionKey | translate }}</p>
+        <h3>{{ currentLang === 'ar' ? activity.title_ar : activity.title }}</h3>
+        <p>{{ currentLang === 'ar' ? activity.description_ar : activity.description }}</p>
 
         <div class="tag-row">
           <span class="activity-tag" *ngFor="let tag of activity.tags">{{ tag }}</span>
@@ -67,48 +79,28 @@
         <div class="detail-grid">
           <div>
             <span>{{ 'ACTIVITIES_PAGE.DETAILS.DATE' | translate }}</span>
-            <strong>{{ activity.dateKey | translate }}</strong>
+            <strong>{{ activity.date | date: 'yyyy-MM-dd' }}</strong>
           </div>
           <div>
             <span>{{ 'ACTIVITIES_PAGE.DETAILS.LOCATION' | translate }}</span>
-            <strong>{{ activity.locationKey | translate }}</strong>
+            <strong>{{ activity.location }}</strong>
           </div>
           <div>
             <span>{{ 'ACTIVITIES_PAGE.DETAILS.HOST' | translate }}</span>
-            <strong>{{ activity.host }}</strong>
+            <strong>{{ activity.club_name }}</strong>
           </div>
           <div>
             <span>{{ 'ACTIVITIES_PAGE.DETAILS.SEATS' | translate }}</span>
-            <strong>{{ activity.seats }}</strong>
+            <strong>{{ activity.max_attendees }}</strong>
           </div>
         </div>
 
         <div class="card-actions">
-          <button type="button" class="primary-button">
+          <button type="button" class="primary-button" *ngIf="!isPast(activity)" (click)="register(activity.id)">
             {{ 'ACTIVITIES_PAGE.ACTIONS.REGISTER' | translate }}
           </button>
         </div>
       </article>
     </section>
-
-    <!-- <section class="activity-summary">
-    <div>
-      <h2>{{ 'ACTIVITIES_PAGE.SUMMARY_TITLE' | translate }}</h2>
-      <p>{{ 'ACTIVITIES_PAGE.SUMMARY_TEXT' | translate }}</p>
-    </div>
-    <div class="summary-cards">
-      <article>
-        <strong>8+</strong>
-        <span>{{ 'ACTIVITIES_PAGE.SUMMARY_EVENTS' | translate }}</span>
-      </article>
-      <article>
-        <strong>260</strong>
-        <span>{{ 'ACTIVITIES_PAGE.SUMMARY_CLUBS' | translate }}</span>
-      </article>
-      <article>
-        <strong>95%</strong>
-        <span>{{ 'ACTIVITIES_PAGE.SUMMARY_RATING' | translate }}</span>
-      </article>
-    </div>
-  </section> -->
   </div>
+</div>

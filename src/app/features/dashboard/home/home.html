@@ -7,7 +7,33 @@
       </div>
       <div class="search-card">
         <span class="search-icon"></span>
-        <input type="text" placeholder="{{ 'DASHBOARD.TOP.SEARCH_PLACEHOLDER' | translate }}" />
+
+        <input
+          type="text"
+          [(ngModel)]="searchTerm"
+          (input)="onSearch()"
+          placeholder="{{ 'DASHBOARD.TOP.SEARCH_PLACEHOLDER' | translate }}"
+        />
+
+        <div class="search-results" *ngIf="searchResults.length > 0">
+          <div
+            class="search-item"
+            *ngFor="let result of searchResults"
+            (click)="goToSearchResult(result)"
+          >
+            <small class="result-type">
+              {{ result.type }}
+            </small>
+
+            <strong>
+              {{ result.name }}
+            </strong>
+
+            <p *ngIf="result.description">
+              {{ result.description }}
+            </p>
+          </div>
+        </div>
       </div>
       <div class="profile-card" (click)="goToProfile()" style="cursor: pointer">
         <div class="profile-avatar">{{ user?.first_name?.charAt(0) || '?' }}</div>
@@ -50,9 +76,13 @@
         </div>
       </div>
 
-      <div class="feature-grid" *ngFor="let club of topClubs; let i = index">
-        <ng-container *ngIf="activeLeaderboard === 'CLUBS' && club.status === 'active'">
-          <article class="feature-card feature-first" [ngClass]="'feature-' + (i + 1)">
+      <div class="feature-grid" *ngIf="activeLeaderboard === 'CLUBS'">
+        <ng-container *ngFor="let club of topClubs; let i = index">
+          <article
+            *ngIf="club.status === 'active'"
+            class="feature-card feature-first"
+            [ngClass]="'feature-' + (i + 1)"
+          >
             <div
               style="
                 gap: 15px;
@@ -62,12 +92,13 @@
                 justify-content: space-between;
               "
             >
-              <div>
+              <div style="display: flex; align-items: center; gap: 10px">
                 <div class="feature-badge">0{{ i + 1 }}</div>
 
                 <span class="feature-label">
                   {{ 'DASHBOARD.OF_MONTH.CARDS.0' + (i + 1) + '.LABEL' | translate }}
                 </span>
+                <span *ngIf="i === 0" class="crown-icon" title="Top Club">👑</span>
               </div>
 
               <small
@@ -79,7 +110,7 @@
             <div>
               <h4>{{ currentLang === 'ar' ? club.club_name_ar : club.club_name }}</h4>
               <p>{{ currentLang === 'ar' ? club.description_ar : club.description }}</p>
-              <a [routerLink]="['/clubs', club.id]" class="link-action small">
+              <a [routerLink]="['/dashboard/club-profile', club.id]" class="link-action small">
                 {{ 'DASHBOARD.ACTIONS.DETAILS' | translate }}
               </a>
             </div>
@@ -116,9 +147,10 @@
 
             <div>
               <h4>{{ student.first_name }} {{ student.last_name }}</h4>
-
               <p class="text-truncate">{{ student.bio || 'Active SparkHub Student' }}</p>
-
+              <a [routerLink]="['/dashboard/user-profile', student.id]" class="link-action small">
+                {{ 'DASHBOARD.ACTIONS.DETAILS' | translate }}
+              </a>
             </div>
           </article>
         </ng-container>
@@ -150,7 +182,7 @@
               </div>
               <h4>{{ currentLang === 'ar' ? club.club_name_ar : club.club_name }}</h4>
               <p>{{ currentLang === 'ar' ? club.description_ar : club.description }}</p>
-              <a href="#" class="link-action small">{{
+              <a [routerLink]="['/dashboard/club-profile', club.id]" class="link-action small">{{
                 'DASHBOARD.ACTIONS.DETAILS' | translate
               }}</a>
             </div>
@@ -176,49 +208,81 @@
       </div>
 
       <div class="activities-grid">
-        <article class="activity-card">
-          <div class="activity-visual visual-blue"></div>
-          <div class="activity-copy">
-            <h4>{{ 'DASHBOARD.ACTIVITIES.CARDS.01.TITLE' | translate }}</h4>
-            <p>{{ 'DASHBOARD.ACTIVITIES.CARDS.01.DATE' | translate }}</p>
-            <p>{{ 'DASHBOARD.ACTIVITIES.CARDS.01.LOCATION' | translate }}</p>
-            <button class="action-button">{{ 'DASHBOARD.ACTIONS.REGISTER' | translate }}</button>
-            <a href="#" class="link-action small">{{ 'DASHBOARD.ACTIONS.MORE' | translate }}</a>
-          </div>
-        </article>
+        <article class="activity-card" *ngFor="let activity of activitiesSorted">
+          <div class="activity-img-wrapper">
+            <ng-container *ngIf="activity?.image && !imageError; else fallback">
+              <img [src]="activity.image" class="activity-img" alt="Activity image" />
+            </ng-container>
 
-        <article class="activity-card">
-          <div class="activity-visual visual-purple"></div>
+            <ng-template #fallback>
+              <i class="bi bi-image"></i>
+            </ng-template>
+          </div>
           <div class="activity-copy">
-            <h4>{{ 'DASHBOARD.ACTIVITIES.CARDS.02.TITLE' | translate }}</h4>
-            <p>{{ 'DASHBOARD.ACTIVITIES.CARDS.02.DATE' | translate }}</p>
-            <p>{{ 'DASHBOARD.ACTIVITIES.CARDS.02.LOCATION' | translate }}</p>
-            <button class="action-button">{{ 'DASHBOARD.ACTIONS.REGISTER' | translate }}</button>
-            <a href="#" class="link-action small">{{ 'DASHBOARD.ACTIONS.MORE' | translate }}</a>
+            <h4>{{ currentLang === 'ar' ? activity.title_ar : activity.title }}</h4>
+            <p>{{ activity.date | date: 'yyyy-MM-dd' }}</p>
+            <p>{{ activity.location }}</p>
+            <button
+              (click)="openActivity(activity)"
+              class="link-action small"
+              style="background: transparent; border: 0; text-align: start"
+            >
+              {{ 'DASHBOARD.ACTIONS.MORE' | translate }}
+            </button>
           </div>
         </article>
+      </div>
 
-        <article class="activity-card">
-          <div class="activity-visual visual-green"></div>
-          <div class="activity-copy">
-            <h4>{{ 'DASHBOARD.ACTIVITIES.CARDS.03.TITLE' | translate }}</h4>
-            <p>{{ 'DASHBOARD.ACTIVITIES.CARDS.03.DATE' | translate }}</p>
-            <p>{{ 'DASHBOARD.ACTIVITIES.CARDS.03.LOCATION' | translate }}</p>
-            <button class="action-button">{{ 'DASHBOARD.ACTIONS.REGISTER' | translate }}</button>
-            <a href="#" class="link-action small">{{ 'DASHBOARD.ACTIONS.MORE' | translate }}</a>
-          </div>
-        </article>
+      <div *ngIf="selectedActivity">
+        <div class="modal-backdrop" (click)="close()"></div>
+        <div class="modal-box">
+          <button class="close-btn" (click)="close()">×</button>
 
-        <article class="activity-card">
-          <div class="activity-visual visual-orange"></div>
-          <div class="activity-copy">
-            <h4>{{ 'DASHBOARD.ACTIVITIES.CARDS.04.TITLE' | translate }}</h4>
-            <p>{{ 'DASHBOARD.ACTIVITIES.CARDS.04.DATE' | translate }}</p>
-            <p>{{ 'DASHBOARD.ACTIVITIES.CARDS.04.LOCATION' | translate }}</p>
-            <button class="action-button">{{ 'DASHBOARD.ACTIONS.REGISTER' | translate }}</button>
-            <a href="#" class="link-action small">{{ 'DASHBOARD.ACTIONS.MORE' | translate }}</a>
+          <!-- <img
+            *ngIf="selectedActivity.image"
+            class="banner"
+            [src]="selectedActivity.image"
+            alt="Activity banner"
+          /> -->
+
+          <h2>{{ currentLang === 'ar' ? selectedActivity.title_ar : selectedActivity.title }}</h2>
+
+          <p class="description">
+            {{
+              currentLang === 'ar' ? selectedActivity.description_ar : selectedActivity.description
+            }}
+          </p>
+
+          <div class="details">
+            <div>
+              <i class="bi bi-geo-alt"></i>
+              {{ selectedActivity.location }}
+            </div>
+
+            <div>
+              <i class="bi bi-calendar"></i>
+              {{ selectedActivity.date | date: 'dd-MM-yyyy' }}
+            </div>
+
+            <div>
+              <i class="bi bi-people"></i>
+              Max attendees: {{ selectedActivity.max_attendees }}
+            </div>
+
+            <div>
+              <i class="bi bi-star"></i>
+              Earn points: 3
+            </div>
           </div>
-        </article>
+
+          <button
+            class="action-button big"
+            *ngIf="!isPast(selectedActivity)"
+            (click)="register(selectedActivity.id)"
+          >
+            Register now
+          </button>
+        </div>
       </div>
     </section>
   </main>

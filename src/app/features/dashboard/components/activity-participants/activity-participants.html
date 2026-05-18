@@ -1,0 +1,61 @@
+<div class="profile-layout">
+  <div class="members-page">
+    <header class="members-header">
+      <button class="back-btn" type="button" (click)="goBack()">
+        <i class="bi bi-chevron-left"></i>
+      </button>
+    </header>
+
+    <div class="members-topbar">
+      <h1 class="page-title" *ngIf="!loading">{{ activityTitle }} - Participants</h1>
+      <h1 class="page-title" *ngIf="loading">Loading...</h1>
+
+      <button class="join-btn" type="button" (click)="exportToExcel()">Export List</button>
+    </div>
+
+    <div class="members-list-box">
+      <div class="top-card">
+        <span style="font-weight: bold; color: #355486">Name</span>
+        <span style="font-weight: bold; color: #355486; text-align: center">Role</span>
+        <span style="font-weight: bold; color: #355486; text-align: right">Actions</span>
+      </div>
+
+      <div class="member-row" *ngFor="let p of participants">
+        <div class="member-name">
+          {{ p.name }}
+          <div class="member-id">ID: {{ p.university_id }}</div>
+        </div>
+
+        <div class="role-label">{{ p.role }}</div>
+
+        <div class="actions">
+          <button
+            class="icon-btn"
+            [routerLink]="['/dashboard/user-profile', p.userId]"
+            type="button"
+            title="View Profile"
+          >
+            <i class="bi bi-person"></i>
+          </button>
+
+          <button
+            class="icon-btn"
+            type="button"
+            (click)="removeParticipant(p.userId)"
+            title="Remove from Activity"
+          >
+            <i class="bi bi-trash"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="member-row" *ngIf="participants.length === 0 && !loading">
+        <p style="text-align: center; width: 100%; color: #6b86a8">
+          No participants registered yet.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <app-profile-sidebar></app-profile-sidebar>
+</div>

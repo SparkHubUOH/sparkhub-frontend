@@ -17,6 +17,22 @@ export class Profile {
     return this.http.put(`${this.apiUrl}/profile/details/`, data);
   }
 
+  getPublicProfile(userId: string) {
+    return this.http.get(`${this.apiUrl}/profile/${userId}/`);
+  }
+
+  getCertificatesByUser(id: string) {
+    return this.http.get(`${this.apiUrl}/users/${id}/certificates`);
+  }
+
+  getSkillsByUser(id: string) {
+    return this.http.get(`${this.apiUrl}/users/${id}/skills`);
+  }
+
+  getPostsByUser(id: string) {
+    return this.http.get(`${this.apiUrl}/users/${id}/posts`);
+  }
+
   getCertificates() {
     return this.http.get(`${this.apiUrl}/certificates/`);
   }
@@ -39,5 +55,13 @@ export class Profile {
 
   addSkill(data: any) {
     return this.http.post(`${this.apiUrl}/skills/`, data);
+  }
+
+  getStudentPosts() {
+    return this.http.get(`${this.apiUrl}/student-posts/`);
+  }
+
+  addPost(formData: FormData) {
+    return this.http.post(`${this.apiUrl}/student-posts/`, formData);
   }
 }
