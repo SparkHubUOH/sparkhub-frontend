@@ -14,7 +14,6 @@ import { Auth } from '../../services/auth';
   styleUrl: './sign-up.css',
 })
 export class SignUp {
-
   currentLang = 'en';
 
   private fb = inject(FormBuilder);
@@ -22,33 +21,39 @@ export class SignUp {
   constructor(
     private translate: TranslateService,
     private authService: Auth,
-    private router: Router
+    private router: Router,
   ) {
-    this.translate.setDefaultLang('en');
+    const savedLang = localStorage.getItem('lang') || 'en';
+    this.currentLang = savedLang;
+
+    this.translate.setDefaultLang(savedLang);
+    this.translate.use(savedLang);
+
+    const direction = savedLang === 'ar' ? 'rtl' : 'ltr';
+    document.documentElement.dir = direction;
   }
 
   form = this.fb.group({
     first_name: ['', [Validators.required, Validators.minLength(3)]],
     last_name: ['', [Validators.required, Validators.minLength(3)]],
     email: ['', [Validators.required, Validators.email]],
-    password: ['', [
-      Validators.required,
-      Validators.minLength(8),
-      Validators.pattern(/^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@#$!]).+$/)
-    ]],
-    phone: ['', [
-      Validators.required,
-      Validators.pattern(/^05\d{8}$/)
-    ]],
-    university_id: ['', [
-      Validators.required,
-      Validators.pattern(/^\d{9}$/)
-    ]],
+    password: [
+      '',
+      [
+        Validators.required,
+        Validators.minLength(8),
+        Validators.pattern(/^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@#$!]).+$/),
+      ],
+    ],
+    phone: ['', [Validators.required, Validators.pattern(/^05\d{8}$/)]],
+    university_id: ['', [Validators.required, Validators.pattern(/^\d{9}$/)]],
   });
 
   toggleLanguage() {
     this.currentLang = this.currentLang === 'en' ? 'ar' : 'en';
     this.translate.use(this.currentLang);
+    
+    localStorage.setItem('lang', this.currentLang);
     document.documentElement.dir = this.currentLang === 'ar' ? 'rtl' : 'ltr';
   }
 
@@ -60,7 +65,7 @@ export class SignUp {
 
     const formData = {
       ...this.form.value,
-      username: this.form.value.email
+      username: this.form.value.email,
     };
 
     this.authService.register(formData).subscribe({
@@ -70,7 +75,7 @@ export class SignUp {
       error: (err) => {
         console.error(err);
         alert('Something went wrong');
-      }
+      },
     });
   }
 }

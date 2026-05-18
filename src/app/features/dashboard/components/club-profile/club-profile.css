@@ -1,6 +1,5 @@
 :host {
   display: block;
-  font-family: 'Poppins', sans-serif;
 }
 .profile-layout {
   display: flex;
@@ -205,7 +204,6 @@ app-profile-sidebar {
   border-radius: 14px;
   padding: 20px 12px;
   font-size: 1rem;
-  font-family: 'Poppins', sans-serif;
   font-weight: 700;
   cursor: pointer;
   text-align: center;
@@ -229,7 +227,6 @@ app-profile-sidebar {
   border-radius: 14px;
   padding: 20px 12px;
   font-size: 1rem;
-  font-family: 'Poppins', sans-serif;
   font-weight: 700;
   cursor: pointer;
   text-align: center;
@@ -292,7 +289,6 @@ app-profile-sidebar {
   border-radius: 8px;
   padding: 7px 13px;
   font-size: 0.75rem;
-  font-family: 'Poppins', sans-serif;
   font-weight: 600;
   cursor: pointer;
   display: flex;
@@ -364,7 +360,6 @@ app-profile-sidebar {
   padding: 0;
   margin: 0;
   box-shadow: none;
-  font-family: 'Poppins', sans-serif;
   font-size: 0.7rem;
   color: #e8621a;
   font-weight: 600;
@@ -557,7 +552,6 @@ app-profile-sidebar {
   border-radius: 7px;
   padding: 4px 10px;
   font-size: 0.65rem;
-  font-family: 'Poppins', sans-serif;
   font-weight: 600;
   cursor: pointer;
   transition: background 0.2s;
@@ -587,7 +581,6 @@ app-profile-sidebar {
   color: #1e3a5f;
   font-size: 0.78rem;
   font-weight: 600;
-  font-family: 'Poppins', sans-serif;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -635,7 +628,6 @@ app-profile-sidebar {
   border: none;
   padding: 9px 10px;
   text-align: left;
-  font-family: 'Poppins', sans-serif;
   font-size: 0.75rem;
   color: #1e3a5f;
   cursor: pointer;
@@ -747,7 +739,7 @@ i {
 .close-btn {
   position: absolute;
   top: 14px;
-  right: 14px;
+  inset-inline-end: 14px;
   border: none;
   background: none;
   font-size: 26px;

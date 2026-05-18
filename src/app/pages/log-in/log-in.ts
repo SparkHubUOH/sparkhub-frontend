@@ -15,6 +15,7 @@ import { Auth } from '../../services/auth';
 })
 export class LogIn {
   currentLang = 'en';
+  languageSelected: string;
 
   form;
 
@@ -24,8 +25,14 @@ export class LogIn {
     private router: Router,
     private fb: FormBuilder,
   ) {
-    this.translate.setDefaultLang('en');
-    this.translate.use('en');
+    const initialLang = localStorage.getItem('lang') || 'en';
+    this.currentLang = initialLang;
+    this.languageSelected = initialLang;
+
+    this.translate.setDefaultLang(initialLang);
+    this.translate.use(initialLang);
+
+    document.documentElement.dir = initialLang === 'ar' ? 'rtl' : 'ltr';
 
     this.form = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -36,6 +43,8 @@ export class LogIn {
   toggleLanguage() {
     this.currentLang = this.currentLang === 'en' ? 'ar' : 'en';
     this.translate.use(this.currentLang);
+
+    localStorage.setItem('lang', this.currentLang);
     document.documentElement.dir = this.currentLang === 'ar' ? 'rtl' : 'ltr';
   }
 

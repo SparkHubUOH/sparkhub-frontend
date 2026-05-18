@@ -4,12 +4,14 @@ import { ProfileSidebar } from '../../../roles/profile-sidebar/profile-sidebar';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ClubService } from '../../../../services/club-service/club-service';
+import { TranslateModule } from '@ngx-translate/core';
+import { TranslateService } from '../../../../services/translation/translation';
 import * as XLSX from 'xlsx';
 import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-activity-participants',
-  imports: [ProfileSidebar, RouterLink, CommonModule],
+  imports: [ProfileSidebar, RouterLink, CommonModule, TranslateModule],
   templateUrl: './activity-participants.html',
   styleUrl: './activity-participants.css',
 })
@@ -24,6 +26,7 @@ export class ActivityParticipants implements OnInit {
     private clubService: ClubService,
     private router: Router,
     private location: Location,
+    private translate: TranslateService,
     private cdr: ChangeDetectorRef,
   ) {}
 
@@ -54,40 +57,59 @@ export class ActivityParticipants implements OnInit {
 
   exportToExcel() {
     if (this.participants.length === 0) {
-      Swal.fire('Empty', 'No participants to export', 'warning');
+      Swal.fire(
+        this.translate.instant('ACTIVITY_PARTICIPANTS.EMPTY_TITLE'),
+        this.translate.instant('ACTIVITY_PARTICIPANTS.NO_PARTICIPANTS_EXPORT'),
+        'warning'
+      );
       return;
     }
     const dataToExport = this.participants.map((p) => ({
-      'Student Name': p.name,
-      'University ID': p.university_id,
-      Role: p.role,
+      [this.translate.instant('ACTIVITY_PARTICIPANTS.STUDENT_NAME')]: p.name,
+      [this.translate.instant('ACTIVITY_PARTICIPANTS.UNIVERSITY_ID')]: p.university_id,
+      [this.translate.instant('ACTIVITY_PARTICIPANTS.ROLE')]: p.role,
     }));
 
     const worksheet = XLSX.utils.json_to_sheet(dataToExport);
     const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'Attendance List');
+    const sheetName = this.translate.instant('ACTIVITY_PARTICIPANTS.ATTENDANCE_LIST');
+    XLSX.utils.book_append_sheet(workbook, worksheet, sheetName);
 
-    XLSX.writeFile(workbook, `${this.activityTitle}_Attendance.xlsx`);
+    const fileName = `${this.activityTitle}_${this.translate.instant('ACTIVITY_PARTICIPANTS.ATTENDANCE_FILE_SUFFIX')}.xlsx`;
+    XLSX.writeFile(workbook, fileName);
 
-    Swal.fire('Success', 'File downloaded successfully', 'success');
+    Swal.fire(
+      this.translate.instant('ACTIVITY_PARTICIPANTS.SUCCESS_TITLE'),
+      this.translate.instant('ACTIVITY_PARTICIPANTS.FILE_DOWNLOADED'),
+      'success'
+    );
   }
 
   removeParticipant(userId: number) {
     Swal.fire({
-      title: 'Are you sure?',
-      text: 'This user will be removed from the activity list!',
+      title: this.translate.instant('ACTIVITY_PARTICIPANTS.CONFIRM_TITLE'),
+      text: this.translate.instant('ACTIVITY_PARTICIPANTS.CONFIRM_TEXT'),
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#d33',
-      confirmButtonText: 'Yes, remove them!',
+      confirmButtonText: this.translate.instant('ACTIVITY_PARTICIPANTS.CONFIRM_BUTTON'),
     }).then((result) => {
       if (result.isConfirmed) {
         this.clubService.removeParticipantFromActivity(this.activityId, userId).subscribe({
           next: () => {
             this.participants = this.participants.filter((p) => p.userId !== userId);
-            Swal.fire('Removed!', 'User has been removed from activity.', 'success');
+            Swal.fire(
+              this.translate.instant('ACTIVITY_PARTICIPANTS.REMOVED_TITLE'),
+              this.translate.instant('ACTIVITY_PARTICIPANTS.REMOVED_TEXT'),
+              'success'
+            );
           },
-          error: () => Swal.fire('Error', 'Failed to remove user', 'error'),
+          error: () =>
+            Swal.fire(
+              this.translate.instant('ACTIVITY_PARTICIPANTS.ERROR_TITLE'),
+              this.translate.instant('ACTIVITY_PARTICIPANTS.REMOVE_FAILED'),
+              'error'
+            ),
         });
       }
     });

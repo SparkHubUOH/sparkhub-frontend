@@ -123,7 +123,7 @@ export class ProfileSidebar {
   toggleLanguage() {
     this.currentLang = this.currentLang === 'en' ? 'ar' : 'en';
     this.translate.use(this.currentLang);
-
+    localStorage.setItem('lang', this.currentLang);
     document.documentElement.dir = this.currentLang === 'ar' ? 'rtl' : 'ltr';
     this.menuOpen = false;
   }

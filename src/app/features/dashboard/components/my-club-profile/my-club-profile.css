@@ -1,6 +1,5 @@
 :host {
   display: block;
-  font-family: 'Poppins', sans-serif;
 }
 
 .profile-layout {
@@ -17,7 +16,7 @@ app-profile-sidebar {
 .club-page {
   min-height: 100vh;
   background: #fff;
-  padding: 80px 18px 60px;
+  padding: 60px 18px 60px;
   max-width: 900px;
   margin: 0 auto;
   flex: 1;
@@ -67,20 +66,8 @@ app-profile-sidebar {
   font-size: 1rem;
 }
 
-.post-title {
-  font-size: 0.85rem;
-}
-
-.post-meta {
-  font-size: 0.75rem;
-}
-
-.post-readmore {
-  font-size: 0.75rem;
-}
-
-.post-date {
-  font-size: 0.72rem;
+.stat-num {
+  font-size: 1.3rem;
 }
 
 .event-title {
@@ -252,7 +239,6 @@ app-profile-sidebar {
   border-radius: 14px;
   padding: 20px 12px;
   font-size: 1rem;
-  font-family: 'Poppins', sans-serif;
   font-weight: 700;
   cursor: pointer;
   text-align: center;
@@ -323,7 +309,6 @@ app-profile-sidebar {
   border-radius: 8px;
   padding: 7px 13px;
   font-size: 0.75rem;
-  font-family: 'Poppins', sans-serif;
   font-weight: 600;
   cursor: pointer;
   display: flex;
@@ -408,7 +393,7 @@ app-profile-sidebar {
 }
 
 .post-title {
-  font-size: 0.64rem;
+  font-size: 0.90rem;
   color: #1e3a5f;
   line-height: 1.4;
   direction: rtl;
@@ -425,6 +410,7 @@ app-profile-sidebar {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-top: 10px;
 }
 
 .post-readmore {
@@ -436,8 +422,7 @@ app-profile-sidebar {
   padding: 0;
   margin: 0;
   box-shadow: none;
-  font-family: 'Poppins', sans-serif;
-  font-size: 0.6rem;
+  font-size: 0.8rem;
   color: #e8621a;
   font-weight: 600;
   cursor: pointer;
@@ -451,7 +436,7 @@ app-profile-sidebar {
 }
 
 .post-date {
-  font-size: 0.58rem;
+  font-size: 0.7rem;
   color: #9aabb8;
 }
 
@@ -559,7 +544,6 @@ app-profile-sidebar {
   border-radius: 7px;
   padding: 4px 10px;
   font-size: 0.65rem;
-  font-family: 'Poppins', sans-serif;
   font-weight: 600;
   cursor: pointer;
   transition: background 0.2s;
@@ -589,7 +573,6 @@ app-profile-sidebar {
   color: #1e3a5f;
   font-size: 0.78rem;
   font-weight: 600;
-  font-family: 'Poppins', sans-serif;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -637,7 +620,6 @@ app-profile-sidebar {
   border: none;
   padding: 9px 10px;
   text-align: left;
-  font-family: 'Poppins', sans-serif;
   font-size: 0.75rem;
   color: #1e3a5f;
   cursor: pointer;
@@ -749,7 +731,7 @@ i {
 .close-btn {
   position: absolute;
   top: 14px;
-  right: 14px;
+  inset-inline-end: 14px;
   border: none;
   background: none;
   font-size: 26px;

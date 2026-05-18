@@ -276,7 +276,11 @@ export class UserProfile implements OnInit {
   }
 
   get visiblePosts() {
-    return this.showAllPosts ? this.posts : this.posts.slice(0, 3);
+    const sortedPosts = [...this.posts].sort(
+      (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
+    );
+
+    return this.showAllPosts ? sortedPosts : sortedPosts.slice(0, 3);
   }
 
   get visibleSkills() {

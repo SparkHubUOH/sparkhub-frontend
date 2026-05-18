@@ -1,6 +1,5 @@
 :host {
   display: block;
-  font-family: 'Poppins', sans-serif;
 }
 
 .org-chart-page {
@@ -70,7 +69,6 @@
   border-radius: 8px;
   padding: 8px 18px;
   font-size: 0.85rem;
-  font-family: 'Poppins', sans-serif;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -375,7 +373,6 @@
   border-radius: 8px;
   padding: 8px 16px;
   font-size: 0.8rem;
-  font-family: 'Poppins', sans-serif;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -455,7 +452,6 @@
   border-radius: 8px;
   padding: 8px 12px;
   font-size: 0.82rem;
-  font-family: 'Poppins', sans-serif;
   color: #1e3a5f;
   direction: rtl;
   text-align: right;
@@ -510,7 +506,6 @@
   border-radius: 10px;
   padding: 10px 28px;
   font-size: 0.9rem;
-  font-family: 'Poppins', sans-serif;
   font-weight: 600;
   cursor: pointer;
   transition: background 0.2s;

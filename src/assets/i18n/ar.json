@@ -9,6 +9,7 @@
   },
   "SIGNUP": {
     "TITLE": "مرحبًا بك في SparkHub",
+    "SUBTITLE": "أنشئ حسابك وابدأ رحلتك مع SparkHub",
     "FIRST_NAME": "الاسم الأول",
     "LAST_NAME": "اسم العائلة",
     "PHONE": "رقم الهاتف",
@@ -17,12 +18,23 @@
     "PASSWORD": "كلمة المرور",
     "AGREE_HTML": "من خلال إنشاء حساب، فإنك توافق على <a href=\"/terms\">شروط الاستخدام</a> و <a href=\"/privacy\">سياسة الخصوصية</a>.",
     "CREATE": "إنشاء حساب",
-    "ALREADY": "هل لديك حساب بالفعل؟ <a href=\"login\">تسجيل الدخول</a>"
+    "ALREADY": "هل لديك حساب بالفعل؟ <a href=\"login\">تسجيل الدخول</a>",
+    "FIRST_NAME_ERROR": "الاسم الأول مطلوب (الحد الأدنى 3 أحرف)",
+    "LAST_NAME_ERROR": "اسم العائلة مطلوب",
+    "PHONE_ERROR": "يجب أن يبدأ رقم الهاتف بـ 05 ويحتوي على 10 أرقام",
+    "UNIVERSITY_ID_HINT": "يجب أن يتكون من 9 أرقام بالضبط",
+    "EMAIL_ERROR": "عنوان البريد الإلكتروني غير صالح",
+    "PASSWORD_ERROR": "يجب أن تكون كلمة المرور 8 أحرف على الأقل وتحتوي على أحرف وأرقام و(@ # $ !)"
   },
   "LOGIN": {
     "FORGOT": "<a href=\"contact\">نسيت كلمة المرور؟</a>",
     "CREATE": "متابعة",
-    "NEW": "ليس لديك حساب؟ <a href=\"register\">سجل الآن</a>"
+    "NEW": "ليس لديك حساب؟ <a href=\"register\">سجل الآن</a>",
+    "TITLE": "مرحبًا بعودتك",
+    "SUBTITLE": "أدخل معلوماتك لتسجيل الدخول",
+    "EMAIL_ERROR": "أدخل بريدًا إلكترونيًا صالحًا",
+    "PASSWORD_ERROR": "كلمة المرور مطلوبة",
+    "INVALID_CREDENTIALS": "البريد الإلكتروني أو كلمة المرور غير صحيحة"
   },
   "LANDING": {
     "HERO_TITLE": "بوابتك إلى الحياة الجامعية خارج القاعات!",
@@ -35,7 +47,16 @@
     "ACTIVITIES_SECTION_TITLE": "أبرز الفعاليات",
     "ACTIVITIES_SECTION_SUBTITLE": "اكتشف نوع الورش، والندوات، والفعاليات التي يمكن للطلاب الانضمام إليها في الحرم الجامعي.",
     "ACTIVITIES_BUTTON": "سجل الآن",
-    "STUDENT_CLUBS": "الأندية الطلابية"
+    "STUDENT_CLUBS": "الأندية الطلابية",
+    "DISCOVER_PATH": "اكتشف مسارك",
+    "EXPLORE": "اكتشف",
+    "CLUBS_SECTION_DESC": "ابحث عن النوادي التي تناسب اهتماماتك",
+    "STATS": {
+      "CLUBS": "الأندية",
+      "MEMBERS": "الأعضاء",
+      "ACTIVITIES": "الأنشطة",
+      "EVENTS": "الفعاليات"
+    }
   },
   "DASHBOARD": {
     "SIDEBAR": {
@@ -44,7 +65,7 @@
       "HOME": "<a href=\"dashboard\">الرئيسية</a>",
       "CLUBS": "<a href=\"dashboard/clubs\">الأندية</a>",
       "ACTIVITIES": "<a href=\"dashboard/activities\">الأنشطة</a>",
-      "CHAT": "الدردشة",
+      "CHAT": "<a href=\"https://discord.gg/puXVauCU\" target=\"_blank\">الدردشة</a>",
       "LOGOUT": "تسجيل الخروج"
     },
     "TOP": {
@@ -60,57 +81,45 @@
       },
       "CARDS": {
         "01": {
-          "LABEL": "المرتبة 01",
-          "TITLE": "نادي الذكاء الاصطناعي",
-          "DESCRIPTION": "النادي الحاصل على المركز الأول هذا الشهر بناءً على الأداء العام، الفعاليات المميزة، وإنجازات الأعضاء."
+          "LABEL": "المرتبة 01"
         },
         "02": {
-          "LABEL": "المرتبة 02",
-          "TITLE": "نادي فاب لاب",
-          "DESCRIPTION": "النادي الحاصل على المركز الثاني هذا الشهر بناءً على الأداء العام، الفعاليات المميزة، وإنجازات الأعضاء."
+          "LABEL": "المرتبة 02"
         },
         "03": {
-          "LABEL": "المرتبة 03",
-          "TITLE": "نادي علوم الحاسب",
-          "DESCRIPTION": "النادي الحاصل على المركز الثالث هذا الشهر بناءً على الأداء العام، الفعاليات المميزة، وإنجازات الأعضاء."
-        }
+          "LABEL": "المرتبة 03"
+        },
+        "POINTS": "نقطة"
       },
       "STUDENTS": {
         "CARDS": {
           "01": {
-            "LABEL": "المرتبة 01",
-            "TITLE": "سارة أحمد",
-            "DESCRIPTION": "الطالبة الحاصلة على المركز الأول هذا الشهر للقيادة المميزة والإنجازات والتأثير المجتمعي."
+            "LABEL": "المرتبة 01"
           },
           "02": {
-            "LABEL": "المرتبة 02",
-            "TITLE": "أحمد المطيري",
-            "DESCRIPTION": "الطالب الحاصل على المركز الثاني هذا الشهر للتفوق الأكاديمي والمشاركة والمساهمات في الفعاليات."
+            "LABEL": "المرتبة 02"
           },
           "03": {
-            "LABEL": "المرتبة 03",
-            "TITLE": "لينا الفيصل",
-            "DESCRIPTION": "الطالبة الحاصلة على المركز الثالث هذا الشهر للإبداع والتعاون والمشاركة البارزة."
+            "LABEL": "المرتبة 03"
           }
         }
       }
     },
     "CLUBS": {
-      "TITLE": "الأندية",
-      "CARDS": {
-        "01": {
-          "TITLE": "نادي الذكاء الاصطناعي",
-          "DESCRIPTION": "نادي طلابي مهتم بمفاهيم الذكاء الاصطناعي وتطبيقات التكنولوجيا الذكية."
-        },
-        "02": {
-          "TITLE": "نادي PGC",
-          "DESCRIPTION": "نادي طلابي يجمع بين البرمجة وتطوير الألعاب لإنشاء تجارب تفاعلية."
-        },
-        "03": {
-          "TITLE": "نادي فاب لاب",
-          "DESCRIPTION": "نادي طلابي يركز على الابتكار الرقمي والإبداع التقني."
-        }
-      }
+      "TITLE": "الأندية"
+    },
+    "ACTIVITIES": {
+      "TITLE": "الأنشطة",
+      "SUMMARY_TITLE": "حياتك الطلابية منظمة",
+      "SUMMARY_TEXT": "يجمع SparkHub كل تجربة في الحرم الجامعي في مكان واحد حتى تكتشف مجتمعات، فعاليات، وفرص تعلم جديدة بسهولة.",
+      "SUMMARY_EVENTS": "فعاليات مباشرة هذا الشهر",
+      "SUMMARY_CLUBS": "نوادي تستضيف فعاليات",
+      "SUMMARY_RATING": "رضا المشاركين"
+    },
+    "ACTIONS": {
+      "DETAILS": "تفاصيل",
+      "REGISTER": "سجل الآن",
+      "MORE": "المزيد"
     }
   },
   "CLUBS_PAGE": {
@@ -149,7 +158,71 @@
     "LEADER": "قائد النادي",
     "CREATE_POST": "إنشاء منشور",
     "CREATE_EVENT": "إنشاء فعالية",
-    "EDIT_CLUB": "تعديل النادي"
+    "EDIT_CLUB": "تعديل النادي",
+    "MEMBER": "عضو",
+    "EVENTS_LABEL": "الفعاليات",
+    "REQUEST_SENT": "تم إرسال الطلب",
+    "REQUEST_TO_JOIN": "طلب الانضمام",
+    "POSTS": "المنشورات",
+    "READ_MORE": "اقرأ المزيد",
+    "SHOW_MORE": "عرض المزيد >",
+    "SHOW_LESS": "عرض أقل <",
+    "EVENTS_SECTION": "الفعاليات",
+    "ACTIVITY_BANNER_ALT": "بانر الفعالية",
+    "MAX_ATTENDEES": "الحد الأقصى للحضور: {{count}}",
+    "EARN_POINTS": "اكسب {{count}} نقاط",
+    "POST_DETAILS": "تفاصيل المنشور",
+    "POST_IMAGE_ALT": "صورة المنشور",
+    "VIEW_PARTICIPANTS": "عرض المشاركين",
+    "DELETE_ACTIVITY": "حذف الفعالية",
+    "CLUB_NAME": "اسم النادي",
+    "CLUB_NAME_AR": "اسم النادي بالعربية",
+    "ARABIC_DESCRIPTION": "الوصف بالعربية",
+    "CLUB_LOGO": "شعار النادي",
+    "CANCEL": "إلغاء",
+    "SAVE_CHANGES": "حفظ التغييرات",
+    "POST_CONTENT": "محتوى المنشور",
+    "POST_IMAGE": "صورة المنشور",
+    "PUBLISH_POST": "نشر المنشور",
+    "TITLE_LABEL": "العنوان",
+    "ARABIC_TITLE_LABEL": "العنوان بالعربية",
+    "LOCATION": "الموقع",
+    "DATE": "التاريخ",
+    "MAX_ATTENDEES_LABEL": "الحد الأقصى للحضور",
+    "CATEGORY": "الفئة",
+    "WORKSHOPS": "ورش",
+    "DISCUSSIONS": "مناقشات",
+    "EXHIBITIONS": "معارض",
+    "OTHER": "أخرى",
+    "EVENT_IMAGE_LABEL": "صورة الفعالية",
+    "POINTS": "نقطة"
+  },
+  "ACTIVITY_PARTICIPANTS": {
+    "TITLE_SUFFIX": "المشاركين",
+    "LOADING": "جاري التحميل...",
+    "EXPORT_LIST": "تصدير القائمة",
+    "NAME": "الاسم",
+    "ROLE": "الدور",
+    "ACTIONS": "الإجراءات",
+    "VIEW_PROFILE": "عرض الملف الشخصي",
+    "REMOVE_FROM_ACTIVITY": "إزالة من الفعالية",
+    "ID_PREFIX": "الرقم الجامعي:",
+    "NO_PARTICIPANTS": "لم يتم تسجيل أي مشاركين بعد.",
+    "EMPTY_TITLE": "فارغ",
+    "NO_PARTICIPANTS_EXPORT": "لا يوجد مشاركون للتصدير",
+    "STUDENT_NAME": "اسم الطالب",
+    "UNIVERSITY_ID": "الرقم الجامعي",
+    "CONFIRM_TITLE": "هل أنت متأكد؟",
+    "CONFIRM_TEXT": "سيتم إزالة هذا المستخدم من قائمة الفعالية!",
+    "CONFIRM_BUTTON": "نعم، أزلهم!",
+    "REMOVED_TITLE": "تمت الإزالة!",
+    "REMOVED_TEXT": "تمت إزالة المستخدم من الفعالية.",
+    "ERROR_TITLE": "خطأ",
+    "REMOVE_FAILED": "فشل في إزالة المستخدم",
+    "SUCCESS_TITLE": "نجاح",
+    "FILE_DOWNLOADED": "تم تنزيل الملف بنجاح",
+    "ATTENDANCE_LIST": "قائمة الحضور",
+    "ATTENDANCE_FILE_SUFFIX": "الحضور"
   },
   "ACTIVITIES_PAGE": {
     "TITLE": "الفعاليات",
@@ -225,7 +298,11 @@
     "ADD_POST_SUCCESS": "تمت إضافة المنشور بنجاح",
     "ADD_POST_ERROR": "الرجاء كتابة محتوى قبل إرسال المنشور.",
     "POST_DETAILS": "تفاصيل المنشور",
-    "POINTS": "نقاط"
+    "POINTS": "نقطة",
+    "MEMBER_OF": "عضو في",
+    "NO_BIO": "لا توجد نبذة",
+    "VERIFIED_CERTIFICATE": "شهادة موثقة",
+    "POST_IMAGE_ALT": "صورة المنشور"
   },
   "STAFF": {
     "PROFILE_TITLE": "الملف الشخصي",
@@ -238,7 +315,7 @@
     "CONFIRM_NEW_PASSWORD": "أكد كلمة المرور الجديدة",
     "CHANGE_PASSWORD_BTN": "تغيير كلمة المرور",
     "PROMOTE_USER": "ترقية مستخدم إلى قائد نادي",
-    "PROMOTE_DESCRIPTION": "ابحث عن طالب بواسطة الرقم الجامعي لترقيته إلى قائد نادي. سيتمكن بعدها من إنشاء وإدارة الأندية.",
+    "PROMOTE_DESCRIPTION": "ابحث عن طالب بواسطة الرقم الجامعي لترقيته إلى قائد نادي، سيتمكن بعدها من إنشاء وإدارة الأندية.",
     "UNIVERSITY_ID": "الرقم الجامعي",
     "ENTER_UNIVERSITY_ID": "أدخل الرقم الجامعي",
     "SEARCH": "بحث",

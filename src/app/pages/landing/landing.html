@@ -1,24 +1,11 @@
 <section class="landing-page">
-
-  <!-- HERO -->
   <section class="hero">
-
     <div class="hero-glow glow-1"></div>
     <div class="hero-glow glow-2"></div>
     <div class="hero-glow glow-3"></div>
 
-    <div class="hero-badge">
-      <span class="dot"></span>
-      <span>STUDENT COMMUNITY PLATFORM</span>
-    </div>
-
     <div class="hero-inner">
-
-      <img
-        src="assets/images/sparkhub.png"
-        alt="SparkHub Logo"
-        class="hero-logo"
-      />
+      <img src="assets/images/sparkhub.png" alt="SparkHub Logo" class="hero-logo" />
 
       <h1 class="hero-title">
         {{ 'LANDING.HERO_TITLE' | translate }}
@@ -29,69 +16,58 @@
       </p>
 
       <div class="hero-actions">
-
-        <!-- START NOW -->
-        <a class="btn-primary" [routerLink]="['/register']">
+        <a class="btn-secondary" [routerLink]="['/register']">
           {{ 'LANDING.START_NOW' | translate }}
-
-          <i
-            class="bi"
-            [ngClass]="languageSelected === 'en'
-              ? 'bi-arrow-right-short'
-              : 'bi-arrow-left-short'">
-          </i>
+          <ng-container *ngIf="currentLang === 'en'" else #arabicArrow>
+            <span class="arrow">
+              <i class="fas fa-arrow-right"></i>
+            </span>
+          </ng-container>
+          <ng-template #arabicArrow>
+            <span class="arrow">
+              <i class="fas fa-arrow-left"></i>
+            </span>
+            </ng-template>
         </a>
-
       </div>
-
     </div>
-
   </section>
 
-
-  <!-- STATS -->
   <section class="stats-bar">
-
     <div class="stat-box">
       <h3>4+</h3>
-      <p>Student Clubs</p>
+      <p>{{ 'LANDING.STATS.CLUBS' | translate }}</p>
     </div>
 
     <div class="stat-box">
       <h3>200K+</h3>
-      <p>Members</p>
+      <p>{{ 'LANDING.STATS.MEMBERS' | translate }}</p>
     </div>
 
     <div class="stat-box">
       <h3>50+</h3>
-      <p>Activities</p>
+      <p>{{ 'LANDING.STATS.ACTIVITIES' | translate }}</p>
     </div>
 
     <div class="stat-box">
       <h3>50+</h3>
-      <p>Events</p>
+      <p>{{ 'LANDING.STATS.EVENTS' | translate }}
     </div>
-
   </section>
 
-
-  <!-- ABOUT -->
   <section class="about-section" id="about">
-
     <div class="about-left">
-
       <span class="section-tag">
         {{ 'LANDING.WHO_TITLE' | translate }}
       </span>
 
-      <h2>Empowering Student Communities</h2>
+      <h2>{{ 'LANDING.WHO_TITLE' | translate }}</h2>
 
       <p>
         {{ 'LANDING.WHO_BODY' | translate }}
       </p>
 
       <div class="vision-card">
-
         <span class="mini-tag">
           {{ 'LANDING.VISION_TITLE' | translate }}
         </span>
@@ -99,75 +75,44 @@
         <p>
           {{ 'LANDING.VISION_BODY' | translate }}
         </p>
-
       </div>
-
     </div>
 
     <div class="about-right">
-
       <div class="question-card">
         <div class="question-mark">?</div>
-        <span>DISCOVER YOUR PATH</span>
+        <span>{{ 'LANDING.DISCOVER_PATH' | translate }}</span>
       </div>
-
     </div>
-
   </section>
 
-
-  <!-- CLUBS -->
-  <section class="clubs-section">
-
+  <section class="clubs-section" id="clubs">
     <div class="section-head">
-
-      <span class="section-tag">Explore</span>
+      <span class="section-tag">{{ 'LANDING.EXPLORE' | translate }}</span>
 
       <h2>
         {{ 'LANDING.STUDENT_CLUBS' | translate }}
       </h2>
 
-      <p>Find clubs that match your interests</p>
-
+      <p>{{ 'LANDING.CLUBS_SECTION_DESC' | translate }}</p>
     </div>
 
     <div class="clubs-grid">
-
       <div class="club-card">
-        <img src="assets/images/AIclub.png" class="club-logo">
+        <img src="assets/images/AIclub.png" class="club-logo" />
       </div>
 
       <div class="club-card">
-        <img src="assets/images/Cyclub.png" class="club-logo">
+        <img src="assets/images/Cyclub.png" class="club-logo" />
       </div>
 
       <div class="club-card">
-        <img src="assets/images/fablab.png" class="club-logo">
+        <img src="assets/images/fablab.png" class="club-logo" />
       </div>
 
       <div class="club-card">
-        <img src="assets/images/gamesclub.png" class="club-logo">
+        <img src="assets/images/gamesclub.png" class="club-logo" />
       </div>
-
     </div>
-
   </section>
-
-
-  <!-- CTA -->
-  <section class="bottom-cta">
-
-    <h2>Ready To Find Your Spark?</h2>
-
-    <p>
-      Join thousands of students building their future together
-    </p>
-
-    <!-- GET STARTED -->
-    <a class="btn-primary" [routerLink]="['/register']">
-      Get Started
-    </a>
-
-  </section>
-
 </section>

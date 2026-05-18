@@ -102,9 +102,10 @@
               </div>
 
               <small
-                class="text-primary-emphasis bg-primary-subtle rounded-3 p-1"
+                class="text-primary-emphasis bg-primary-subtle rounded-3 p-2"
                 style="justify-content: end"
-                >{{ club.points !== undefined ? club.points : 0 }} Points</small
+                >{{ club.points !== undefined ? club.points : 0 }}
+                {{ 'DASHBOARD.OF_MONTH.CARDS.POINTS' | translate }}</small
               >
             </div>
             <div>
@@ -140,8 +141,8 @@
                 <span *ngIf="i === 0" class="crown-icon" title="Top Student">👑</span>
               </div>
 
-              <small class="text-primary-emphasis bg-primary-subtle rounded-3 p-1">
-                {{ student.points || 0 }} Points
+              <small class="text-primary-emphasis bg-primary-subtle rounded-3 p-2">
+                {{ student.points || 0 }} {{ 'DASHBOARD.OF_MONTH.CARDS.POINTS' | translate }}
               </small>
             </div>
 
@@ -238,15 +239,7 @@
         <div class="modal-box">
           <button class="close-btn" (click)="close()">×</button>
 
-          <!-- <img
-            *ngIf="selectedActivity.image"
-            class="banner"
-            [src]="selectedActivity.image"
-            alt="Activity banner"
-          /> -->
-
           <h2>{{ currentLang === 'ar' ? selectedActivity.title_ar : selectedActivity.title }}</h2>
-
           <p class="description">
             {{
               currentLang === 'ar' ? selectedActivity.description_ar : selectedActivity.description
@@ -254,24 +247,20 @@
           </p>
 
           <div class="details">
+            <div><i class="bi bi-geo-alt"></i> {{ selectedActivity.location }}</div>
             <div>
-              <i class="bi bi-geo-alt"></i>
-              {{ selectedActivity.location }}
-            </div>
-
-            <div>
-              <i class="bi bi-calendar"></i>
-              {{ selectedActivity.date | date: 'dd-MM-yyyy' }}
+              <i class="bi bi-calendar"></i> {{ selectedActivity.date | date: 'dd-MM-yyyy' }}
             </div>
 
             <div>
               <i class="bi bi-people"></i>
-              Max attendees: {{ selectedActivity.max_attendees }}
+              {{ currentLang === 'ar' ? 'العدد الأقصى: ' : 'Max attendees: ' }}
+              {{ selectedActivity.max_attendees }}
             </div>
 
             <div>
               <i class="bi bi-star"></i>
-              Earn points: 3
+              {{ currentLang === 'ar' ? 'نقاط النشاط: ' : 'Earn points: ' }} 3
             </div>
           </div>
 
@@ -280,7 +269,7 @@
             *ngIf="!isPast(selectedActivity)"
             (click)="register(selectedActivity.id)"
           >
-            Register now
+            {{ currentLang === 'ar' ? 'سجل الآن' : 'Register now' }}
           </button>
         </div>
       </div>

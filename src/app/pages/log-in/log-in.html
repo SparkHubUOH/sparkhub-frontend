@@ -13,8 +13,8 @@
     </a>
 
     <div class="header">
-      <h1>{{ 'Welcome back' | translate }}</h1>
-      <p>Enter your information to log in</p>
+      <h1>{{ 'LOGIN.TITLE' | translate }}</h1>
+      <p>{{ 'LOGIN.SUBTITLE' | translate }}</p>
     </div>
 
     <form class="auth-form" [formGroup]="form" (ngSubmit)="login()" novalidate>
@@ -23,7 +23,7 @@
         <span>{{ 'SIGNUP.EMAIL' | translate }}</span>
         <input type="email" formControlName="email" />
         <div *ngIf="form.get('email')?.touched && form.get('email')?.invalid">
-          <small class="error-message">Enter a valid email</small>
+          <small class="error-message">{{ 'LOGIN.EMAIL_ERROR' | translate }}</small>
         </div>
       </label>
 
@@ -31,7 +31,7 @@
         <span>{{ 'SIGNUP.PASSWORD' | translate }}</span>
         <input type="password" formControlName="password" />
         <div *ngIf="form.get('password')?.touched && form.get('password')?.invalid">
-          <small class="error-message">Password is required</small>
+          <small class="error-message">{{ 'LOGIN.PASSWORD_ERROR' | translate }}</small>
         </div>
       </label>
 
@@ -44,7 +44,7 @@
       </button>
 
       <div *ngIf="form.errors?.['invalid']">
-        <small class="error-message">Incorrect email or password</small>
+        <small class="error-message">{{ 'LOGIN.INVALID_CREDENTIALS' | translate }}</small>
       </div>
 
       <p class="alt" [innerHTML]="'LOGIN.NEW' | translate"></p>

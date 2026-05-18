@@ -9,16 +9,16 @@
 
         <div class="profile-card">
           <div class="profile-content">
-            <div style="flex-direction: row; display: flex; gap: 15px">
+            <div style="flex-direction: row; display: flex; gap: 15px; margin-bottom: 10px;">
               <h2 *ngIf="!isEditing">{{ profileData.first_name }} {{ profileData.last_name }}</h2>
               <small class="text-primary-emphasis bg-primary-subtle rounded-3 p-2 fw-bold">
                 <i class="bi bi-star-fill me-1"></i> {{ profileData.points || 0 }}
-                {{ 'POINTS' | translate }}
+                {{ 'STUDENT_PROFILE.POINTS' | translate }}
               </small>
             </div>
-            <h4>{{ authService.getUserRole() | titlecase }}</h4>
+            <!-- <h4>{{ authService.getUserRole()| titlecase }}</h4> -->
             <div class="bio-container">
-              <p *ngIf="!isEditing">{{ profileData.bio || 'No bio available' }}</p>
+              <p *ngIf="!isEditing">{{ profileData.bio || ('STUDENT_PROFILE.NO_BIO' | translate) }}</p>
               <textarea
                 *ngIf="isEditing"
                 [(ngModel)]="profileData.bio"
@@ -30,22 +30,22 @@
           <div class="profile-stats">
             <div class="stat">
               <span>+{{ posts?.length || 0 }}</span>
-              <small>Posts</small>
+              <small>{{ 'STUDENT_PROFILE.POSTS' | translate }}</small>
             </div>
             <div class="stat green">
               <span>+{{ profileData?.skills?.length || 0 }}</span>
-              <small>Skills</small>
+              <small>{{ 'STUDENT_PROFILE.SKILLS' | translate }}</small>
             </div>
             <div class="stat">
               <span>+{{ profileData?.certificates?.length || 0 }}</span>
-              <small>Certificates</small>
+              <small>{{ 'STUDENT_PROFILE.CERTIFICATES' | translate }}</small>
             </div>
           </div>
         </div>
 
         <div class="profile-actions" *ngIf="isMemberOfAnyClub">
           <div class="membership-container">
-            <span class="membership-title">Member of</span>
+            <span class="membership-title">{{ 'STUDENT_PROFILE.MEMBER_OF' | translate }}</span>
 
             <div class="clubs-list-wrapper">
               <div
@@ -73,11 +73,11 @@
 
       <div class="section">
         <div class="section-header">
-          <span class="section-title">Posts</span>
+          <span class="section-title">{{ 'STUDENT_PROFILE.POSTS' | translate }}</span>
         </div>
         <div class="posts-grid">
           <div *ngIf="posts.length === 0" class="no-data">
-            <p>No posts published yet.</p>
+            <p>{{ 'STUDENT_PROFILE.NO_POSTS' | translate }}</p>
           </div>
           <div class="post-card" *ngFor="let post of visiblePosts">
             <div class="post-img">
@@ -100,7 +100,7 @@
               </p>
               <div class="post-meta">
                 <button type="button" (click)="readMore(post)">
-                  {{ post.isExpanded ? 'Read less' : 'Read more' }}
+                  {{ post.isExpanded ? ('STUDENT_PROFILE.READ_LESS' | translate) : ('STUDENT_PROFILE.READ_MORE' | translate) }}
                 </button>
                 <span>{{ post.created_at | date: 'MMM d, y' }}</span>
               </div>
@@ -114,14 +114,14 @@
             (click)="showAllPosts = !showAllPosts"
             *ngIf="posts.length > 3"
           >
-            {{ showAllPosts ? 'Show less <' : 'Show more >' }}
+            {{ showAllPosts ? ('STUDENT_PROFILE.SHOW_LESS' | translate) : ('STUDENT_PROFILE.SHOW_MORE' | translate) }}
           </button>
         </div>
       </div>
 
       <div class="section">
         <div class="section-header">
-          <span class="section-title">Skills</span>
+          <span class="section-title">{{ 'STUDENT_PROFILE.SKILLS' | translate }}</span>
         </div>
 
         <div class="skills-grid">
@@ -134,7 +134,7 @@
 
       <div class="section">
         <div class="section-header">
-          <span class="section-title">Certificates</span>
+          <span class="section-title">{{ 'STUDENT_PROFILE.CERTIFICATES' | translate }}</span>
         </div>
 
         <div class="cert-list">
@@ -142,7 +142,7 @@
             <div class="cert-icon"><i class="bi bi-award-fill"></i></div>
             <div class="cert-info">
               <h4>{{ cert.name }}</h4>
-              <p>{{ cert.issuer || 'Verified Certificate' }}</p>
+              <p>{{ cert.issuer || ('STUDENT_PROFILE.VERIFIED_CERTIFICATE' | translate) }}</p>
             </div>
             <div class="cert-date"><i class="bi bi-calendar3"></i> {{ cert.date }}</div>
           </div>
@@ -155,12 +155,12 @@
 <div class="modal-overlay" *ngIf="showPostDetailModal" (click)="closePostDetailModal()">
   <div class="modal-content post-detail-modal" (click)="$event.stopPropagation()">
     <div class="modal-header">
-      <h3>Post Details</h3>
+      <h3>{{ 'STUDENT_PROFILE.POST_DETAILS' | translate }}</h3>
       <button class="close-btn" (click)="closePostDetailModal()">×</button>
     </div>
 
     <div class="modal-body" *ngIf="selectedPost">
-      <img *ngIf="selectedPost.image" [src]="baseUrl + selectedPost.image" class="full-post-img" />
+      <img *ngIf="selectedPost.image" [src]="baseUrl + selectedPost.image" class="full-post-img" [alt]="('STUDENT_PROFILE.POST_IMAGE_ALT' | translate)" />
       <p class="full-post-content">{{ selectedPost.content }}</p>
       <span class="post-date">{{ selectedPost.created_at | date: 'fullDate' }}</span>
     </div>

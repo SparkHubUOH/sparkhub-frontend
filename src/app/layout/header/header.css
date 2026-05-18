@@ -1,13 +1,16 @@
 :host {
   display: block;
-  /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); */
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
 }
 
 .main-header {
-  background-color: var(--color-light-blue);
+  background-color: transparent;
   color: white;
-  padding: 8px 40px;
+  padding: 10px 40px;
   height: auto;
   justify-content: center;
   display: flex;
@@ -87,7 +90,7 @@
   width: 110px;
   height: 38px;
   border-radius: 12px;
-  background: linear-gradient(135deg, #4f6ef7, #6c8cff);
+  background: var(--color-primary);
   box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25) inset;
   text-decoration: auto;
 }

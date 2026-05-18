@@ -9,9 +9,6 @@
         <a [routerLink]="['/']" class="nav-item">{{ 'HEADER.DISCOVER' | translate }}</a>
         <a class="nav-item" (click)="scrollToSection('about')">{{ 'HEADER.ABOUT' | translate }}</a>
         <a class="nav-item" (click)="scrollToSection('clubs')">{{ 'HEADER.CLUBS' | translate }}</a>
-        <a class="nav-item" (click)="scrollToSection('featured-activities')">{{
-          'HEADER.ACTIVITIES' | translate
-        }}</a>
         <a [routerLink]="['/contact']" class="nav-item">{{ 'HEADER.CONTACT' | translate }}</a>
       </div>
     </nav>
@@ -60,7 +57,6 @@
   </div>
 </header>
 
-<!-- Mobile Navigation -->
 <nav class="nav-mobile-menu" [class.open]="menuOpen && isMobile">
   <a [routerLink]="['/']" class="nav-item">{{ 'HEADER.DISCOVER' | translate }}</a>
   <a class="nav-item" (click)="scrollToSection('about')">{{ 'HEADER.ABOUT' | translate }}</a>

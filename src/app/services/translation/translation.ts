@@ -24,14 +24,15 @@ export class Translation {
   }
 
   useLanguage(lang: string) {
-    this.translate.use(lang);
     localStorage.setItem('lang', lang);
+    this.translate.use(lang);
+    const direction = lang === 'ar' ? 'rtl' : 'ltr';
+    document.documentElement.dir = direction;
   }
 
   get currentLang() {
     return this.translate.getCurrentLang() || this.defaultLang;
   }
-
 }
 
 export { TranslateService };
