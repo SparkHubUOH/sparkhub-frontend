@@ -1,0 +1,95 @@
+<div class="profile-layout">
+  <section class="activities-attended-page" [class.rtl]="currentLang === 'ar'">
+    <div class="profile-header">
+      <ng-container *ngIf="currentLang === 'en'; else arabicArrow">
+          <button class="back-btn" type="button" [routerLink]="['/dashboard']">
+        <i class="bi bi-chevron-left"></i>
+      </button>
+        </ng-container>
+
+        <ng-template #arabicArrow>
+         <button class="back-btn" type="button" [routerLink]="['/dashboard']">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+        </ng-template>
+    </div>
+    <h1 class="page-title">{{ 'ACTIVITIES_REGISTERED.TITLE' | translate }}</h1>
+    <p class="page-description">{{ 'ACTIVITIES_REGISTERED.DESC' | translate }}</p>
+
+    <div class="stats-bar">
+      <div class="stat-box">
+        <span class="stat-label">{{ 'ACTIVITIES_REGISTERED.TOTAL_ACTIVITIES' | translate }}</span>
+        <span class="stat-value">{{ activities.length }}</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-label">{{ 'ACTIVITIES_REGISTERED.UPCOMING' | translate }}</span>
+        <span class="stat-value">{{ upcoming }}</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-label">{{ 'ACTIVITIES_REGISTERED.PAST' | translate }}</span>
+        <span class="stat-value">{{ past }}</span>
+      </div>
+    </div>
+
+    <div class="activities-grid">
+      <div *ngIf="activities.length === 0" class="no-data-msg">
+        {{ 'ACTIVITIES_REGISTERED.NO_DATA' | translate }}
+      </div>
+
+      <article class="activity-card" *ngFor="let activity of activities">
+        <div class="activity-img-wrapper">
+          <img
+            [src]="
+              activity.image
+                ? 'http://localhost:8000' + activity.image
+                : 'assets/images/default-event.jpg'
+            "
+            class="activity-img"
+            alt="Activity image"
+          />
+        </div>
+        <div class="card-body">
+          <div class="first-row">
+            <h2 class="activity-title">
+              {{ currentLang === 'ar' ? activity.title_ar || activity.title : activity.title }}
+            </h2>
+            <span class="activity-category-badge">
+              {{ (activity.category ? getCategoryKey(activity.category) : 'EVENT') | translate }}
+            </span>
+          </div>
+
+          <!-- <p class="activity-description">
+            {{
+              (currentLang === 'ar' ? activity.description_ar : activity.description)
+                | slice: 0 : 80
+            }}...
+          </p> -->
+
+          <div class="activity-info-grid">
+            <div class="info-item">
+              <span class="info-label">{{ 'ACTIVITIES_REGISTERED.DATE' | translate }}</span>
+              <span class="info-value">{{ activity.date | date: 'mediumDate' }}</span>
+            </div>
+
+            <div class="info-item">
+              <span class="info-label">{{ 'ACTIVITIES_REGISTERED.LOCATION' | translate }}</span>
+              <span class="info-value">{{ activity.location }}</span>
+            </div>
+
+            <div class="info-item">
+              <span class="info-label">{{ 'ACTIVITIES_REGISTERED.HOST' | translate }}</span>
+              <span class="info-value">{{
+                activity.host || activity.club_name || 'SparkHub'
+              }}</span>
+            </div>
+          </div>
+
+          <!-- <button type="button" class="view-btn">
+            {{ 'ACTIVITIES_REGISTERED.VIEW_DETAILS' | translate }}
+          </button> -->
+        </div>
+      </article>
+    </div>
+  </section>
+  <app-profile-sidebar></app-profile-sidebar>
+</div>

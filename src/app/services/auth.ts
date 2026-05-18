@@ -61,6 +61,10 @@ export class Auth {
     return this.http.get<any[]>(`${this.apiUrl}/students/`);
   }
 
+  getActivities() {
+    return this.http.get<any[]>(`${this.apiUrl}/activities/all/`);
+  }
+
   getUserRole(): string {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
     return user.role || '';

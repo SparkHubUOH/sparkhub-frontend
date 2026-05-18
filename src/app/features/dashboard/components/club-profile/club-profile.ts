@@ -1,36 +1,108 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Sidebar } from '../../sidebar/sidebar';
+import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ClubService } from '../../../../services/club-service/club-service';
+import { ActivitiesService } from '../../../../services/activities-service/activities-service';
+import { TranslateService } from '../../../../services/translation/translation';
+import { TranslateModule } from '@ngx-translate/core';
+import Swal from 'sweetalert2';
+import { StaffService } from '../../../../services/staff-service/staff-service';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-club-profile',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, Sidebar, TranslateModule, RouterLink],
   templateUrl: './club-profile.html',
-  styleUrl: './club-profile.css'
+  styleUrl: './club-profile.css',
 })
-export class ClubProfile {
+export class ClubProfile implements OnInit {
+  currentLang = 'en';
+  clubId!: number;
+  serverUrl = environment.apiUrl.replace('/api', '');
+  club: any;
+  posts: any[] = [];
+  events: any[] = [];
 
-  isLeader = true;
-  isJoined = false;
+  selectedPost: any = null;
+  showPostDetailModal = false;
+  isJoined: boolean = false;
+  isLeader: boolean = false;
+  showAllPosts: boolean = false;
+  showAllEvents: boolean = false;
+  selectedActivity: any = null;
   isNotified = false;
   isMenuOpen = false;
-  showAllPosts = false;
-  showAllEvents = false;
+  imageError = false;
+  loggedInUserId = 0;
 
-  posts = [
-    { id: 1, date: 'DEC 2025', title: 'نسعد بمشاركتنا في الأسبوع العالمي للأعمال، حيث قدّم فريق...', liked: false },
-    { id: 2, date: 'Nov 2025', title: 'اليوم الثاني من أسبوع ريادة الأعمال مع نادي الذكاء الاصطناعي!', liked: false },
-    { id: 3, date: 'Nov 2025', title: 'أمن الحاسوب، نذّكر أن حماية بياناتنا هي حماية لذكائنا..', liked: false },
-    { id: 4, date: 'Oct 2025', title: 'ورشة عمل جديدة قادمة قريباً...', liked: false },
-  ];
+  constructor(
+    private route: ActivatedRoute,
+    private clubService: ClubService,
+    private cdr: ChangeDetectorRef,
+    private activitiesService: ActivitiesService,
+    private translate: TranslateService,
+    private staffService: StaffService,
+  ) {}
 
-  events = [
-    { id: 1, title: 'Workshop on Introduction to AI', date: '14-11-2025', location: 'Fablab hall' },
-    { id: 2, title: 'في يومنا الوطني.. نحتفل بماضٍ عظيم وحاضر ملهم', date: '24-9-2025', location: 'Aja College' },
-    { id: 3, title: 'Workshop on Big Data Science and AI', date: '20-2-2025', location: 'Fablab hall' },
-    { id: 4, title: 'Workshop on Software Development', date: '24-9-2025', location: 'Fablab hall' },
-    { id: 5, title: 'AI Hackathon 2025', date: '10-1-2025', location: 'Main Hall' },
-  ];
+  ngOnInit(): void {
+    this.clubId = Number(this.route.snapshot.paramMap.get('id'));
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    this.loggedInUserId = user.id;
+
+    this.getClubDetails();
+    this.getClubPosts();
+    this.getClubActivities();
+    this.checkJoinStatus();
+  }
+
+  getClubDetails() {
+    this.clubService.getClubById(this.clubId).subscribe((data) => {
+      this.club = data;
+      console.log('Club:', this.club);
+
+      if (this.club.logo) {
+        const logoPath = this.club.logo.startsWith('/') ? this.club.logo : `/${this.club.logo}`;
+        this.club.logo = this.club.logo.startsWith('http')
+          ? this.club.logo
+          : `${this.serverUrl}${logoPath}`;
+      }
+
+      this.imageError = false;
+      this.cdr.detectChanges();
+
+      setTimeout(() => {
+        this.isJoined = data.is_member_requested || false;
+      }, 0);
+    });
+  }
+
+  getClubPosts() {
+    this.clubService.getPostsByClub(this.clubId).subscribe((data) => {
+      this.posts = data;
+      this.cdr.detectChanges();
+    });
+  }
+
+  getClubActivities() {
+    this.clubService.getActivitiesByClub(this.clubId).subscribe((data) => {
+      this.events = data;
+      this.cdr.detectChanges();
+    });
+  }
+
+  checkJoinStatus() {
+    this.staffService.getClubMembers(this.clubId).subscribe({
+      next: (members) => {
+        const existing = members.find((m: any) => m.user.id === this.loggedInUserId);
+
+        if (existing) {
+          this.isJoined = existing.status !== 'rejected';
+        }
+      },
+    });
+  }
 
   get visiblePosts() {
     return this.showAllPosts ? this.posts : this.posts.slice(0, 3);
@@ -38,6 +110,35 @@ export class ClubProfile {
 
   get visibleEvents() {
     return this.showAllEvents ? this.events : this.events.slice(0, 4);
+  }
+
+  registerEvent(event: any) {
+    this.clubService.registerInActivity(event.id).subscribe({
+      next: () => alert('Registered successfully!'),
+      error: (err: { error: { error: any } }) => alert(err.error.error || 'Registration failed'),
+    });
+  }
+
+  requestToJoin() {
+    this.clubService.joinClub(this.clubId).subscribe({
+      next: (res: any) => {
+        this.isJoined = true;
+
+        Swal.fire({
+          title: 'Request Sent!',
+          text: res.message || 'Your request is pending approval.',
+          icon: 'success',
+          confirmButtonColor: '#1e3a5f',
+        });
+      },
+      error: (err: any) => {
+        Swal.fire({
+          title: 'Note',
+          text: err.error?.message || 'Something went wrong.',
+          icon: 'info',
+        });
+      },
+    });
   }
 
   toggleJoin(): void {
@@ -54,39 +155,14 @@ export class ClubProfile {
     this.isMenuOpen = !this.isMenuOpen;
   }
 
-  addItem(): void {
-    this.isMenuOpen = false;
-    alert('Add clicked');
-  }
-
-  shareClub(): void {
-    this.isMenuOpen = false;
-    navigator.clipboard.writeText(window.location.href);
-    alert('Club link copied');
-  }
-
-  deleteClub(): void {
-    this.isMenuOpen = false;
-
-    if (confirm('Are you sure you want to delete this club?')) {
-      alert('Club deleted');
-    }
-  }
-
   goBack(): void {
     window.history.back();
   }
 
-  createPost(): void {
-    alert('Create Post clicked');
-  }
-
-  createEvent(): void {
-    alert('Create Event clicked');
-  }
-
   readMore(post: any): void {
-    alert(post.title);
+    this.selectedPost = post;
+    this.showPostDetailModal = true;
+    this.cdr.detectChanges();
   }
 
   toggleLike(post: any): void {
@@ -99,11 +175,38 @@ export class ClubProfile {
     alert('Post link copied');
   }
 
-  registerEvent(event: any): void {
-    alert(`Registered for: ${event.title}`);
-  }
-
   viewEvent(event: any): void {
     alert(event.title);
+  }
+
+  openActivity(activity: any) {
+    this.selectedActivity = activity;
+  }
+
+  closePostDetailModal(): void {
+    this.showPostDetailModal = false;
+    this.selectedPost = null;
+  }
+
+  register(activityId: number) {
+    this.activitiesService.registerForActivity(activityId).subscribe({
+      next: (res) => {
+        Swal.fire('Success!', res.message, 'success');
+        this.close();
+      },
+      error: (err) => {
+        const msg = err.error?.message || err.error?.error || 'Something went wrong';
+        Swal.fire('Note', msg, 'info');
+      },
+    });
+  }
+
+  isPast(selectedActivity: any) {
+    const now = new Date();
+    return new Date(selectedActivity.date) < now;
+  }
+
+  close() {
+    this.selectedActivity = null;
   }
 }

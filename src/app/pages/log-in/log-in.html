@@ -36,7 +36,7 @@
       </label>
 
       <div class="actions">
-        <span class="forgot" [innerHTML]="'LOGIN.FORGOT' | translate"></span>
+        <span [routerLink]="['contact']" class="forgot" [innerHTML]="'LOGIN.FORGOT' | translate"></span>
       </div>
 
       <button class="primary" type="submit" [disabled]="form.invalid">

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { Clubs } from "../clubs/clubs";
-import { ProfileSidebar } from "../../../roles/profile-sidebar/profile-sidebar";
+import { Clubs } from '../clubs/clubs';
+import { ProfileSidebar } from '../../../roles/profile-sidebar/profile-sidebar';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -18,6 +18,8 @@ import { Router, RouterLink } from '@angular/router';
 export class ClubsApprovement {
   currentLang = 'en';
   selectedFile: File | null = null;
+  searchTerm = '';
+  filteredClubs: any[] = [];
 
   clubs: any[] = [];
   showCreateModal = false;
@@ -43,74 +45,54 @@ export class ClubsApprovement {
     });
     this.auth.getClubs().subscribe({
       next: (data) => {
-        this.clubs = data;
+        const sortedClubs = data.sort((a: any, b: any) => {
+          const order: any = {
+            pending: 1,
+            active: 2,
+            inactive: 3,
+          };
+
+          return order[a.status] - order[b.status];
+        });
+
+        this.clubs = sortedClubs;
+        this.filteredClubs = sortedClubs;
+
         this.cdr.detectChanges();
       },
+
       error: (err) => {
         console.error(err);
       },
     });
   }
 
-  openCreateModal() {
-    this.showCreateModal = true;
-  }
-
-  closeCreateModal() {
-    this.showCreateModal = false;
-    this.resetForm();
-  }
-
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0];
-  }
-
-  saveNewClub() {
-    if (!this.newClub.club_name.trim() || !this.newClub.club_name_ar.trim()) {
-      alert('Please fill in the required fields');
-      return;
-    }
-    const formData = new FormData();
-    formData.append('club_name', this.newClub.club_name);
-    formData.append('club_name_ar', this.newClub.club_name_ar);
-    formData.append('description', this.newClub.description);
-    formData.append('description_ar', this.newClub.description_ar);
-
-    if (this.selectedFile) {
-      formData.append('logo', this.selectedFile);
-    }
-
-    this.auth.createClub(formData).subscribe({
-      next: (response: any) => {
-        alert('Club request submitted for approval!');
-        this.closeCreateModal();
-        this.ngOnInit();
-      },
-      error: (err: any) => {
-        console.error('Error:', err);
-        alert(err.error?.error || 'Error submitting request');
-      },
-    });
   }
 
   approveClub(id: number, action: string) {
     this.auth.approveClub(id, action).subscribe({
       next: () => {
-        alert(`Club ${action}ed!`);
         this.ngOnInit();
       },
       error: (err: any) => console.error(err),
     });
   }
 
-  resetForm() {
-    this.newClub = {
-      club_name: '',
-      description: '',
-      club_name_ar: '',
-      description_ar: '',
-      logo: '',
-    };
-  }
+  filterClubs() {
+    const term = this.searchTerm.toLowerCase().trim();
 
+    if (!term) {
+      this.filteredClubs = [...this.clubs];
+      return;
+    }
+
+    this.filteredClubs = this.clubs.filter((club) => {
+      const englishName = club.club_name?.toLowerCase() || '';
+      const arabicName = club.club_name_ar?.toLowerCase() || '';
+
+      return englishName.includes(term) || arabicName.includes(term);
+    });
+  }
 }

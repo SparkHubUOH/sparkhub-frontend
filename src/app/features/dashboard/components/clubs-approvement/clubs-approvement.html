@@ -2,18 +2,22 @@
   <div class="clubs-container">
     <div class="clubs-page" [class.rtl]="currentLang === 'ar'">
       <header class="clubs-header">
-
         <button type="button" class="back-button" [routerLink]="['/dashboard']">
-        <span class="back-arrow"></span>
-      </button>
+          <span class="back-arrow"></span>
+        </button>
         <div class="search-wrapper">
           <span class="search-icon"></span>
-          <input type="text" placeholder="{{ 'CLUBS_PAGE.SEARCH_PLACEHOLDER' | translate }}" />
+          <input
+            type="text"
+            [(ngModel)]="searchTerm"
+            (input)="filterClubs()"
+            placeholder="{{ 'CLUBS_PAGE.SEARCH_PLACEHOLDER' | translate }}"
+          />
         </div>
       </header>
 
       <section class="cards-grid">
-        <article class="club-card" *ngFor="let club of clubs">
+        <article class="club-card" *ngFor="let club of filteredClubs">
           <div class="club-card-content">
             <div class="club-main-info">
               <div class="club-avatar">
@@ -60,6 +64,7 @@
                 </span>
                 <h2>{{ currentLang === 'ar' ? club.club_name_ar : club.club_name }}</h2>
                 <p>{{ currentLang === 'ar' ? club.description_ar : club.description }}</p>
+                <p><strong>Requested by: </strong>{{ club.first_name }} {{ club.last_name }}</p>
               </div>
             </div>
 
@@ -82,7 +87,11 @@
             style="align-items: center; display: flex"
           >
             <div class="club-card-actions">
-              <button type="button" class="pill-button">
+              <button
+                [routerLink]="['/dashboard/club-profile', club.id]"
+                type="button"
+                class="pill-button"
+              >
                 {{ 'CLUBS_PAGE.DISCOVER' | translate }}
               </button>
             </div>
@@ -90,74 +99,6 @@
         </article>
       </section>
     </div>
-  <app-profile-sidebar></app-profile-sidebar>
-</div>
-  <div class="modal-overlay" *ngIf="showCreateModal">
-    <div class="modal-dialog" [attr.dir]="currentLang === 'ar' ? 'rtl' : 'ltr'">
-      <div class="modal-header">
-        <div>
-          <h2>{{ 'CLUBS_PAGE.CREATE_CLUB' | translate }}</h2>
-          <p>Enter the club details and upload the logo URL.</p>
-        </div>
-        <button type="button" class="modal-close" (click)="closeCreateModal()">×</button>
-      </div>
-
-      <form class="modal-form" (ngSubmit)="saveNewClub()">
-        <div class="form-grid">
-          <div class="form-group">
-            <label class="form-label">Club Name</label>
-            <input
-              class="form-input"
-              type="text"
-              [(ngModel)]="newClub.club_name"
-              name="club_name"
-              placeholder="Club Name"
-            />
-          </div>
-          <div class="form-group">
-            <label class="form-label">الاسم بالعربية</label>
-            <input
-              class="form-input"
-              type="text"
-              [(ngModel)]="newClub.club_name_ar"
-              name="club_name_ar"
-              placeholder="Club Name Arabic"
-            />
-          </div>
-          <div class="form-group">
-            <label class="form-label">Description</label>
-            <textarea
-              class="form-textarea"
-              [(ngModel)]="newClub.description"
-              name="description"
-              placeholder="Description"
-            ></textarea>
-          </div>
-          <div class="form-group">
-            <label class="form-label">الوصف بالعربية</label>
-            <textarea
-              class="form-textarea"
-              [(ngModel)]="newClub.description_ar"
-              name="description_ar"
-              placeholder="الوصف بالعربية"
-            ></textarea>
-          </div>
-          <div class="form-group full-width">
-            <label class="form-label">Club Logo</label>
-            <input
-              class="form-input"
-              type="file"
-              (change)="onFileSelected($event)"
-              accept="image/*"
-            />
-          </div>
-        </div>
-
-        <div class="modal-actions">
-          <button type="button" class="btn-secondary" (click)="closeCreateModal()">Cancel</button>
-          <button type="button" class="btn-primary" (click)="saveNewClub()">Submit</button>
-        </div>
-      </form>
-    </div>
+    <app-profile-sidebar></app-profile-sidebar>
   </div>
 </div>

@@ -1,137 +1,168 @@
-<div class="user-page">
+<div class="profile-layout">
+  <app-sidebar></app-sidebar>
+  <div class="content" [class.rtl]="currentLang === 'ar'" [class.rtl]="currentLang === 'ar'">
+    <div class="user-page">
+      <div class="profile-hero">
+        <div class="avatar-circle">
+          <i class="bi bi-person-fill"></i>
+        </div>
 
-  <div class="profile-header">
-    <button class="back-btn" type="button" (click)="goBack()">
-      <i class="bi bi-chevron-left"></i>
-    </button>
+        <div class="profile-card">
+          <div class="profile-content">
+            <div style="flex-direction: row; display: flex; gap: 15px">
+              <h2 *ngIf="!isEditing">{{ profileData.first_name }} {{ profileData.last_name }}</h2>
+              <small class="text-primary-emphasis bg-primary-subtle rounded-3 p-2 fw-bold">
+                <i class="bi bi-star-fill me-1"></i> {{ profileData.points || 0 }}
+                {{ 'POINTS' | translate }}
+              </small>
+            </div>
+            <h4>{{ authService.getUserRole() | titlecase }}</h4>
+            <div class="bio-container">
+              <p *ngIf="!isEditing">{{ profileData.bio || 'No bio available' }}</p>
+              <textarea
+                *ngIf="isEditing"
+                [(ngModel)]="profileData.bio"
+                class="edit-bio-input"
+              ></textarea>
+            </div>
+          </div>
 
-    <img
-      src="assets/images/Sparkhub-logo.png"
-      class="sparkhub-logo"
-      alt="SparkHub Logo"
-    />
-  </div>
+          <div class="profile-stats">
+            <div class="stat">
+              <span>+{{ posts?.length || 0 }}</span>
+              <small>Posts</small>
+            </div>
+            <div class="stat green">
+              <span>+{{ profileData?.skills?.length || 0 }}</span>
+              <small>Skills</small>
+            </div>
+            <div class="stat">
+              <span>+{{ profileData?.certificates?.length || 0 }}</span>
+              <small>Certificates</small>
+            </div>
+          </div>
+        </div>
 
-  <div class="profile-hero">
+        <div class="profile-actions" *ngIf="isMemberOfAnyClub">
+          <div class="membership-container">
+            <span class="membership-title">Member of</span>
 
-    <div class="avatar-circle">
-      <i class="bi bi-person-fill"></i>
-    </div>
-
-    <div class="profile-card">
-      <div class="profile-content">
-        <h2>Latifa Alanazi</h2>
-        <h4>Software Engineering Student</h4>
-        <p>
-          Passionate about software testing, quality assurance, and building
-          useful digital solutions.
-        </p>
+            <div class="clubs-list-wrapper">
+              <div
+                class="club-item"
+                *ngFor="let club of userClubs"
+                [routerLink]="['/dashboard/club-profile', club.id]"
+              >
+                <div class="logo-wrapper">
+                  <img
+                    *ngIf="club.logo"
+                    [src]="club.logo"
+                    [alt]="club.club_name"
+                    class="club-img"
+                  />
+                  <div *ngIf="!club.logo" class="logo-fallback">
+                    {{ club.club_name[0] }}
+                  </div>
+                </div>
+                <span class="tooltip-text">{{ club.club_name }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div class="profile-stats">
-        <div class="stat">
-          <span>+12</span>
-          <small>posts</small>
+      <div class="section">
+        <div class="section-header">
+          <span class="section-title">Posts</span>
         </div>
+        <div class="posts-grid">
+          <div *ngIf="posts.length === 0" class="no-data">
+            <p>No posts published yet.</p>
+          </div>
+          <div class="post-card" *ngFor="let post of visiblePosts">
+            <div class="post-img">
+              <img
+                *ngIf="post.image"
+                [src]="baseUrl + post.image"
+                alt="Post image"
+                style="width: 100%; height: 100%; object-fit: cover"
+              />
+              <i *ngIf="!post.image" class="bi bi-image"></i>
+            </div>
 
-        <div class="stat green">
-          <span>+8</span>
-          <small>skills</small>
+            <div class="post-body">
+              <p [class.expanded]="post.isExpanded">
+                {{
+                  post.isExpanded
+                    ? post.content
+                    : (post.content | slice: 0 : 100) + (post.content.length > 100 ? '...' : '')
+                }}
+              </p>
+              <div class="post-meta">
+                <button type="button" (click)="readMore(post)">
+                  {{ post.isExpanded ? 'Read less' : 'Read more' }}
+                </button>
+                <span>{{ post.created_at | date: 'MMM d, y' }}</span>
+              </div>
+            </div>
+          </div>
         </div>
-
-        <div class="stat">
-          <span>+3</span>
-          <small>certificates</small>
+        <div style="text-align: end; margin-top: 10px">
+          <button
+            class="show-link"
+            type="button"
+            (click)="showAllPosts = !showAllPosts"
+            *ngIf="posts.length > 3"
+          >
+            {{ showAllPosts ? 'Show less <' : 'Show more >' }}
+          </button>
         </div>
       </div>
-    </div>
 
-    <div class="profile-actions">
-      <button class="btn-edit" type="button" (click)="editProfile()">
-        <i class="bi bi-pencil-fill"></i>
-        Edit Profile
-      </button>
-
-      <button class="btn-share" type="button" (click)="shareProfile()">
-        <i class="bi bi-share-fill"></i>
-        Share Profile
-      </button>
-    </div>
-
-  </div>
-
-  <div class="section">
-    <div class="section-header">
-      <span class="section-title">Posts</span>
-
-      <button class="show-link" type="button" (click)="showAllPosts = !showAllPosts">
-        {{ showAllPosts ? 'Show less ←' : 'Show more →' }}
-      </button>
-    </div>
-
-    <div class="posts-grid">
-      <div class="post-card" *ngFor="let post of visiblePosts">
-        <div class="post-img">
-          <i class="bi bi-image"></i>
+      <div class="section">
+        <div class="section-header">
+          <span class="section-title">Skills</span>
         </div>
 
-        <div class="post-body">
-          <p>{{ post.title }}</p>
+        <div class="skills-grid">
+          <div class="skill-chip" *ngFor="let skill of visibleSkills">
+            <span class="skill-icon"><i class="bi bi-code-slash"></i></span>
+            {{ skill.name }}
+          </div>
+        </div>
+      </div>
 
-          <div class="post-meta">
-            <button type="button" (click)="readMore(post)">Read more</button>
-            <span>{{ post.date }}</span>
+      <div class="section">
+        <div class="section-header">
+          <span class="section-title">Certificates</span>
+        </div>
+
+        <div class="cert-list">
+          <div class="cert-card" *ngFor="let cert of visibleCertificates">
+            <div class="cert-icon"><i class="bi bi-award-fill"></i></div>
+            <div class="cert-info">
+              <h4>{{ cert.name }}</h4>
+              <p>{{ cert.issuer || 'Verified Certificate' }}</p>
+            </div>
+            <div class="cert-date"><i class="bi bi-calendar3"></i> {{ cert.date }}</div>
           </div>
         </div>
       </div>
     </div>
   </div>
+</div>
 
-  <div class="section">
-    <div class="section-header">
-      <span class="section-title">Skills</span>
-
-      <button class="show-link" type="button" (click)="showAllSkills = !showAllSkills">
-        {{ showAllSkills ? 'Show less ←' : 'Show more →' }}
-      </button>
+<div class="modal-overlay" *ngIf="showPostDetailModal" (click)="closePostDetailModal()">
+  <div class="modal-content post-detail-modal" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>Post Details</h3>
+      <button class="close-btn" (click)="closePostDetailModal()">×</button>
     </div>
 
-    <div class="skills-grid">
-      <div class="skill-chip" *ngFor="let skill of visibleSkills">
-        <span class="skill-icon">
-          <i class="bi bi-code-slash"></i>
-        </span>
-        {{ skill }}
-      </div>
+    <div class="modal-body" *ngIf="selectedPost">
+      <img *ngIf="selectedPost.image" [src]="baseUrl + selectedPost.image" class="full-post-img" />
+      <p class="full-post-content">{{ selectedPost.content }}</p>
+      <span class="post-date">{{ selectedPost.created_at | date: 'fullDate' }}</span>
     </div>
   </div>
-
-  <div class="section">
-    <div class="section-header">
-      <span class="section-title">Certificates</span>
-
-      <button class="show-link" type="button" (click)="showAllCertificates = !showAllCertificates">
-        {{ showAllCertificates ? 'Show less ←' : 'Show more →' }}
-      </button>
-    </div>
-
-    <div class="cert-list">
-      <div class="cert-card" *ngFor="let cert of visibleCertificates">
-        <div class="cert-icon">
-          <i class="bi bi-award-fill"></i>
-        </div>
-
-        <div class="cert-info">
-          <h4>{{ cert.name }}</h4>
-          <p>{{ cert.issuer }}</p>
-        </div>
-
-        <div class="cert-date">
-          <i class="bi bi-calendar3"></i>
-          {{ cert.date }}
-        </div>
-      </div>
-    </div>
-  </div>
-
 </div>

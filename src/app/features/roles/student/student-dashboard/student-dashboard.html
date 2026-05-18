@@ -1,222 +1,415 @@
-<div class="student-profile" [class.rtl]="currentLang === 'ar'">
-  <header class="profile-header">
-    <div class="header-top">
-      <button type="button" class="back-button" [routerLink]="['/dashboard']">
-        <span class="back-arrow"></span>
-      </button>
-      <div class="header-actions">
-        <button type="button" class="icon-button" title="Edit" (click)="toggleEdit()">
-          <span class="edit-icon">✎</span>
-          {{ isEditing ? 'Save' : ('STUDENT_PROFILE.EDIT' | translate) }}
-        </button>
+<div class="profile-layout">
+  <div class="profile-main-layout" [class.rtl]="currentLang === 'ar'">
+    <div class="user-page">
+      <div class="profile-header">
+        <ng-container *ngIf="currentLang === 'en'; else arabicArrow">
+          <button class="back-btn" type="button" [routerLink]="['/dashboard']">
+            <i class="bi bi-chevron-left"></i>
+          </button>
+        </ng-container>
+
+        <ng-template #arabicArrow>
+          <button class="back-btn" [routerLink]="['/dashboard']">
+            <i class="bi bi-chevron-right"></i>
+          </button>
+        </ng-template>
       </div>
-    </div>
-  </header>
 
-  <main class="profile-container">
-    <section class="profile-section">
-      <h1>{{ 'STUDENT_PROFILE.TITLE' | translate }}</h1>
+      <div class="profile-hero">
+        <div class="avatar-circle">
+          <i class="bi bi-person-fill"></i>
+        </div>
 
-      <div class="profile-fields">
-        <div class="field-row">
-          <div class="field">
-            <label>{{ 'STUDENT_PROFILE.FIRST_NAME' | translate }}</label>
-            <input type="text" [readOnly]="!isEditing" [(ngModel)]="profileData.first_name" />
+        <div class="profile-card">
+          <div class="profile-content">
+            <div style="flex-direction: row; display: flex; gap: 15px">
+              <h2 *ngIf="!isEditing">{{ profileData.first_name }} {{ profileData.last_name }}</h2>
+              <small class="text-primary-emphasis bg-primary-subtle rounded-3 p-2 fw-bold">
+                <i class="bi bi-star-fill me-1"></i> {{ profileData.points || 0 }}
+                {{ 'POINTS' | translate }}
+              </small>
+            </div>
+            <div class="section" *ngIf="isEditing">
+              <h2 class="section-title">{{ 'STUDENT_PROFILE.PERSONAL_INFO' | translate }}</h2>
+              <div class="profile-fields-grid">
+                <input
+                  type="text"
+                  [(ngModel)]="profileData.first_name"
+                  placeholder="{{ 'STUDENT_PROFILE.FIRST_NAME' | translate }}"
+                />
+                <input
+                  type="text"
+                  [(ngModel)]="profileData.last_name"
+                  placeholder="{{ 'STUDENT_PROFILE.LAST_NAME' | translate }}"
+                />
+                <input
+                  type="email"
+                  [(ngModel)]="profileData.email"
+                  placeholder="{{ 'STUDENT_PROFILE.EMAIL' | translate }}"
+                />
+                <input
+                  type="text"
+                  [(ngModel)]="profileData.phone"
+                  placeholder="{{ 'STUDENT_PROFILE.PHONE' | translate }}"
+                />
+              </div>
+            </div>
+            <h4>{{ authService.getUserRole() | titlecase }}</h4>
+
+            <div class="bio-container">
+              <p *ngIf="!isEditing">{{ profileData.bio || 'No bio available' }}</p>
+              <textarea
+                *ngIf="isEditing"
+                [(ngModel)]="profileData.bio"
+                class="edit-bio-input"
+              ></textarea>
+            </div>
           </div>
-          <div class="field">
-            <label>{{ 'STUDENT_PROFILE.LAST_NAME' | translate }}</label>
-            <input type="text" [readOnly]="!isEditing" [(ngModel)]="profileData.last_name" />
+
+          <div class="profile-stats" *ngIf="authService.getUserRole() === '!staff'">
+            <div class="stat">
+              <span>+{{ posts?.length || 0 }}</span>
+              <small>{{ 'STUDENT_PROFILE.POSTS' | translate }}</small>
+            </div>
+            <div class="stat green">
+              <span>+{{ profileData.skills?.length || 0 }}</span>
+              <small>{{ 'STUDENT_PROFILE.SKILLS' | translate }}</small>
+            </div>
+            <div class="stat">
+              <span>+{{ profileData.certificates?.length || 0 }}</span>
+              <small>{{ 'STUDENT_PROFILE.CERTIFICATES' | translate }}</small>
+            </div>
           </div>
         </div>
 
-        <div class="field-row">
-          <div class="field">
-            <label>{{ 'STUDENT_PROFILE.EMAIL' | translate }}</label>
-            <input type="text" [readOnly]="!isEditing" [(ngModel)]="profileData.email" />
-          </div>
-          <div class="field">
-            <label>{{ 'STUDENT_PROFILE.PHONE' | translate }}</label>
-            <input type="text" [readOnly]="!isEditing" [(ngModel)]="profileData.phone" />
-          </div>
+        <div class="profile-actions">
+          <button *ngIf="isOwnProfile()" class="btn-edit" type="button" (click)="toggleEdit()">
+            <i class="bi" [ngClass]="isEditing ? 'bi-check-lg' : 'bi-pencil-fill'"></i>
+            {{
+              isEditing
+                ? currentLang === 'en'
+                  ? 'Save Changes'
+                  : 'حفظ التغييرات'
+                : currentLang === 'en'
+                  ? 'Edit Profile'
+                  : 'تعديل الملف الشخصي'
+            }}
+          </button>
+
+          <button class="btn-share" type="button" (click)="shareProfile()">
+            <i class="bi bi-share-fill"></i>
+            {{ 'STUDENT_PROFILE.SHARE' | translate }}
+          </button>
         </div>
       </div>
-    </section>
 
-    <section
-      class="profile-section"
-      *ngIf="authService.getUserRole() === 'student' || authService.getUserRole() === 'leader'"
-    >
-      <h2>{{ 'STUDENT_PROFILE.OVERVIEW' | translate }}</h2>
-      <div class="bio-box">
-        <textarea *ngIf="isEditing" [(ngModel)]="profileData.bio"> </textarea>
-        <p *ngIf="!isEditing">{{ profileData.bio }}</p>
-      </div>
-    </section>
-
-    <section
-      class="profile-section"
-      *ngIf="authService.getUserRole() === 'student' || authService.getUserRole() === 'leader'"
-    >
-      <h2>{{ 'STUDENT_PROFILE.CERTIFICATES' | translate }}</h2>
-      <div class="certificates-grid">
-        <div class="certificate-card" *ngFor="let cert of profileData.certificates">
-          <h3>{{ cert.name }}</h3>
-          <p>{{ cert.date }}</p>
-          <button class="btn btn-danger" (click)="deleteCertificate(cert.id)">Delete</button>
+      <div class="section" *ngIf="authService.getUserRole() === 'student' || authService.getUserRole() === 'leader'">
+        <div class="section-header">
+          <span class="section-title" style="padding-inline-end: 15px">{{
+            'STUDENT_PROFILE.POSTS' | translate
+          }}</span>
+          <button *ngIf="isOwnProfile()" class="show-link" type="button" (click)="openPostModal()">
+            {{ 'STUDENT_PROFILE.ADD_POST' | translate }}
+          </button>
         </div>
-        <button type="button" class="add-button" (click)="openCertificateModal()">
-          {{ 'STUDENT_PROFILE.ADD_CERTIFICATE' | translate }}
-        </button>
-      </div>
-    </section>
+        <div class="posts-grid">
+          <div *ngIf="posts.length === 0" class="no-data">
+            <p>{{ 'STUDENT_PROFILE.NO_POSTS' | translate }}</p>
+          </div>
+          <div class="post-card" *ngFor="let post of visiblePosts">
+            <div class="post-img">
+              <img
+                *ngIf="post.image"
+                [src]="post.image"
+                alt="Post image"
+                style="width: 100%; height: 100%; object-fit: cover"
+              />
+              <i *ngIf="!post.image" class="bi bi-image"></i>
+            </div>
 
-    <section
-      class="profile-section"
-      *ngIf="authService.getUserRole() === 'student' || authService.getUserRole() === 'leader'"
-    >
-      <h2>{{ 'STUDENT_PROFILE.SKILLS' | translate }}</h2>
-      <div class="skills-container">
+            <div class="post-body">
+              <p [class.expanded]="post.isExpanded">
+                {{
+                  post.isExpanded
+                    ? post.content
+                    : (post.content | slice: 0 : 100) + (post.content.length > 100 ? '...' : '')
+                }}
+              </p>
+              <div class="post-meta">
+                <button type="button" (click)="readMore(post)">
+                  {{
+                    post.isExpanded
+                      ? currentLang === 'en'
+                        ? 'Read less'
+                        : 'اقرأ أقل'
+                      : currentLang === 'en'
+                        ? 'Read more'
+                        : 'اقرأ أكثر'
+                  }}
+                </button>
+                <span>{{ post.created_at | date: 'MMM d, y' }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="text-align: end; margin-top: 10px">
+          <button
+            class="show-link"
+            type="button"
+            (click)="showAllPosts = !showAllPosts"
+            *ngIf="posts.length > 3"
+          >
+            {{
+              showAllPosts
+                ? currentLang === 'en'
+                  ? 'Show less <'
+                  : 'أظهر أقل <'
+                : currentLang === 'en'
+                  ? 'Show more >'
+                  : 'أظهر أكثر >'
+            }}
+          </button>
+        </div>
+      </div>
+
+      <div class="section" *ngIf="authService.getUserRole() === 'student' || authService.getUserRole() === 'leader'">
+        <div class="section-header">
+          <span class="section-title" style="padding-inline-end: 15px">{{
+            'STUDENT_PROFILE.SKILLS' | translate
+          }}</span>
+          <button class="show-link" type="button" (click)="openSkillModal()">
+            {{ 'STUDENT_PROFILE.ADD_SKILL' | translate }}
+          </button>
+        </div>
+
         <div class="skills-grid">
-          <span class="skill-tag" *ngFor="let skill of profileData.skills">
+          <div class="skill-chip" *ngFor="let skill of profileData.skills">
+            <span class="skill-icon"><i class="bi bi-code-slash"></i></span>
             {{ skill.name }}
-            <button class="btn-secondary" (click)="deleteSkill(skill.id)">x</button>
+            <button *ngIf="isEditing" class="delete-mini-btn" (click)="deleteSkill(skill.id)">
+              ×
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="section" *ngIf="authService.getUserRole() === 'student' || authService.getUserRole() === 'leader'">
+        <div class="section-header">
+          <span class="section-title" style="padding-inline-end: 15px">{{
+            'STUDENT_PROFILE.CERTIFICATES' | translate
+          }}</span>
+          <button
+            *ngIf="isOwnProfile()"
+            class="show-link"
+            type="button"
+            (click)="openCertificateModal()"
+          >
+            {{ 'STUDENT_PROFILE.ADD_CERTIFICATE' | translate }}
+          </button>
+        </div>
+
+        <div class="cert-list">
+          <div class="cert-card" *ngFor="let cert of profileData.certificates">
+            <div class="cert-icon"><i class="bi bi-award-fill"></i></div>
+            <div class="cert-info">
+              <h4>{{ cert.name }}</h4>
+              <p>{{ cert.issuer || 'Verified Certificate' }}</p>
+            </div>
+            <div class="cert-date">
+              <i class="bi bi-calendar3"></i> {{ cert.date }}
+              <button
+                *ngIf="isOwnProfile() && isEditing"
+                class="btn-delete-cert"
+                (click)="deleteCertificate(cert.id)"
+              >
+                <i class="bi bi-trash"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section" *ngIf="authService.getUserRole() === 'staff'">
+        <div class="section-header">
+          <span class="section-title">
+            {{ 'STAFF.CHANGE_PASSWORD' | translate }}
           </span>
         </div>
-        <button type="button" class="add-skill-button" (click)="openSkillModal()">
-          {{ 'STUDENT_PROFILE.ADD_SKILL' | translate }}
-        </button>
-      </div>
-    </section>
 
-    <section class="profile-section" *ngIf="authService.getUserRole() === 'staff'">
-      <div class="section-header" (click)="toggleSection('password')">
-        <h1>{{ 'STAFF.CHANGE_PASSWORD' | translate }}</h1>
-      </div>
-      <div class="section-content" *ngIf="activeSection === 'password'">
-        <div class="form-group">
-          <label for="currentPassword">{{ 'STAFF.CURRENT_PASSWORD' | translate }}</label>
-          <input
-            type="password"
-            id="currentPassword"
-            [(ngModel)]="currentPassword"
-            class="form-control"
-            placeholder="{{ 'STAFF.ENTER_CURRENT_PASSWORD' | translate }}"
-          />
-        </div>
-        <div class="form-group">
-          <label for="newPassword">{{ 'STAFF.NEW_PASSWORD' | translate }}</label>
-          <input
-            type="password"
-            id="newPassword"
-            [(ngModel)]="newPassword"
-            class="form-control"
-            placeholder="{{ 'STAFF.ENTER_NEW_PASSWORD' | translate }}"
-          />
-        </div>
-        <div class="form-group">
-          <label for="confirmPassword">{{ 'STAFF.CONFIRM_PASSWORD' | translate }}</label>
-          <input
-            type="password"
-            id="confirmPassword"
-            [(ngModel)]="confirmPassword"
-            class="form-control"
-            placeholder="{{ 'STAFF.CONFIRM_NEW_PASSWORD' | translate }}"
-          />
-        </div>
-        <div class="message error" *ngIf="passwordError">
-          <i class="bi bi-exclamation-circle"></i> {{ passwordError }}
-        </div>
-        <div class="message success" *ngIf="passwordMessage as passwordMessage">
-          <i class="bi bi-check-circle"></i> {{ passwordMessage }}
-        </div>
-        <button
-          class="btn btn-primary"
-          (click)="onChangePassword()"
-          [disabled]="isChangingPassword"
-        >
-          <span *ngIf="isChangingPassword" class="spinner"></span>
-          {{ 'STAFF.CHANGE_PASSWORD_BTN' | translate }}
-        </button>
-      </div>
-    </section>
+        <div class="staff-card">
+          <div class="profile-fields-grid">
+            <div class="form-group">
+              <label for="currentPassword">
+                {{ 'STAFF.CURRENT_PASSWORD' | translate }}
+              </label>
 
-    <section class="profile-section" *ngIf="authService.getUserRole() === 'staff'">
-      <div class="section-header">
-        <h1>{{ 'STAFF.PROMOTE_USER' | translate }}</h1>
-      </div>
-      <div class="section-content">
-        <p class="section-description">
-          {{ 'STAFF.PROMOTE_DESCRIPTION' | translate }}
-        </p>
-        <div class="search-row">
-          <div class="form-group flex-grow">
-            <label for="universityId">{{ 'STAFF.UNIVERSITY_ID' | translate }}</label>
-            <div style="flex-direction: row; display: flex; gap: 10px;">
+              <input
+                type="password"
+                id="currentPassword"
+                [(ngModel)]="currentPassword"
+                class="form-control"
+                placeholder="{{ 'STAFF.ENTER_CURRENT_PASSWORD' | translate }}"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="newPassword">
+                {{ 'STAFF.NEW_PASSWORD' | translate }}
+              </label>
+
+              <input
+                type="password"
+                id="newPassword"
+                [(ngModel)]="newPassword"
+                class="form-control"
+                placeholder="{{ 'STAFF.ENTER_NEW_PASSWORD' | translate }}"
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="confirmPassword">
+              {{ 'STAFF.CONFIRM_PASSWORD' | translate }}
+            </label>
+
             <input
-              type="text"
-              id="universityId"
-              [(ngModel)]="searchUniversityId"
+              type="password"
+              id="confirmPassword"
+              [(ngModel)]="confirmPassword"
               class="form-control"
-              placeholder="{{ 'STAFF.ENTER_UNIVERSITY_ID' | translate }}"
-              (keyup.enter)="onSearchUser()"
+              placeholder="{{ 'STAFF.CONFIRM_NEW_PASSWORD' | translate }}"
             />
-            <button
-            class="btn btn-secondary search-btn"
-            (click)="onSearchUser()"
-            [disabled]="isSearching"
+          </div>
+
+          <div class="message error" *ngIf="passwordError">
+            <i class="bi bi-exclamation-circle"></i>
+            {{ passwordError }}
+          </div>
+
+          <div class="message success" *ngIf="passwordMessage">
+            <i class="bi bi-check-circle"></i>
+            {{ passwordMessage }}
+          </div>
+
+          <button
+            class="btn-edit save-profile-btn"
+            style="min-height: 50px; width: 200px"
+            (click)="onChangePassword()"
+            [disabled]="isChangingPassword"
           >
-            <i class="bi bi-search"></i>
-            {{ 'STAFF.SEARCH' | translate }}
+            <span *ngIf="isChangingPassword" class="spinner"></span>
+
+            {{ 'STAFF.CHANGE_PASSWORD_BTN' | translate }}
           </button>
-          </div>
-          </div>
-          
         </div>
-        <div class="message error" *ngIf="userSearchError">
-          <i class="bi bi-exclamation-circle"></i> {{ userSearchError }}
+      </div>
+
+      <div class="section" *ngIf="authService.getUserRole() === 'staff'">
+        <div class="section-header">
+          <span class="section-title">
+            {{ 'STAFF.PROMOTE_USER' | translate }}
+          </span>
         </div>
 
-        <div class="user-card" *ngIf="foundUser">
-          <div class="user-info">
-            <div class="user-avatar">
-            </div>
-            <div class="user-details">
-              <h3>{{ foundUser.full_name }}</h3>
-              <p class="university-id">{{ foundUser.university_id }}</p>
-              <p class="email">{{ foundUser.email }}</p>
-              <span class="role-badge" [class]="foundUser.role">
-                {{ foundUser.role | titlecase }}
-              </span>
+        <div class="staff-card">
+          <p class="section-description">
+            {{ 'STAFF.PROMOTE_DESCRIPTION' | translate }}
+          </p>
+
+          <div class="form-group">
+            <label for="universityId">
+              {{ 'STAFF.UNIVERSITY_ID' | translate }}
+            </label>
+
+            <div class="search-wrapper">
+              <input
+                type="text"
+                id="universityId"
+                [(ngModel)]="searchUniversityId"
+                class="form-control"
+                placeholder="{{ 'STAFF.ENTER_UNIVERSITY_ID' | translate }}"
+                (keyup.enter)="onSearchUser()"
+              />
+
+              <button
+                class="btn-edit search-btn-custom"
+                (click)="onSearchUser()"
+                style="min-height: 50px;"
+                [disabled]="isSearching"
+              >
+                <i class="bi bi-search"></i>
+
+                {{ 'STAFF.SEARCH' | translate }}
+              </button>
             </div>
           </div>
-          <div class="user-actions">
-            <div class="message success" *ngIf="promoteMessage">
-              <i class="bi bi-check-circle"></i> {{ promoteMessage }}
+
+          <div class="message error" *ngIf="userSearchError">
+            <i class="bi bi-exclamation-circle"></i>
+            {{ userSearchError }}
+          </div>
+
+          <div class="promote-user-card" *ngIf="foundUser">
+            <div class="user-info">
+              <div class="user-avatar">
+                <i class="bi bi-person-fill"></i>
+              </div>
+
+              <div class="user-details">
+                <h3>{{ foundUser.full_name }}</h3>
+
+                <p class="university-id">
+                  {{ foundUser.university_id }}
+                </p>
+
+                <p class="email">
+                  {{ foundUser.email }}
+                </p>
+
+                <span class="role-badge" [class]="foundUser.role">
+                  {{ foundUser.role | titlecase }}
+                </span>
+              </div>
             </div>
-            <button
-              class="btn btn-primary"
-              (click)="onPromoteUser()"
-              [disabled]="isPromoting || foundUser.role === 'leader'"
-              *ngIf="foundUser.role !== 'leader'"
-            >
-              <span *ngIf="isPromoting" class="spinner"></span>
-              <i class="bi bi-arrow-up-circle" *ngIf="!isPromoting"></i>
-              {{ 'STAFF.PROMOTE_TO_LEADER' | translate }}
-            </button>
-            <button class="btn btn-outline" (click)="clearSearch()">
-              {{ 'STAFF.CLEAR' | translate }}
-            </button>
+
+            <div class="user-actions">
+              <button
+                class="btn-edit"
+                (click)="onPromoteUser()"
+                style="min-height: 50px; width: 200px"
+                [disabled]="isPromoting || foundUser.role === 'leader'"
+                *ngIf="foundUser.role !== 'leader'"
+              >
+                <span *ngIf="isPromoting" class="spinner"></span>
+
+                <i class="bi bi-arrow-up-circle" *ngIf="!isPromoting"></i>
+
+                {{ 'STAFF.PROMOTE_TO_LEADER' | translate }}
+              </button>
+
+              <button class="btn-share" style="min-height: 50px;" (click)="clearSearch()">
+                {{ 'STAFF.CLEAR' | translate }}
+              </button>
+            </div>
+
+            <div class="message success" *ngIf="promoteMessage">
+              <i class="bi bi-check-circle"></i>
+              {{ promoteMessage }}
+            </div>
           </div>
         </div>
       </div>
-    </section>
-  </main>
+    </div>
+  </div>
 
-  <!-- Certificate Pop up -->
+  
   <div class="modal-overlay" *ngIf="showCertificateModal" (click)="closeCertificateModal()">
     <div class="modal-content" (click)="$event.stopPropagation()">
       <div class="modal-header">
-        <h2>{{ 'STUDENT_PROFILE.ADD_CERTIFICATE' | translate }}</h2>
+        <div style="display: ruby">
+          <h2>{{ 'STUDENT_PROFILE.ADD_CERTIFICATE' | translate }}</h2>
+          <small class="text-primary-emphasis bg-primary-subtle rounded-3 p-1"> 5 Points </small>
+        </div>
         <button type="button" class="modal-close" (click)="closeCertificateModal()">×</button>
       </div>
       <div class="modal-body">
@@ -263,11 +456,13 @@
     </div>
   </div>
 
-  <!-- Skill Pop up -->
   <div class="modal-overlay" *ngIf="showSkillModal" (click)="closeSkillModal()">
     <div class="modal-content" (click)="$event.stopPropagation()">
       <div class="modal-header">
-        <h2>{{ 'STUDENT_PROFILE.ADD_SKILL' | translate }}</h2>
+        <div style="display: ruby">
+          <h2>{{ 'STUDENT_PROFILE.ADD_SKILL' | translate }}</h2>
+          <small class="text-primary-emphasis bg-primary-subtle rounded-3 p-1"> 2 Points </small>
+        </div>
         <button type="button" class="modal-close" (click)="closeSkillModal()">×</button>
       </div>
       <div class="modal-body">
@@ -298,26 +493,81 @@
       </div>
     </div>
   </div>
-</div>
 
+  <div class="modal-overlay" *ngIf="showPostModal" (click)="closePostModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <div style="display: ruby">
+          <h2>{{ 'STUDENT_PROFILE.ADD_POST' | translate }}</h2>
+          <small class="text-primary-emphasis bg-primary-subtle rounded-3 p-1"> 10 Points </small>
+        </div>
+        <button type="button" class="modal-close" (click)="closePostModal()">×</button>
+      </div>
 
+      <div class="modal-body">
+        <form (ngSubmit)="submitPost()" novalidate enctype="multipart/form-data">
+          <div class="form-group">
+            <label>{{ 'STUDENT_PROFILE.POST_CONTENT' | translate }}</label>
+            <textarea
+              class="form-input"
+              [(ngModel)]="postForm.content"
+              name="postContent"
+              placeholder="Write your post here..."
+              rows="5"
+              (ngModelChange)="postError = ''"
+            ></textarea>
+          </div>
 
-<!-- <section class="profile-section">
-      <h2>{{ 'STUDENT_PROFILE.ACTIVITIES_ATTENDED' | translate }}</h2>
-      <div class="activities-grid">
-        <article class="activity-card" *ngFor="let activity of profileData.activitiesAttended">
-          <div class="activity-image" [style.background]="'linear-gradient(135deg, #9fc5ea, #6aa6c8)'"></div>
-          <div class="activity-info">
-            <h3>{{ activity.title }}</h3>
-            <p class="date">📅 {{ activity.date }}</p>
-            <p class="location">📍 {{ activity.location }}</p>
-            <div class="activity-actions">
-              <button type="button" class="register-button" (click)="registerActivity(activity)">
-                {{ 'STUDENT_PROFILE.REGISTER' | translate }}
-              </button>
-              <a href="#" class="more-link">{{ 'STUDENT_PROFILE.MORE' | translate }} ></a>
+          <div class="form-group">
+            <label>{{ 'STUDENT_PROFILE.POST_IMAGE' | translate }}</label>
+            <input
+              type="file"
+              accept="image/*"
+              style="min-height: 57px"
+              class="form-input"
+              (change)="onImageSelected($event)"
+            />
+            <div *ngIf="postForm.imagePreview" style="margin-top: 10px; text-align: center">
+              <img
+                [src]="postForm.imagePreview"
+                alt="Selected image"
+                style="max-width: 100%; border-radius: 8px"
+              />
             </div>
           </div>
-        </article>
+
+          <p class="field-error" *ngIf="postError">{{ postError }}</p>
+
+          <div class="modal-footer">
+            <button type="button" class="btn-secondary" (click)="closePostModal()">
+              {{ 'STUDENT_PROFILE.CANCEL' | translate }}
+            </button>
+            <button
+              type="submit"
+              class="btn-primary"
+              [disabled]="!postForm.content || postForm.content.trim().length === 0"
+            >
+              {{ 'STUDENT_PROFILE.ADD' | translate }}
+            </button>
+          </div>
+        </form>
       </div>
-    </section> -->
+    </div>
+  </div>
+
+  <div class="modal-overlay" *ngIf="showPostDetailModal" (click)="closePostDetailModal()">
+    <div class="modal-content post-detail-modal" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Post Details</h3>
+        <button class="close-btn" (click)="closePostDetailModal()">×</button>
+      </div>
+
+      <div class="modal-body" *ngIf="selectedPost">
+        <img *ngIf="selectedPost.image" [src]="selectedPost.image" class="full-post-img" />
+        <p class="full-post-content">{{ selectedPost.content }}</p>
+        <span class="post-date">{{ selectedPost.created_at | date: 'fullDate' }}</span>
+      </div>
+    </div>
+  </div>
+  <app-profile-sidebar></app-profile-sidebar>
+</div>

@@ -17,6 +17,7 @@ export class Sidebar {
   user: any;
   languageSelected: string;
   showLangMenu = false;
+  collapsed = false;
   showMobileLangMenu = false;
 
   constructor(

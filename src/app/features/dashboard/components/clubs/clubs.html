@@ -15,84 +15,56 @@
 
       <div class="search-wrapper">
         <span class="search-icon"></span>
-        <input type="text" placeholder="{{ 'CLUBS_PAGE.SEARCH_PLACEHOLDER' | translate }}" />
+        <input
+          type="text"
+          [(ngModel)]="searchTerm"
+          placeholder="{{ 'CLUBS_PAGE.SEARCH_PLACEHOLDER' | translate }}"
+        />
       </div>
     </header>
 
     <section class="cards-grid">
-      <ng-container *ngFor="let club of clubs">
-      <article class="club-card" *ngIf="club.status === 'active'">
-        <div class="club-card-content">
-          <div class="club-main-info">
-            <div class="club-avatar">
-              <img
-                *ngIf="club.logo; else fallback"
-                [src]="'http://127.0.0.1:8000' + club.logo"
-                alt="Logo"
-              />
-              <ng-template #fallback>
-                <span>{{
-                  currentLang === 'ar'
-                    ? club.club_name_ar?.slice(0, 1)
-                    : club.club_name?.slice(0, 1)
-                }}</span>
-              </ng-template>
-            </div>
-
-            <div class="club-text">
-              <span
-                *ngIf="auth.getUserRole() === 'staff' && club.status === 'inactive'"
-                style="
-                  color: #dc3545;
-                  font-size: 0.8rem;
-                  font-weight: bold;
-                  text-transform: uppercase;
-                  display: block;
-                  margin-bottom: 4px;
-                "
-              >
-                ● Rejected Request
-              </span>
-
-              <span
-                *ngIf="club.status === 'pending'"
-                style="
-                  color: #f39c12;
-                  font-size: 0.8rem;
-                  font-weight: bold;
-                  display: block;
-                  margin-bottom: 4px;
-                "
-              >
-                ● Pending Review
-              </span>
-              <h2>{{ currentLang === 'ar' ? club.club_name_ar : club.club_name }}</h2>
-              <p>{{ currentLang === 'ar' ? club.description_ar : club.description }}</p>
+      <ng-container *ngFor="let club of filteredClubs()">
+        <article class="club-card">
+          <div class="club-card-content">
+            <div class="club-main-info">
+              <div class="club-avatar">
+                <img
+                  *ngIf="club.logo; else fallback"
+                  [src]="'http://127.0.0.1:8000' + club.logo"
+                  alt="Logo"
+                />
+                <ng-template #fallback>
+                  <span>{{
+                    currentLang === 'ar'
+                      ? club.club_name_ar?.slice(0, 1)
+                      : club.club_name?.slice(0, 1)
+                  }}</span>
+                </ng-template>
+              </div>
+              <div class="club-text">
+                <h2>{{ currentLang === 'ar' ? club.club_name_ar : club.club_name }}</h2>
+                <p>{{ currentLang === 'ar' ? club.description_ar : club.description }}</p>
+              </div>
             </div>
           </div>
-
-          <!-- <div
-            *ngIf="auth.getUserRole() === 'staff' && club.status === 'pending'"
+          <div
+            class="col-3"
+            *ngIf="club.status === 'active'"
             class="admin-actions"
+            style="align-items: center; display: flex"
           >
-            <button (click)="approveClub(club.id, 'approve')" class="badge badge-success">
-              Approve
-            </button>
-            <button (click)="approveClub(club.id, 'reject')" class="badge badge-danger">
-              Reject
-            </button>
-          </div> -->
-        </div>
-        <div class="col-3" *ngIf="club.status === 'active'"
-            class="admin-actions"
-             style="align-items: center; display: flex">
-          <div class="club-card-actions">
-            <button type="button" class="pill-button">
-              {{ 'CLUBS_PAGE.DISCOVER' | translate }}
-            </button>
+            <div class="club-card-actions">
+              <button
+                [routerLink]="['/dashboard/club-profile', club.id]"
+                type="button"
+                class="pill-button"
+              >
+                {{ 'CLUBS_PAGE.DISCOVER' | translate }}
+              </button>
+            </div>
           </div>
-        </div>
-      </article>
+        </article>
       </ng-container>
     </section>
   </div>
@@ -107,51 +79,62 @@
       <button type="button" class="modal-close" (click)="closeCreateModal()">×</button>
     </div>
 
-    <form class="modal-form" (ngSubmit)="saveNewClub()">
+    <form class="modal-form" [formGroup]="clubForm" (ngSubmit)="saveNewClub()">
       <div class="form-grid">
         <div class="form-group">
           <label class="form-label">Club Name</label>
           <input
             class="form-input"
             type="text"
-            [(ngModel)]="newClub.club_name"
-            name="club_name"
+            formControlName="club_name"
             placeholder="Club Name"
           />
+          <div *ngIf="clubForm.get('club_name')?.touched && clubForm.get('club_name')?.invalid">
+            <small class="error-message">Club name is required</small>
+          </div>
         </div>
         <div class="form-group">
           <label class="form-label">الاسم بالعربية</label>
           <input
             class="form-input"
             type="text"
-            [(ngModel)]="newClub.club_name_ar"
-            name="club_name_ar"
+            formControlName="club_name_ar"
             placeholder="Club Name Arabic"
           />
+          <div
+            *ngIf="clubForm.get('club_name_ar')?.touched && clubForm.get('club_name_ar')?.invalid"
+          >
+            <small class="error-message">اسم النادي مطلوب</small>
+          </div>
         </div>
         <div class="form-group">
           <label class="form-label">Description</label>
           <textarea
             class="form-textarea"
-            [(ngModel)]="newClub.description"
-            name="description"
+            formControlName="description"
             placeholder="Description"
           ></textarea>
+          <div *ngIf="clubForm.get('description')?.touched && clubForm.get('description')?.invalid">
+            <small class="error-message">Description is required</small>
+          </div>
         </div>
         <div class="form-group">
           <label class="form-label">الوصف بالعربية</label>
           <textarea
             class="form-textarea"
-            [(ngModel)]="newClub.description_ar"
-            name="description_ar"
+            formControlName="description_ar"
             placeholder="الوصف بالعربية"
           ></textarea>
+          <div *ngIf="clubForm.get('description')?.touched && clubForm.get('description')?.invalid">
+            <small class="error-message">الوصف مطلوب</small>
+          </div>
         </div>
         <div class="form-group full-width">
           <label class="form-label">Club Logo</label>
           <input
             class="form-input"
             type="file"
+            style="min-height: 59px"
             (change)="onFileSelected($event)"
             accept="image/*"
           />
@@ -160,7 +143,7 @@
 
       <div class="modal-actions">
         <button type="button" class="btn-secondary" (click)="closeCreateModal()">Cancel</button>
-        <button type="button" class="btn-primary" (click)="saveNewClub()">Submit</button>
+        <button type="submit" class="btn-primary">Submit</button>
       </div>
     </form>
   </div>

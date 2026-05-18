@@ -1,0 +1,43 @@
+<div class="profile-layout">
+  <div class="members-page">
+    <header class="members-header">
+      <button class="back-btn" type="button" [routerLink]="['/dashboard']">
+        <i class="bi bi-chevron-left"></i>
+      </button>
+    </header>
+
+    <div class="members-topbar">
+      <h1 class="page-title">{{ clubName }} Join Requests</h1>
+    </div>
+
+    <div class="members-list-box">
+      <div class="member-row" *ngFor="let req of filteredRequests">
+        <div class="member-name">
+          {{ req.full_name }}
+          <div class="member-id">ID: {{ req.university_id }}</div>
+        </div>
+
+        <div class="role-label">Pending</div>
+
+        <div class="actions">
+          <button class="icon-btn" [routerLink]="['/dashboard/user-profile', req.userId]">
+            <i class="bi bi-person"></i>
+          </button>
+
+          <button class="icon-btn filled" (click)="approveRequest(req)">
+            <i class="bi bi-check-lg"></i>
+          </button>
+
+          <button class="icon-btn" (click)="rejectRequest(req)">
+            <i class="bi bi-x-lg"></i>
+          </button>
+        </div>
+      </div>
+
+      <div *ngIf="filteredRequests.length === 0" class="member-row" style="text-align: center">
+        No pending requests
+      </div>
+    </div>
+  </div>
+  <app-profile-sidebar></app-profile-sidebar>
+</div>
