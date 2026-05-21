@@ -4,11 +4,11 @@ import { Auth } from '../../../services/auth';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-sidebar',
-  imports: [CommonModule, TranslateModule],
-  templateUrl: './sidebar.html',
+  imports: [CommonModule, TranslateModule, RouterModule],  templateUrl: './sidebar.html',
   styleUrl: './sidebar.css',
 })
 export class Sidebar {
