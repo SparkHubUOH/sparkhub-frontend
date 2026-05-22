@@ -1,59 +1,59 @@
-# Sparkhubfrontend
+# SparkHub Front-End
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.4.
+SparkHub is a smart university student clubs platform designed to centralize and simplify the management of student activities, events, and communication within Saudi universities. The platform creates a more connected academic environment where students can easily discover opportunities, participate in events, and engage with university communities through a modern digital experience.
 
-## Development server
+This repository contains the Front-End development of SparkHub, focused on building an interactive, responsive, and user-friendly interface that delivers a seamless experience for both students and club members.
 
-To start a local development server, run:
+## Project Objectives
 
-```bash
-ng serve
-```
+- Centralize student club activities and announcements in one platform
+- Improve communication between clubs and students
+- Increase student engagement and participation
+- Provide a modern and accessible user experience
+- Support clubs with efficient event management tools
+- Enhance decision-making using smart analytics features
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Main Features
 
-## Code scaffolding
+- Responsive and user-friendly interface
+- Student club profiles and activity pages
+- Event browsing and registration system
+- Personalized recommendations based on interests
+- Notifications and announcements
+- Interactive dashboards for clubs and members
+- Smart analytics tools to analyze engagement, participation, and event performance
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Front-End Technologies
 
-```bash
-ng generate component component-name
-```
+The Front-End of SparkHub was developed using:
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+- Angular
+- TypeScript
+- HTML5
+- CSS3
+- Visual Studio Environment
+- Figma for UI/UX Design and Prototyping
 
-```bash
-ng generate --help
-```
+## Back-End Integration
 
-## Building
+SparkHub is integrated with a separate Back-End system developed using:
 
-To build the project run:
+- Django
+- Microsoft SQL Server (SSMS)
 
-```bash
-ng build
-```
+## UI/UX Design
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+The interface and user experience were designed in Figma with a focus on usability, accessibility, and creating a modern university platform experience that encourages interaction and engagement.
 
-## Running unit tests
+## 👥 Development Team
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+- Eng. Alaa Salman Alamir
+- Eng. Rahaf Saad Alshammari
+- Eng. Latifa Khalid Alanzi
+- Eng. Shaima Yousef Alahmadi
+- Eng. Njoud Hadi Alshammari
+- Eng. Ibtesam Abdulaziz Alshaghdali
 
-```bash
-ng test
-```
+## 🎓 Academic Context
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+SparkHub was developed as a Graduation Project in the Software Engineering field, aiming to provide a practical digital solution that improves student club management and enhances interaction within university communities.
