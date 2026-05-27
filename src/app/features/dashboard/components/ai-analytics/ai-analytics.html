@@ -42,18 +42,18 @@
           Activities Analytics
         </button>
 
-        <button
+        <!-- <button
           [class.active]="selectedTab === 'predictions'"
           (click)="selectedTab = 'predictions'"
         >
           Predictions
-        </button>
+        </button> -->
 
         <button
           [class.active]="selectedTab === 'ai_insights'"
           (click)="selectedTab = 'ai_insights'"
         >
-          AI Insights
+          AI Insights & Predictions
         </button>
       </nav>
     </header>
@@ -71,13 +71,11 @@
         <div *ngIf="clubStatistics" class="stats-grid">
           <div class="stat-card">
             <h3>Total Clubs</h3>
-
             <p>{{ clubStatistics.total_clubs }}</p>
           </div>
 
           <div class="stat-card">
             <h3>Most Active Club</h3>
-
             <p>
               {{ clubStatistics.most_active_club?.[0]?.club_name }}
             </p>
@@ -85,37 +83,109 @@
 
           <div class="stat-card">
             <h3>Highest Engagement</h3>
-
             <p>
               {{ clubStatistics.highest_engagement?.[0]?.club_name }}
             </p>
           </div>
         </div>
+      </div>
 
-        <div class="section-card">
-          <div *ngIf="clubStatistics?.clubs?.length" class="table-wrapper">
-            <table>
-              <thead>
-                <tr>
-                  <th>Club</th>
-                  <th>Members</th>
-                  <th>Activities</th>
-                  <th>Participants</th>
-                  <th>Average Attendance</th>
-                </tr>
-              </thead>
+      <div class="section-card">
+        <h3>Clubs Performance Table</h3>
+        <div *ngIf="clubStatistics?.clubs?.length" class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Club</th>
+                <th>Members</th>
+                <th>Activities</th>
+                <th>Participants</th>
+                <th>Avg Attendance</th>
+                <th>Engagement %</th>
+                <th>Club Score</th>
+              </tr>
+            </thead>
 
-              <tbody>
-                <tr *ngFor="let club of clubStatistics.clubs">
-                  <td>{{ club.club_name }}</td>
-                  <td>{{ club.members_count }}</td>
-                  <td>{{ club.activities_count }}</td>
-                  <td>{{ club.participants_count }}</td>
-                  <td>{{ club.avg_participants }}</td>
-                </tr>
-              </tbody>
-            </table>
+            <tbody>
+              <tr *ngFor="let club of clubStatistics.clubs">
+                <td>{{ club.club_name }}</td>
+
+                <td>{{ club.members_count }}</td>
+
+                <td>{{ club.activities_count }}</td>
+
+                <td>{{ club.participants_count }}</td>
+
+                <td>{{ club.avg_participants }}</td>
+
+                <td>
+                  <span
+                    class="engagement-badge"
+                    [class.high]="club.participation_rate >= 70"
+                    [class.medium]="club.participation_rate >= 40 && club.participation_rate < 70"
+                    [class.low]="club.participation_rate < 40"
+                  >
+                    {{ club.participation_rate }}%
+                  </span>
+                </td>
+
+                <td>{{ club.club_score }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="section-card leaderboard-section">
+        <h3>Top Clubs Leaderboard</h3>
+
+        <div class="leaderboard-list">
+          <div
+            class="leaderboard-item"
+            *ngFor="let club of clubStatistics.top_clubs; let i = index"
+          >
+            <div class="rank">#{{ i + 1 }}</div>
+
+            <div class="club-info">
+              <h4>{{ club.club_name }}</h4>
+
+              <p>Score: {{ club.club_score }}</p>
+            </div>
           </div>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <h3>Members Distribution</h3>
+        <div class="chart-container doughnut-chart">
+          <canvas
+            baseChart
+            [data]="clubMembersChartData"
+            [options]="clubMembersChartOptions"
+            [type]="'doughnut'"
+          >
+          </canvas>
+        </div>
+      </div>
+
+      <div class="section-card warning-section" *ngIf="clubStatistics.inactive_clubs?.length">
+        <h3>Inactive Clubs</h3>
+        <div class="warning-card" *ngFor="let club of clubStatistics.inactive_clubs">
+          <strong>{{ club.club_name }}</strong>
+          <p>This club has very low engagement or no activities yet.</p>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <h3>Club Performance Score</h3>
+        <div class="chart-container">
+          <canvas
+            baseChart
+            [data]="clubScoreChartData"
+            [options]="clubChartOptions"
+            chartType="bar"
+          >
+          </canvas>
         </div>
       </div>
     </section>
@@ -124,24 +194,180 @@
       <div class="section-card">
         <h2>Students Analytics</h2>
 
-        <p>Coming soon: train and evaluate Scikit-Learn models interactively.</p>
-      </div>
-    </section>
+        <div class="stats-grid" *ngIf="studentStatistics">
+          <div class="stat-card">
+            <h3>Total Students</h3>
+            <p>{{ studentStatistics.total_students }}</p>
+          </div>
 
-    <section class="tab-content" *ngIf="selectedTab === 'activities_analytics'">
+          <div class="stat-card">
+            <h3>Most Active Student</h3>
+            <p>
+              {{ studentStatistics.most_active_student?.name || 'Loading...' }}
+            </p>
+          </div>
+
+          <div class="stat-card">
+            <h3>Highest Points</h3>
+            <p>
+              {{ studentStatistics.highest_points_student?.name || 'Loading...' }}
+            </p>
+          </div>
+        </div>
+      </div>
 
       <div class="section-card">
-        <h2>Activities Analytics</h2>
+        <h3>Top Students</h3>
 
-        <h3>Activities Per Club</h3>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>University ID</th>
+                <th>Clubs Joined</th>
+                <th>Activities</th>
+                <th>Points</th>
+                <th>Engagement</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr *ngFor="let student of studentStatistics?.top_students">
+                <td>{{ student.name }}</td>
+
+                <td>{{ student.university_id }}</td>
+
+                <td>{{ student.clubs_joined }}</td>
+
+                <td>{{ student.activities_attended }}</td>
+
+                <td>{{ student.points }}</td>
+
+                <td>
+                  <span
+                    class="engagement-badge"
+                    [class.high]="student.engagement_score >= 70"
+                    [class.medium]="student.engagement_score >= 40 && student.engagement_score < 70"
+                    [class.low]="student.engagement_score < 40"
+                  >
+                    {{ student.engagement_score }}
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <h3>Student Engagement Ranking</h3>
+
         <div class="chart-container">
           <canvas
             baseChart
-            [data]="clubStatsChartData"
+            [data]="studentEngagementChartData"
             [options]="clubChartOptions"
             chartType="bar"
           >
           </canvas>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <h3>Points Distribution</h3>
+
+        <div class="chart-container doughnut-chart">
+          <canvas
+            baseChart
+            [data]="studentPointsChartData"
+            [options]="studentPointsChartOptions"
+            [type]="'doughnut'"
+          >
+          </canvas>
+        </div>
+      </div>
+    </section>
+
+    <section class="tab-content" *ngIf="selectedTab === 'activities_analytics'">
+      <div class="section-card">
+        <h2>Activities Analytics</h2>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <h3>Total Activities</h3>
+
+            <p>
+              {{ activityStatistics?.total_activities }}
+            </p>
+          </div>
+
+          <div class="stat-card">
+            <h3>Most Popular Activity</h3>
+
+            <p>
+              {{ activityStatistics?.most_popular_activity?.[0]?.title }}
+            </p>
+          </div>
+
+          <div class="stat-card">
+            <h3>Highest Engagement</h3>
+
+            <p>
+              {{ activityStatistics?.highest_attendance_activity?.[0]?.title }}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <h3>Top Activities By Participants</h3>
+
+        <div class="chart-container">
+          <canvas
+            baseChart
+            [data]="activityParticipantsChartData"
+            [options]="clubChartOptions"
+            chartType="bar"
+          >
+          </canvas>
+        </div>
+      </div>
+
+      <div class="section-card">
+        <h3>Activities Performance Table</h3>
+
+        <div *ngIf="activityStatistics?.activities?.length" class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Activity</th>
+                <th>Club</th>
+                <th>Participants</th>
+                <th>Location</th>
+                <th>Attendance Rate</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr *ngFor="let activity of activityStatistics.activities">
+                <td>{{ activity.title }}</td>
+                <td>{{ activity.club_name }}</td>
+                <td>{{ activity.participants_count }}</td>
+                <td>{{ activity.location }}</td>
+                <td>
+                  <span
+                    class="attendance-badge"
+                    [class.excellent]="activity.attendance_rate >= 80"
+                    [class.good]="activity.attendance_rate >= 50 && activity.attendance_rate < 80"
+                    [class.weak]="activity.attendance_rate < 50"
+                  >
+                    {{ activity.attendance_rate }}%
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </section>
@@ -155,108 +381,78 @@
     </section>
 
     <section class="tab-content" *ngIf="selectedTab === 'ai_insights'">
-      <div class="section-card">
-        <h2>AI Insights</h2>
+      <div class="section-card prediction-section">
+        <h3>AI Activity Success Prediction</h3>
 
-        <div class="controls">
-          <input
-            class="form-control"
-            type="text"
-            [(ngModel)]="dataFile"
-            placeholder="CSV file name e.g. sample.csv"
-          />
+        <div class="prediction-grid">
+          <div class="form-group">
+            <label>Category</label>
 
-          <button class="btn" (click)="loadPreview()" [disabled]="loading">Load Preview</button>
+            <select class="form-control" [(ngModel)]="predictionForm.category">
+              <option value="WORKSHOPS">Workshops</option>
+              <option value="DISCUSSIONS">Discussions</option>
+              <option value="EXHIBITIONS">Exhibitions</option>
+              <option value="OTHER">Other</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Max Attendees</label>
+
+            <input type="number" class="form-control" [(ngModel)]="predictionForm.max_attendees" />
+          </div>
+
+          <div class="form-group">
+            <label>Club Activities Count</label>
+
+            <input
+              type="number"
+              class="form-control"
+              [(ngModel)]="predictionForm.club_activities_count"
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Average Club Attendance</label>
+
+            <input
+              type="number"
+              class="form-control"
+              [(ngModel)]="predictionForm.avg_club_attendance"
+            />
+          </div>
+        </div>
+
+        <button class="btn predict-btn" (click)="runPrediction()" [disabled]="loading">
+          Predict Activity Success
+        </button>
+
+        <div class="prediction-result" *ngIf="predictionResult">
+          <h4>
+            Predicted Success:
+            <span>
+              {{ predictionResult.prediction }}
+            </span>
+          </h4>
+
+          <p>
+            Confidence:
+            {{ predictionResult.confidence }}%
+          </p>
         </div>
       </div>
 
-      <div *ngIf="dataPreview.length" class="section-card">
-        <h3>Preview Data</h3>
+      <!-- <div class="section-card prediction-card" *ngIf="predictionResult">
+        <h3>Prediction Result</h3>
 
-        <div class="table-wrapper">
-          <table>
-            <thead>
-              <tr>
-                <th *ngFor="let k of dataPreview[0] || {} | keyvalue">
-                  {{ k.key }}
-                </th>
-              </tr>
-            </thead>
-
-            <tbody>
-              <tr *ngFor="let row of dataPreview">
-                <td *ngFor="let k of row | keyvalue">
-                  {{ k.value }}
-                </td>
-              </tr>
-            </tbody>
-          </table>
+        <div
+          class="prediction-result"
+          [class.success]="predictionResult.prediction === 'High Success'"
+          [class.low]="predictionResult.prediction === 'Low Success'"
+        >
+          {{ predictionResult.prediction }}
         </div>
-      </div>
-
-      <div *ngIf="dataPreview.length" class="section-card">
-        <h3>Summary Statistics</h3>
-
-        <div class="summary-controls">
-          <label> Select columns for summary </label>
-
-          <input
-            class="form-control"
-            type="text"
-            [ngModel]="columnsSelected.join(',')"
-            (ngModelChange)="onColumnsChange($event)"
-          />
-
-          <button class="btn" (click)="loadSummary()" [disabled]="loading">Get Summary</button>
-        </div>
-
-        <div *ngIf="summary" class="table-wrapper">
-          <table>
-            <thead>
-              <tr>
-                <th>Metric</th>
-
-                <th *ngFor="let col of summary | keyvalue">
-                  {{ col.key }}
-                </th>
-              </tr>
-            </thead>
-
-            <tbody>
-              <tr *ngFor="let metric of summary | keyvalue">
-                <td>{{ metric.key }}</td>
-
-                <td *ngFor="let col of summary | keyvalue">
-                  {{ summary?.[col.key]?.[metric.key] }}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <div class="section-card">
-        <h3>Histogram</h3>
-
-        <div class="hist-controls">
-          <input
-            class="form-control"
-            type="text"
-            [(ngModel)]="histCol"
-            placeholder="Numeric column name"
-          />
-
-          <input class="form-control" type="number" [(ngModel)]="histBins" min="5" max="50" />
-
-          <button class="btn" (click)="loadHistogram()" [disabled]="loading || !histCol">
-            Build Histogram
-          </button>
-        </div>
-
-        <div class="chart-container" *ngIf="histChartData.labels?.length">
-          <canvas baseChart [data]="histChartData" chartType="bar"> </canvas>
-        </div>
-      </div>
+      </div> -->
     </section>
   </main>
 

@@ -81,17 +81,8 @@
           <article
             *ngIf="club.status === 'active'"
             class="feature-card feature-first"
-            [ngClass]="'feature-' + (i + 1)"
-          >
-            <div
-              style="
-                gap: 15px;
-                display: flex;
-                align-items: center;
-                margin-bottom: 15px;
-                justify-content: space-between;
-              "
-            >
+            [ngClass]="'feature-' + (i + 1)">
+            <div class="leaderboard-header">
               <div style="display: flex; align-items: center; gap: 10px">
                 <div class="feature-badge">0{{ i + 1 }}</div>
 
@@ -122,15 +113,7 @@
       <div class="feature-grid" *ngIf="activeLeaderboard === 'STUDENTS'">
         <ng-container *ngFor="let student of topStudents; let i = index">
           <article class="feature-card feature-first" [ngClass]="'feature-' + (i + 1)">
-            <div
-              style="
-                gap: 15px;
-                display: flex;
-                align-items: center;
-                margin-bottom: 15px;
-                justify-content: space-between;
-              "
-            >
+            <div class="leaderboard-header">
               <div style="display: flex; align-items: center; gap: 10px">
                 <div class="feature-badge">0{{ i + 1 }}</div>
 
@@ -221,6 +204,7 @@
           </div>
           <div class="activity-copy">
             <h4>{{ currentLang === 'ar' ? activity.title_ar : activity.title }}</h4>
+            <h5>{{ activity.club_name }}</h5>
             <p>{{ activity.date | date: 'yyyy-MM-dd' }}</p>
             <p>{{ activity.location }}</p>
             <button

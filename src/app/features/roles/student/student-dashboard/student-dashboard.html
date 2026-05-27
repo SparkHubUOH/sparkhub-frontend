@@ -14,7 +14,6 @@
           </button>
         </ng-template>
       </div>
-
       <div class="profile-hero">
         <div class="avatar-circle">
           <i class="bi bi-person-fill"></i>
@@ -24,7 +23,7 @@
           <div class="profile-content">
             <div style="flex-direction: row; display: flex; gap: 15px">
               <h2 *ngIf="!isEditing">{{ profileData.first_name }} {{ profileData.last_name }}</h2>
-              <small class="text-primary-emphasis bg-primary-subtle rounded-3 p-2 fw-bold">
+              <small class="text-primary-emphasis bg-primary-subtle rounded-3 p-2 fw-bold" style="height: fit-content;">
                 <i class="bi bi-star-fill me-1"></i> {{ profileData.points || 0 }}
                 {{ 'STUDENT_PROFILE.POINTS' | translate }}
               </small>
@@ -556,7 +555,7 @@
   </div>
 
   <div class="modal-overlay" *ngIf="showPostDetailModal" (click)="closePostDetailModal()">
-    <div class="modal-content post-detail-modal" (click)="$event.stopPropagation()">
+    <div class="modal-content post-detail-modal" #modalContent (click)="$event.stopPropagation()">
       <div class="modal-header">
         <h3>Post Details</h3>
         <button class="close-btn" (click)="closePostDetailModal()">×</button>

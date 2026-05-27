@@ -201,7 +201,7 @@ a {
 
   .nav-list {
     width: 100%;
-    display: flex;
+    display: ruby;
     flex-direction: row;
     justify-content: space-around;
   }

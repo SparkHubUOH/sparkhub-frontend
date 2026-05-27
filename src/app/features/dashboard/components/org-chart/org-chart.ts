@@ -60,13 +60,7 @@ export class OrgChart {
 
     this.clubService.getClubById(clubId).subscribe({
       next: (club: any) => {
-        console.log('club', club);
-        console.log('current user', currentUser);
-
         this.isClubLeader = Number(club.created_by) === Number(currentUser.id);
-
-        console.log('isClubLeader', this.isClubLeader);
-
         this.loadOrgChart(clubId);
       },
 
@@ -79,7 +73,6 @@ export class OrgChart {
   loadOrgChart(clubId: number): void {
     this.clubService.getOrgChart(clubId).subscribe({
       next: (data) => {
-        console.log(data);
 
         this.clubLeader = data.clubLeader;
         this.clubViceLeader = data.clubViceLeader;
@@ -135,20 +128,28 @@ export class OrgChart {
     return index;
   }
 
-  saveTeam(): void {
-    if (!this.selectedTeam) return;
+saveTeam(): void {
+  if (!this.selectedTeam) return;
 
-    const original = this.teams.find((t) => t.name === this.selectedTeam!.name);
+  const cleanedMembers = this.selectedTeam.editableMembers.filter(m => m && m.trim() !== '');
 
-    if (original) {
-      original.teamLeader = this.selectedTeam.teamLeader;
-      original.viceLeader = this.selectedTeam.viceLeader;
-
-      original.members = this.selectedTeam.editableMembers.filter((m) => m.trim() !== '');
+  this.teams = this.teams.map(team => {
+    if (team.name === this.selectedTeam!.name) {
+      return {
+        ...team,
+        teamLeader: this.selectedTeam!.teamLeader,
+        viceLeader: this.selectedTeam!.viceLeader,
+        members: cleanedMembers,
+        editableMembers: [...cleanedMembers] 
+      };
     }
+    return team;
+  });
 
-    this.closeModal();
-  }
+  this.cdr.detectChanges();
+  
+  this.closeModal();
+}
 
   removeMember(index: number): void {
     if (!this.selectedTeam) return;

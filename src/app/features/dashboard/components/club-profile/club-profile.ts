@@ -116,7 +116,13 @@ export class ClubProfile implements OnInit {
   }
 
   get visibleEvents() {
-    return this.showAllEvents ? this.events : this.events.slice(0, 4);
+    return this.showAllEvents
+      ? this.events
+      : this.events.slice(0, 4).sort((a, b) => {
+          const d1 = new Date(b.date || b.createdAt).getTime();
+          const d2 = new Date(a.date || a.createdAt).getTime();
+          return d1 - d2;
+        });
   }
 
   registerEvent(event: any) {
@@ -169,6 +175,11 @@ export class ClubProfile implements OnInit {
   readMore(post: any): void {
     this.selectedPost = post;
     this.showPostDetailModal = true;
+    setTimeout(() => {
+      if (this.selectedPost) {
+        this.selectedPost.nativeElement.scrollTop = 0;
+      }
+    }, 0);
     this.cdr.detectChanges();
   }
 

@@ -48,6 +48,16 @@ export class Members {
   selectedToRole = 'Team Leader';
   selectedTeam = 'media';
 
+  teamsList = [
+    { value: 'events', label: 'Events' },
+    { value: 'media', label: 'Media' },
+    { value: 'design', label: 'Design' },
+    { value: 'projects', label: 'Projects' },
+    { value: 'content', label: 'Content' },
+    { value: 'management', label: 'Management' },
+    { value: 'technical', label: 'Technical' },
+  ];
+
   formatRole(role: string): string {
     switch (role.toLowerCase()) {
       case 'team leader':
@@ -205,6 +215,7 @@ export class Members {
         .updateMemberRole(this.selectedMemberId, this.selectedToRole, this.selectedTeam)
         .subscribe({
           next: (res) => {
+            this.closeAssignModal();
             Swal.fire('Updated!', 'تم تغيير الدور والتيم بنجاح', 'success');
 
             this.loadMembers();

@@ -142,7 +142,6 @@
   color: #9aa8b8;
 }
 
-
 .search-results {
   position: absolute;
 
@@ -339,6 +338,14 @@
   box-shadow: 0 16px 40px rgba(41, 94, 153, 0.06);
 }
 
+.leaderboard-header {
+  gap: 15px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  justify-content: space-between;
+}
+
 .feature-first {
   background: linear-gradient(180deg, #ffffff 0%, #f2f8ff 100%);
 }
@@ -453,7 +460,7 @@
 
 .activity-img {
   height: 300px;
-  object-fit: contain; 
+  object-fit: contain;
 }
 
 .activity-visual {
@@ -471,6 +478,12 @@
   margin: 0;
   font-size: 1.05rem;
   color: var(--color-primary);
+}
+
+.activity-copy h5 {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--color-gray-dark);
 }
 
 .activity-copy p {
@@ -511,14 +524,20 @@ i {
 
 .crown-icon {
   font-size: 1.5rem;
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
   animation: shine 2s infinite;
 }
 
 @keyframes shine {
-  0% { transform: scale(1) rotate(0deg); }
-  50% { transform: scale(1.2) rotate(10deg); }
-  100% { transform: scale(1) rotate(0deg); }
+  0% {
+    transform: scale(1) rotate(0deg);
+  }
+  50% {
+    transform: scale(1.2) rotate(10deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
 }
 
 .feature-1 {
@@ -530,7 +549,7 @@ i {
   z-index: 1;
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.45);
+  background: rgba(0, 0, 0, 0.45);
   backdrop-filter: blur(2px);
 }
 
@@ -545,13 +564,19 @@ i {
   background: #fff;
   padding: 25px;
   border-radius: 18px;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
   animation: fadeUp 0.25s ease-out;
 }
 
 @keyframes fadeUp {
-  from { opacity: 0; transform: translate(-50%, -40%); }
-  to   { opacity: 1; transform: translate(-50%, -50%); }
+  from {
+    opacity: 0;
+    transform: translate(-50%, -40%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
 }
 
 .banner {
@@ -591,7 +616,6 @@ i {
   font-size: 17px;
 }
 
-
 @media (max-width: 1120px) {
   .dashboard-home {
     grid-template-columns: 260px 1fr;
@@ -600,11 +624,22 @@ i {
   .activities-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  .leaderboard-header {
+    gap: 12px;
+    margin-bottom: 12px;
+    flex-direction: column;
+    align-items: start;
+  }
 }
 
 @media (max-width: 900px) {
   .dashboard-home {
     grid-template-columns: 1fr;
+  }
+
+  .activities-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .sidebar {
@@ -638,6 +673,10 @@ i {
   .cards-row,
   .activities-grid {
     grid-template-columns: 1fr;
+  }
+
+  .leaderboard-header {
+    flex-direction: row;
   }
 }
 

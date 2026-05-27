@@ -861,8 +861,29 @@ app-profile-sidebar {
 .post-detail-modal {
   max-width: 600px;
   width: 90%;
+  max-height: 80vh;   
+  overflow-y: auto;    
+  background: white;   
+  position: relative;
   border-radius: 15px;
   padding: 20px;
+  
+  scrollbar-width: thin;
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+}
+
+.modal-header {
+  position: sticky;
+  top: -20px; 
+  background: white;
+  z-index: 10;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .full-post-img {

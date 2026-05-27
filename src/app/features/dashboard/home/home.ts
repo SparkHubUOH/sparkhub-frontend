@@ -99,6 +99,7 @@ export class Home {
     this.authService.getActivities().subscribe({
       next: (data) => {
         this.activities = data;
+        console.log(this.activities)
         this.cdr.detectChanges();
       },
       error: (err) => {
