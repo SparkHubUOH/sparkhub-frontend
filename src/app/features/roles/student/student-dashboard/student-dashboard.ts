@@ -346,6 +346,11 @@ export class StudentDashboard implements OnInit {
   readMore(post: any): void {
     this.selectedPost = post;
     this.showPostDetailModal = true;
+    setTimeout(() => {
+      if (this.selectedPost) {
+        this.selectedPost.nativeElement.scrollTop = 0;
+      }
+    }, 0);
     this.cdr.detectChanges();
   }
 

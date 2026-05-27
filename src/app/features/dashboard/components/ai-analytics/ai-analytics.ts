@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -8,19 +8,39 @@ import { BaseChartDirective } from 'ng2-charts';
 import {
   ChartConfiguration,
   Chart,
+  DoughnutController,
   BarController,
   BarElement,
   CategoryScale,
   LinearScale,
   ChartOptions,
+  ArcElement,
+  Tooltip,
+  Legend,
 } from 'chart.js';
 import { RouterLink } from '@angular/router';
 
-Chart.register(BarController, BarElement, CategoryScale, LinearScale);
+Chart.register(
+  BarController,
+  BarElement,
+  CategoryScale,
+  LinearScale,
+  DoughnutController,
+  ArcElement,
+  Tooltip,
+  Legend,
+);
 
 @Component({
   selector: 'app-ai-analytics',
-  imports: [CommonModule, FormsModule, TranslateModule, ProfileSidebar, BaseChartDirective, RouterLink],
+  imports: [
+    CommonModule,
+    FormsModule,
+    TranslateModule,
+    ProfileSidebar,
+    BaseChartDirective,
+    RouterLink,
+  ],
   templateUrl: './ai-analytics.html',
   styleUrl: './ai-analytics.css',
 })
@@ -28,16 +48,36 @@ export class AiAnalytics implements OnInit {
   histCol = '';
   histBins = 10;
   dataFile = 'sample.csv';
-  selectedTab = 'Overview';
+  selectedTab = 'overview';
   currentLang = 'en';
+  loading = false;
 
   columnsSelected: string[] = [];
   dataPreview: any[] = [];
 
+  predictionForm = {
+    category: 'WORKSHOPS',
+    max_attendees: 50,
+    club_activities_count: 5,
+    avg_club_attendance: 20,
+  };
+
+  predictionResult: any = null;
   summary: any = null;
   predictionResults: any = null;
   clubStatistics: any = null;
-  loading = false;
+  studentStatistics: any = null;
+  activityStatistics: any = null;
+
+  clubMembersChartData: ChartConfiguration<'doughnut'>['data'] = {
+    labels: [],
+    datasets: [],
+  };
+
+  clubScoreChartData: ChartConfiguration<'bar'>['data'] = {
+    labels: [],
+    datasets: [],
+  };
 
   clubStatsChartData: ChartConfiguration<'bar'>['data'] = {
     labels: [],
@@ -125,6 +165,21 @@ export class AiAnalytics implements OnInit {
     },
   };
 
+  studentEngagementChartData: ChartConfiguration<'bar'>['data'] = {
+    labels: [],
+    datasets: [],
+  };
+
+  studentPointsChartData: ChartConfiguration<'doughnut'>['data'] = {
+    labels: [],
+    datasets: [],
+  };
+
+  activityParticipantsChartData: ChartConfiguration<'bar'>['data'] = {
+    labels: [],
+    datasets: [],
+  };
+
   histChartData = {
     labels: [] as string[],
     datasets: [
@@ -151,6 +206,9 @@ export class AiAnalytics implements OnInit {
     });
     this.loadPreview();
     this.loadClubStatistics();
+    this.loadStudentStatistics();
+    this.loadActivityStatistics();
+    this.runPrediction();
     this.cdr.detectChanges();
   }
 
@@ -219,52 +277,157 @@ export class AiAnalytics implements OnInit {
     this.analyticsService.getClubStatistics().subscribe({
       next: (res) => {
         console.log(res);
-
         this.clubStatistics = res;
-
         const clubs = res.clubs || [];
 
-        this.clubStatsChartData = {
+        this.clubScoreChartData = {
           labels: clubs.map((c: any) => c.club_name),
 
           datasets: [
             {
-              data: clubs.map((c: any) => c.activities_count),
+              data: clubs.map((c: any) => c.club_score),
 
-              label: 'Activities Per Club',
+              label: 'Club Score',
 
-              borderRadius: 14,
-              borderSkipped: false,
-              barThickness: 42,
+              borderRadius: 10,
+              barThickness: 100,
 
-              backgroundColor: [
-                '#3B82F6',
-                '#6366F1',
-                '#8B5CF6',
-                '#06B6D4',
-                '#14B8A6',
-                '#10B981',
-                '#F59E0B',
-              ],
-
-              hoverBackgroundColor: [
-                '#2563EB',
-                '#4F46E5',
-                '#7C3AED',
-                '#0891B2',
-                '#0F766E',
-                '#059669',
-                '#D97706',
-              ],
+              backgroundColor: ['#10B981', '#F59E0B', '#2563EB', '#7C3AED', '#0EA5E9'],
             },
           ],
         };
 
+        this.clubMembersChartData = {
+          labels: clubs.map((c: any) => c.club_name),
+
+          datasets: [
+            {
+              data: clubs.map((c: any) => c.members_count),
+
+              label: 'Members',
+
+              backgroundColor: ['#3B82F6', '#8B5CF6', '#06B6D4', '#10B981', '#F59E0B', '#EF4444'],
+
+              borderWidth: 2,
+              borderColor: '#ffffff',
+              borderRadius: 4,
+              spacing: 2,
+              hoverOffset: 15,
+            },
+          ],
+        };
+
+        this.cdr.detectChanges();
         this.loading = false;
       },
 
       error: (err) => {
         console.error(err);
+        this.loading = false;
+      },
+    });
+  }
+
+  loadStudentStatistics(): void {
+    this.analyticsService.getStudentStatistics().subscribe({
+      next: (res) => {
+        console.log(res);
+
+        this.studentStatistics = res;
+
+        const students = res.top_students || [];
+
+        this.studentEngagementChartData = {
+          labels: students.map((s: any) => s.name),
+
+          datasets: [
+            {
+              data: students.map((s: any) => s.engagement_score),
+              label: 'Engagement Score',
+              borderRadius: 12,
+              backgroundColor: ['#3B82F6', '#8B5CF6', '#06B6D4', '#10B981', '#F59E0B'],
+            },
+          ],
+        };
+
+        this.studentPointsChartData = {
+          labels: students.map((s: any) => s.name),
+
+          datasets: [
+            {
+              data: students.map((s: any) => s.points),
+
+              label: 'Points',
+
+              backgroundColor: ['#F43F5E', '#FB923C', '#FACC15', '#2DD4BF', '#A855F7'],
+              borderWidth: 2,
+              borderColor: '#ffffff',
+              borderRadius: 4,
+              spacing: 2,
+              hoverOffset: 15,
+            },
+          ],
+        };
+        this.cdr.detectChanges();
+      },
+
+      error: (err) => {
+        console.error(err);
+      },
+    });
+  }
+
+  loadActivityStatistics(): void {
+    this.analyticsService.getActivityStatistics().subscribe({
+      next: (res) => {
+        console.log(res);
+
+        this.activityStatistics = res;
+
+        const activities = res.top_activities || [];
+
+        this.activityParticipantsChartData = {
+          labels: activities.map((a: any) => a.title),
+
+          datasets: [
+            {
+              data: activities.map((a: any) => a.participants_count),
+
+              label: 'Participants',
+
+              borderRadius: 12,
+
+              backgroundColor: ['#3B82F6', '#8B5CF6', '#06B6D4', '#10B981', '#F59E0B'],
+            },
+          ],
+        };
+
+        this.cdr.detectChanges();
+      },
+
+      error: (err) => {
+        console.error(err);
+      },
+    });
+  }
+
+  runPrediction(): void {
+    this.loading = true;
+
+    this.analyticsService.predictActivity(this.predictionForm).subscribe({
+      next: (res) => {
+        console.log(res);
+
+        this.predictionResult = res;
+
+        this.loading = false;
+
+        this.cdr.detectChanges();
+      },
+
+      error: (err) => {
+        console.error(err);
+
         this.loading = false;
       },
     });
@@ -277,7 +440,60 @@ export class AiAnalytics implements OnInit {
       .filter((v) => v);
   }
 
-  runPrediction(): void {
-    console.log('Prediction started');
-  }
+  clubMembersChartOptions: ChartOptions<'doughnut'> = {
+    responsive: true,
+    maintainAspectRatio: false,
+
+    plugins: {
+      legend: {
+        position: 'bottom',
+
+        labels: {
+          padding: 20,
+          usePointStyle: true,
+          pointStyle: 'circle',
+
+          font: {
+            size: 13,
+          },
+        },
+      },
+
+      tooltip: {
+        backgroundColor: '#111827',
+        padding: 12,
+        cornerRadius: 12,
+      },
+    },
+
+    cutout: '68%',
+  };
+
+  studentPointsChartOptions: ChartOptions<'doughnut'> = {
+    responsive: true,
+    maintainAspectRatio: false,
+    layout: {
+      padding: 20,
+    },
+    plugins: {
+      legend: {
+        position: 'bottom',
+        labels: {
+          padding: 25,
+          usePointStyle: true,
+          pointStyle: 'circle',
+          font: {
+            size: 12,
+          },
+        },
+      },
+      tooltip: {
+        enabled: true,
+        callbacks: {
+          label: (context) => ` Points: ${context.formattedValue}`,
+        },
+      },
+    },
+    cutout: '70%',
+  };
 }

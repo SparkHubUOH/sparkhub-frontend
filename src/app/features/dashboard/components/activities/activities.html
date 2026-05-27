@@ -13,7 +13,9 @@
             <div class="panel-card">
               <div class="featured-detail">
                 <span>{{ 'ACTIVITIES_PAGE.FEATURED_FOCUS' | translate }}</span>
-                <strong>{{ 'ACTIVITIES_PAGE.FEATURED_HIGHLIGHT' | translate }}</strong>
+                <strong>
+                  {{ currentLang === 'ar' ? featuredActivity?.title_ar : featuredActivity?.title }}
+                </strong>
               </div>
             </div>
           </div>
@@ -54,7 +56,10 @@
     </section>
 
     <section class="activities-grid">
-      <article class="activity-card" *ngFor="let activity of activities | categoryFilter:selectedCategory">
+      <article
+        class="activity-card"
+        *ngFor="let activity of activities | categoryFilter: selectedCategory"
+      >
         <div class="card-header">
           <span class="activity-type">
             {{ (activity.category ? getCategoryKey(activity.category) : 'EVENT') | translate }}
@@ -70,7 +75,7 @@
           </div>
         </div>
         <h3>{{ currentLang === 'ar' ? activity.title_ar : activity.title }}</h3>
-        <p>{{ currentLang === 'ar' ? activity.description_ar : activity.description }}</p>
+        <p>{{ activity.description }}</p>
 
         <div class="tag-row">
           <span class="activity-tag" *ngFor="let tag of activity.tags">{{ tag }}</span>
@@ -96,7 +101,12 @@
         </div>
 
         <div class="card-actions">
-          <button type="button" class="primary-button" *ngIf="!isPast(activity)" (click)="register(activity.id)">
+          <button
+            type="button"
+            class="primary-button"
+            *ngIf="!isPast(activity)"
+            (click)="register(activity.id)"
+          >
             {{ 'ACTIVITIES_PAGE.ACTIONS.REGISTER' | translate }}
           </button>
         </div>

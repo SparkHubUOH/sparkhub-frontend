@@ -1,5 +1,5 @@
-:host {
-  display: block;
+.profile-layout {
+  display: flex;
 }
 
 .org-chart-page {
@@ -54,7 +54,6 @@
   display: block;
 }
 
-/* ---- ACTION BAR ---- */
 .action-bar {
   display: flex;
   justify-content: space-between;
@@ -90,7 +89,6 @@
   cursor: pointer;
 }
 
-/* ---- TOP HIERARCHY ---- */
 .top-hierarchy {
   display: flex;
   flex-direction: column;
@@ -143,7 +141,6 @@
   background: #d2e0ea;
 }
 
-/* ---- TEAMS ---- */
 .teams-container {
   margin-top: 0;
 }
@@ -193,7 +190,6 @@
   width: 100%;
 }
 
-/* ✅ FIX: background هنا الصح */
 .team-badge {
   background: #1e3a5f;
   color: #fff;
@@ -290,7 +286,6 @@
   white-space: nowrap;
 }
 
-/* ---- MOBILE ACCORDION ---- */
 .team-accordion {
   border: 1.5px solid #cdd8e3;
   border-radius: 12px;
@@ -313,7 +308,6 @@
   background: #e8eef5;
 }
 
-/* ✅ FIX: background هنا الصح */
 .team-badge-sm {
   background: #1e3a5f;
   color: #fff;
@@ -380,7 +374,6 @@
   margin-top: 10px;
 }
 
-/* ---- MODAL ---- */
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -515,8 +508,10 @@
   background: #cf5516;
 }
 
-/* ---- RESPONSIVE ---- */
 @media (max-width: 991px) {
+  .profile-layout {
+    display: contents;
+  }
   .teams-grid {
     grid-template-columns: 1fr;
     gap: 24px;

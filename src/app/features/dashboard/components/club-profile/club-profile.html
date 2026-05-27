@@ -77,7 +77,11 @@
       <div class="posts-grid">
         <div class="post-card" *ngFor="let post of visiblePosts">
           <div class="post-img-placeholder">
-            <i class="bi bi-image"></i>
+            <img
+              *ngIf="post.image"
+              [src]="'http://127.0.0.1:8000' + post.image"
+              alt="Post image"
+              style="width: 100%; height: 100%; object-fit: cover" />
           </div>
 
           <div class="post-body">
@@ -173,9 +177,7 @@
 
         <h2>{{ currentLang === 'ar' ? selectedActivity.title_ar : selectedActivity.title }}</h2>
         <p class="description">
-          {{
-            currentLang === 'ar' ? selectedActivity.description_ar : selectedActivity.description
-          }}
+          {{ selectedActivity.description }}
         </p>
 
         <div class="details">
@@ -206,7 +208,7 @@
   </div>
 
   <div class="modal-overlay" *ngIf="showPostDetailModal" (click)="closePostDetailModal()">
-    <div class="modal-content post-detail-modal" (click)="$event.stopPropagation()">
+    <div class="modal-content post-detail-modal" #modalContent (click)="$event.stopPropagation()">
       <div class="modal-header">
         <h3>{{ 'CLUB_PROFILE.POST_DETAILS' | translate }}</h3>
         <button class="close-btn" (click)="closePostDetailModal()">×</button>
@@ -215,7 +217,7 @@
       <div class="modal-body" *ngIf="selectedPost">
         <img
           *ngIf="selectedPost.image"
-          [src]="selectedPost.image"
+          [src]="'http://127.0.0.1:8000' + selectedPost.image"
           class="full-post-img"
           [alt]="'CLUB_PROFILE.POST_IMAGE_ALT' | translate"
         />

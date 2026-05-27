@@ -51,6 +51,7 @@ export class Activities {
   activities: any[] = [];
   isRegistering = false;
   selectedActivity: any;
+  featuredActivity: any = null;
 
   constructor(
     private translate: TranslateService,
@@ -98,6 +99,12 @@ export class Activities {
         (sum, a) => sum + (a.participants_count ?? 0),
         0,
       );
+
+      if (this.activities.length > 0) {
+        this.featuredActivity = this.activities.reduce((top, current) => {
+          return (current.participants_count || 0) > (top.participants_count || 0) ? current : top;
+        });
+      }
 
       this.cdr.detectChanges();
     });

@@ -48,4 +48,16 @@ export class AnalyticsService {
   getClubStatistics(): Observable<any> {
     return this.http.get(`${this.apiUrl}/analytics/clubs/statistics/`);
   }
+
+  getStudentStatistics() {
+    return this.http.get<any>(`${this.apiUrl}/analytics/students/statistics/`);
+  }
+
+  getActivityStatistics(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/analytics/activities/statistics/`);
+  }
+
+  predictActivity(data: any) {
+    return this.http.post(`${this.apiUrl}/analytics/predict-activity/`, data);
+  }
 }

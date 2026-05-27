@@ -34,3 +34,11 @@ html[dir='rtl'] body {
   color: white;
   text-decoration: none;
 }
+
+.swal2-container {
+  z-index: 99999 !important;
+}
+
+.modal-overlay {
+  z-index: 1000; 
+}

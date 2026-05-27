@@ -24,7 +24,9 @@
         <div class="club-card">
           <div class="club-card-top">
             <div class="club-info">
-              <h2 class="club-name">{{ currentLang === 'ar' ? club?.club_name_ar : club?.club_name }}</h2>
+              <h2 class="club-name">
+                {{ currentLang === 'ar' ? club?.club_name_ar : club?.club_name }}
+              </h2>
               <p class="club-desc">
                 {{ currentLang === 'ar' ? club?.description_ar : club?.description }}
               </p>
@@ -104,7 +106,11 @@
 
       <div class="show-more-row" *ngIf="posts.length > 3">
         <button class="btn-show-more" type="button" (click)="showAllPosts = !showAllPosts">
-          {{ showAllPosts ? ('CLUB_PROFILE.SHOW_LESS' | translate) : ('CLUB_PROFILE.SHOW_MORE' | translate) }}
+          {{
+            showAllPosts
+              ? ('CLUB_PROFILE.SHOW_LESS' | translate)
+              : ('CLUB_PROFILE.SHOW_MORE' | translate)
+          }}
         </button>
       </div>
     </div>
@@ -121,7 +127,12 @@
       <div class="events-grid">
         <div class="event-card" *ngFor="let event of visibleEvents">
           <div class="event-img-placeholder">
-            <img *ngIf="event.image" class="banner" [src]="event.image" [alt]="('CLUB_PROFILE.ACTIVITY_BANNER_ALT' | translate)" />
+            <img
+              *ngIf="event.image"
+              class="banner"
+              [src]="event.image"
+              [alt]="'CLUB_PROFILE.ACTIVITY_BANNER_ALT' | translate"
+            />
           </div>
 
           <div class="event-body">
@@ -170,7 +181,11 @@
 
       <div class="show-more-row" *ngIf="events.length > 4">
         <button class="btn-show-more" type="button" (click)="showAllEvents = !showAllEvents">
-          {{ showAllEvents ? ('CLUB_PROFILE.SHOW_LESS' | translate) : ('CLUB_PROFILE.SHOW_MORE' | translate) }}
+          {{
+            showAllEvents
+              ? ('CLUB_PROFILE.SHOW_LESS' | translate)
+              : ('CLUB_PROFILE.SHOW_MORE' | translate)
+          }}
         </button>
       </div>
     </div>
@@ -188,12 +203,7 @@
         /> -->
 
         <h2>{{ currentLang === 'ar' ? selectedActivity.title_ar : selectedActivity.title }}</h2>
-
-        <p class="description">
-          {{
-            currentLang === 'ar' ? selectedActivity.description_ar : selectedActivity.description
-          }}
-        </p>
+        <p class="description">{{ selectedActivity.description }}</p>
 
         <div class="details">
           <div>
@@ -208,12 +218,14 @@
 
           <div>
             <i class="bi bi-people"></i>
-            {{ 'CLUB_PROFILE.MAX_ATTENDEES' | translate:{count: selectedActivity.max_attendees} }}
+            {{
+              'CLUB_PROFILE.MAX_ATTENDEES' | translate: { count: selectedActivity.max_attendees }
+            }}
           </div>
 
           <div>
             <i class="bi bi-star"></i>
-            {{ 'CLUB_PROFILE.EARN_POINTS' | translate:{count: selectedActivity.points || 3} }}
+            {{ 'CLUB_PROFILE.EARN_POINTS' | translate: { count: selectedActivity.points || 3 } }}
           </div>
         </div>
 
@@ -231,7 +243,12 @@
         </div>
 
         <div class="modal-body" *ngIf="selectedPost">
-          <!-- <img *ngIf="selectedPost.image" [src]="selectedPost.image" class="full-post-img" /> -->
+          <img
+            *ngIf="selectedPost.image"
+            [src]="'http://127.0.0.1:8000' + selectedPost.image"
+            class="full-post-img"
+            [alt]="'CLUB_PROFILE.POST_IMAGE_ALT' | translate"
+          />
           <p class="full-post-content">{{ selectedPost.content }}</p>
           <span class="post-date">{{ selectedPost.created_at | date: 'fullDate' }}</span>
         </div>
@@ -289,9 +306,13 @@
           </div>
 
           <div class="modal-footer">
-            <button class="btn-secondary" (click)="closeEditClubModal()">{{ 'CLUB_PROFILE.CANCEL' | translate }}</button>
+            <button class="btn-secondary" (click)="closeEditClubModal()">
+              {{ 'CLUB_PROFILE.CANCEL' | translate }}
+            </button>
 
-            <button class="btn-primary" (click)="saveClubChanges()">{{ 'CLUB_PROFILE.SAVE_CHANGES' | translate }}</button>
+            <button class="btn-primary" (click)="saveClubChanges()">
+              {{ 'CLUB_PROFILE.SAVE_CHANGES' | translate }}
+            </button>
           </div>
         </div>
       </div>
@@ -302,7 +323,9 @@
         <div class="modal-header">
           <div style="display: flex; gap: 10px; align-items: center">
             <h2>{{ 'CLUB_PROFILE.CREATE_POST' | translate }}</h2>
-            <small class="text-primary-emphasis bg-primary-subtle rounded-3 p-1">{{ 10 }} {{ 'CLUB_PROFILE.POINTS' | translate }}</small>
+            <small class="text-primary-emphasis bg-primary-subtle rounded-3 p-1"
+              >{{ 10 }} {{ 'CLUB_PROFILE.POINTS' | translate }}</small
+            >
           </div>
           <button type="button" class="modal-close" (click)="closeCreatePostModal()">×</button>
         </div>
@@ -325,17 +348,21 @@
               (change)="onPostImageSelected($event)"
             />
 
-            <img
+            <!-- <img
               *ngIf="postForm.imagePreview"
               [src]="postForm.imagePreview"
               style="width: 100%; border-radius: 12px; margin-top: 10px"
-            />
+            /> -->
           </div>
 
           <div class="modal-footer">
-            <button class="btn-secondary" (click)="closeCreatePostModal()">{{ 'CLUB_PROFILE.CANCEL' | translate }}</button>
+            <button class="btn-secondary" (click)="closeCreatePostModal()">
+              {{ 'CLUB_PROFILE.CANCEL' | translate }}
+            </button>
 
-            <button class="btn-primary" (click)="publishPost()">{{ 'CLUB_PROFILE.PUBLISH_POST' | translate }}</button>
+            <button class="btn-primary" (click)="publishPost()">
+              {{ 'CLUB_PROFILE.PUBLISH_POST' | translate }}
+            </button>
           </div>
         </div>
       </div>
@@ -346,7 +373,9 @@
         <div class="modal-header">
           <div style="display: flex; gap: 10px; align-items: center">
             <h2>{{ 'CLUB_PROFILE.CREATE_EVENT' | translate }}</h2>
-            <small class="text-primary-emphasis bg-primary-subtle rounded-3 p-1">{{ 15 }} {{ 'CLUB_PROFILE.POINTS' | translate }}</small>
+            <small class="text-primary-emphasis bg-primary-subtle rounded-3 p-1"
+              >{{ 15 }} {{ 'CLUB_PROFILE.POINTS' | translate }}</small
+            >
           </div>
 
           <button type="button" class="modal-close" (click)="closeCreateEventModal()">×</button>
@@ -413,9 +442,13 @@
           </div>
 
           <div class="modal-footer">
-            <button class="btn-secondary" (click)="closeCreateEventModal()">{{ 'CLUB_PROFILE.CANCEL' | translate }}</button>
+            <button class="btn-secondary" (click)="closeCreateEventModal()">
+              {{ 'CLUB_PROFILE.CANCEL' | translate }}
+            </button>
 
-            <button class="btn-primary" (click)="submitEvent()">{{ 'CLUB_PROFILE.CREATE_EVENT' | translate }}</button>
+            <button class="btn-primary" (click)="submitEvent()">
+              {{ 'CLUB_PROFILE.CREATE_EVENT' | translate }}
+            </button>
           </div>
         </div>
       </div>

@@ -74,10 +74,11 @@
             <label>Select Team</label>
 
             <select [(ngModel)]="selectedTeam" class="role-select">
-              <option value="events">Events</option>
-              <option value="media">Media</option>
-              <option value="design">Design</option>
-              <option value="projects">Projects</option>
+              <option [value]="null">None (General Club Role)</option>
+
+              <option *ngFor="let team of teamsList" [value]="team.value">
+                {{ team.label }}
+              </option>
             </select>
           </div>
         </div>
