@@ -16,7 +16,7 @@
     </div>
 
     <div class="members-list-box">
-      <div class="member-row" *ngFor="let member of allMembers">
+      <div class="member-row" *ngFor="let member of allMembers; trackBy: trackByFn">
         <div class="member-name">
           {{ member.name }}
         </div>
@@ -80,6 +80,7 @@
                 {{ team.label }}
               </option>
             </select>
+
           </div>
         </div>
 
@@ -95,7 +96,7 @@
 
         <h3>Remove Member</h3>
 
-        <p>Are you sure you Remove the member?</p>
+        <p>Are you sure you want to remove the member?</p>
 
         <div class="delete-actions">
           <button class="no-btn" type="button" (click)="showDeleteModal = false">No</button>

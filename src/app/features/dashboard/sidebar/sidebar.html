@@ -1,10 +1,11 @@
-<aside class="sidebar">
+<button class="mobile-toggle" (click)="toggleSidebar()" aria-label="Toggle Menu">
+  <span class="toggle-icon">{{ isCollapsed ? '☰' : '✕' }}</span>
+</button>
 
+<aside class="sidebar" [class.collapsed]="isCollapsed">
   <div class="top-section">
-
     <div class="brand-block">
       <div class="brand-logo">SH</div>
-
       <div class="brand-content">
         <h1>{{ 'DASHBOARD.SIDEBAR.TITLE' | translate }}</h1>
         <p>{{ 'DASHBOARD.SIDEBAR.SUBTITLE' | translate }}</p>
@@ -12,53 +13,43 @@
     </div>
 
     <nav class="nav-list">
-
-      <a class="nav-link active" [routerLink]="['/dashboard']">
+      <a
+        class="nav-link"
+        [routerLink]="['/dashboard']"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
         <div class="nav-icon">⌂</div>
         <span [innerHTML]="'DASHBOARD.SIDEBAR.HOME' | translate"></span>
       </a>
-      
-      <a class="nav-link" [routerLink]="['/dashboard/clubs']">
+
+      <a class="nav-link" [routerLink]="['/dashboard/clubs']" routerLinkActive="active">
         <div class="nav-icon">✦</div>
         <span [innerHTML]="'DASHBOARD.SIDEBAR.CLUBS' | translate"></span>
       </a>
-      
-      <a class="nav-link" [routerLink]="['/dashboard/activities']">
+
+      <a class="nav-link" [routerLink]="['/dashboard/activities']" routerLinkActive="active">
         <div class="nav-icon">◎</div>
         <span [innerHTML]="'DASHBOARD.SIDEBAR.ACTIVITIES' | translate"></span>
       </a>
 
-      <a
-        class="nav-link"
-        href="https://discord.gg/puXVauCU"
-        target="_blank"
-      >
+      <a class="nav-link" href="https://discord.gg/puXVauCU" target="_blank" rel="noopener">
         <div class="nav-icon">◉</div>
         <span [innerHTML]="'DASHBOARD.SIDEBAR.CHAT' | translate"></span>
       </a>
-
     </nav>
-
   </div>
 
   <div class="bottom-section">
-
     <div class="language-switch" (click)="toggleLanguage()">
-
-      <span class="lang-label">
-        {{ 'PROFILE_SIDEBAR.LANGUAGE' | translate }}
-      </span>
-
+      <span class="lang-label">{{ 'PROFILE_SIDEBAR.LANGUAGE' | translate }}</span>
       <div class="switch-wrapper">
-        <span>AR</span>
-
+        <span>EN</span>
         <div class="switch-track">
           <div class="switch-thumb"></div>
         </div>
-
-        <span>EN</span>
+        <span>AR</span>
       </div>
-
     </div>
 
     <button
@@ -66,7 +57,7 @@
       (click)="onLogout()"
       [innerHTML]="'DASHBOARD.SIDEBAR.LOGOUT' | translate"
     ></button>
-
   </div>
-
 </aside>
+
+<div class="sidebar-overlay" *ngIf="!isCollapsed" (click)="toggleSidebar()"></div>

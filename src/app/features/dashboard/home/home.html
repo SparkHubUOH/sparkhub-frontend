@@ -166,7 +166,7 @@
               </div>
               <h4>{{ currentLang === 'ar' ? club.club_name_ar : club.club_name }}</h4>
               <p>{{ currentLang === 'ar' ? club.description_ar : club.description }}</p>
-              <a [routerLink]="['/dashboard/club-profile', club.id]" class="link-action small">{{
+              <a [routerLink]="['/dashboard/club-profile', club.id]" class="link-action-b small">{{
                 'DASHBOARD.ACTIONS.DETAILS' | translate
               }}</a>
             </div>
@@ -209,7 +209,7 @@
             <p>{{ activity.location }}</p>
             <button
               (click)="openActivity(activity)"
-              class="link-action small"
+              class="link-action-c small"
               style="background: transparent; border: 0; text-align: start"
             >
               {{ 'DASHBOARD.ACTIONS.MORE' | translate }}

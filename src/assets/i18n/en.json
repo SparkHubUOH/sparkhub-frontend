@@ -335,14 +335,14 @@
     "PHONE_TITLE": "Call Us",
     "PHONE_NUMBER": "+966 12 345 6789",
     "CALL_US": "Call Now",
-    "EMAIL_TITLE": "Email Us",
+    "EMAIL_TITLE": "Email Us ",
     "EMAIL_ADDRESS": "support@sparkhub.edu",
     "EMAIL_US": "Send Email",
     "SUPPORT_TITLE": "Support Center",
     "SUPPORT_DESCRIPTION": "We aim to answer every request promptly and make it easy for you to get the help you need.",
-    "SUPPORT_HOURS_LABEL": "Support hours",
+    "SUPPORT_HOURS_LABEL": "Support hours ",
     "SUPPORT_HOURS": "Sunday - Thursday, 9 AM to 6 PM",
-    "RESPONSE_TIME_LABEL": "Response time",
+    "RESPONSE_TIME_LABEL": "Response time ",
     "RESPONSE_TIME": "Within 24 hours"
   },
   "ACTIVITIES_REGISTERED": {

@@ -1,7 +1,5 @@
 <div class="auth-page">
-
   <div class="auth-card">
-
     <a class="back" [routerLink]="['/home']">
       <ng-container *ngIf="currentLang === 'en'; else arabicIcon">
         <i class="bi bi-arrow-left-short"></i>
@@ -18,7 +16,6 @@
     </div>
 
     <form class="auth-form" [formGroup]="form" (ngSubmit)="login()" novalidate>
-
       <label class="field full">
         <span>{{ 'SIGNUP.EMAIL' | translate }}</span>
         <input type="email" formControlName="email" />
@@ -29,14 +26,24 @@
 
       <label class="field full">
         <span>{{ 'SIGNUP.PASSWORD' | translate }}</span>
-        <input type="password" formControlName="password" />
+        <div class="password-wrapper">
+          <input [type]="showPassword ? 'text' : 'password'" formControlName="password" />
+          <button type="button" class="toggle-password" (click)="showPassword = !showPassword">
+            <i class="bi bi-eye" *ngIf="!showPassword"></i>
+            <i class="bi bi-eye-slash" *ngIf="showPassword"></i>
+          </button>
+        </div>
         <div *ngIf="form.get('password')?.touched && form.get('password')?.invalid">
           <small class="error-message">{{ 'LOGIN.PASSWORD_ERROR' | translate }}</small>
         </div>
       </label>
 
       <div class="actions">
-        <span [routerLink]="['contact']" class="forgot" [innerHTML]="'LOGIN.FORGOT' | translate"></span>
+        <span
+          [routerLink]="['contact']"
+          class="forgot"
+          [innerHTML]="'LOGIN.FORGOT' | translate"
+        ></span>
       </div>
 
       <button class="primary" type="submit" [disabled]="form.invalid">
@@ -48,9 +55,6 @@
       </div>
 
       <p class="alt" [innerHTML]="'LOGIN.NEW' | translate"></p>
-
     </form>
-
   </div>
-
 </div>

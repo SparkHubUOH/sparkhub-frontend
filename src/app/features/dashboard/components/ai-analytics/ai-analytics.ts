@@ -51,6 +51,7 @@ export class AiAnalytics implements OnInit {
   selectedTab = 'overview';
   currentLang = 'en';
   loading = false;
+  hasPredicted = false;
 
   columnsSelected: string[] = [];
   dataPreview: any[] = [];
@@ -208,7 +209,7 @@ export class AiAnalytics implements OnInit {
     this.loadClubStatistics();
     this.loadStudentStatistics();
     this.loadActivityStatistics();
-    this.runPrediction();
+    this.resetForm();
     this.cdr.detectChanges();
   }
 
@@ -412,25 +413,30 @@ export class AiAnalytics implements OnInit {
   }
 
   runPrediction(): void {
+    
     this.loading = true;
+    this.hasPredicted = false;
+    this.predictionResult = null;
 
     this.analyticsService.predictActivity(this.predictionForm).subscribe({
       next: (res) => {
         console.log(res);
-
         this.predictionResult = res;
-
+        this.hasPredicted = true;
         this.loading = false;
-
         this.cdr.detectChanges();
       },
 
       error: (err) => {
         console.error(err);
-
         this.loading = false;
       },
     });
+  }
+
+  resetForm() {
+    this.predictionResult = null;
+    this.hasPredicted = false;
   }
 
   onColumnsChange(value: string): void {

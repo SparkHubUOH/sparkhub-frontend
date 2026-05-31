@@ -15,6 +15,7 @@ import { Auth } from '../../services/auth';
 })
 export class SignUp {
   currentLang = 'en';
+  showPassword = false;
 
   private fb = inject(FormBuilder);
 

@@ -23,7 +23,10 @@
           <div class="profile-content">
             <div style="flex-direction: row; display: flex; gap: 15px">
               <h2 *ngIf="!isEditing">{{ profileData.first_name }} {{ profileData.last_name }}</h2>
-              <small class="text-primary-emphasis bg-primary-subtle rounded-3 p-2 fw-bold" style="height: fit-content;">
+              <small
+                class="text-primary-emphasis bg-primary-subtle rounded-3 p-2 fw-bold"
+                style="height: fit-content"
+              >
                 <i class="bi bi-star-fill me-1"></i> {{ profileData.points || 0 }}
                 {{ 'STUDENT_PROFILE.POINTS' | translate }}
               </small>
@@ -102,7 +105,10 @@
         </div>
       </div>
 
-      <div class="section" *ngIf="authService.getUserRole() === 'student' || authService.getUserRole() === 'leader'">
+      <div
+        class="section"
+        *ngIf="authService.getUserRole() === 'student' || authService.getUserRole() === 'leader'"
+      >
         <div class="section-header">
           <span class="section-title" style="padding-inline-end: 15px">{{
             'STUDENT_PROFILE.POSTS' | translate
@@ -146,7 +152,13 @@
                         : 'اقرأ أكثر'
                   }}
                 </button>
-                <span>{{ post.created_at | date: 'MMM d, y' }}</span>
+                <button
+                  (click)="deletePost(post.id)"
+                  class="btn-icon delete"
+                  [title]="'CLUB_PROFILE.DELETE_ACTIVITY' | translate"
+                >
+                  <i class="bi bi-trash"></i>
+                </button>
               </div>
             </div>
           </div>
@@ -171,7 +183,10 @@
         </div>
       </div>
 
-      <div class="section" *ngIf="authService.getUserRole() === 'student' || authService.getUserRole() === 'leader'">
+      <div
+        class="section"
+        *ngIf="authService.getUserRole() === 'student' || authService.getUserRole() === 'leader'"
+      >
         <div class="section-header">
           <span class="section-title" style="padding-inline-end: 15px">{{
             'STUDENT_PROFILE.SKILLS' | translate
@@ -192,7 +207,10 @@
         </div>
       </div>
 
-      <div class="section" *ngIf="authService.getUserRole() === 'student' || authService.getUserRole() === 'leader'">
+      <div
+        class="section"
+        *ngIf="authService.getUserRole() === 'student' || authService.getUserRole() === 'leader'"
+      >
         <div class="section-header">
           <span class="section-title" style="padding-inline-end: 15px">{{
             'STUDENT_PROFILE.CERTIFICATES' | translate
@@ -333,7 +351,7 @@
               <button
                 class="btn-edit search-btn-custom"
                 (click)="onSearchUser()"
-                style="min-height: 50px;"
+                style="min-height: 50px"
                 [disabled]="isSearching"
               >
                 <i class="bi bi-search"></i>
@@ -386,7 +404,7 @@
                 {{ 'STAFF.PROMOTE_TO_LEADER' | translate }}
               </button>
 
-              <button class="btn-share" style="min-height: 50px;" (click)="clearSearch()">
+              <button class="btn-share" style="min-height: 50px" (click)="clearSearch()">
                 {{ 'STAFF.CLEAR' | translate }}
               </button>
             </div>
@@ -401,7 +419,6 @@
     </div>
   </div>
 
-  
   <div class="modal-overlay" *ngIf="showCertificateModal" (click)="closeCertificateModal()">
     <div class="modal-content" (click)="$event.stopPropagation()">
       <div class="modal-header">
@@ -526,13 +543,6 @@
               class="form-input"
               (change)="onImageSelected($event)"
             />
-            <div *ngIf="postForm.imagePreview" style="margin-top: 10px; text-align: center">
-              <img
-                [src]="postForm.imagePreview"
-                alt="Selected image"
-                style="max-width: 100%; border-radius: 8px"
-              />
-            </div>
           </div>
 
           <p class="field-error" *ngIf="postError">{{ postError }}</p>

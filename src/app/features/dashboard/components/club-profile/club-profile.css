@@ -9,7 +9,7 @@ app-sidebar {
 
 .club-page {
   background: #fff;
-  padding: 80px 18px 60px;
+  padding: 80px 40px 60px;
 }
 
 .club-header {
@@ -472,7 +472,7 @@ app-sidebar {
 
 .events-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 14px;
 }
 

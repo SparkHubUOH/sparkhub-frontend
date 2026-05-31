@@ -32,12 +32,12 @@ export interface OrgChartResponse {
 export class OrgChart {
   clubLeader = '';
   clubViceLeader = '';
-
-  teams: Team[] = [];
-
   copied = false;
   isEditMode = false;
   isClubLeader = false;
+  isLoading = true;
+
+  teams: Team[] = [];
   selectedTeam: Team | null = null;
 
   constructor(
@@ -48,9 +48,7 @@ export class OrgChart {
 
   ngOnInit(): void {
     const currentUser = JSON.parse(localStorage.getItem('user') || '{}');
-
     const idFromRoute = this.route.snapshot.paramMap.get('id');
-
     const clubId = idFromRoute ? Number(idFromRoute) : Number(localStorage.getItem('clubId'));
 
     if (!clubId) {
@@ -61,31 +59,38 @@ export class OrgChart {
     this.clubService.getClubById(clubId).subscribe({
       next: (club: any) => {
         this.isClubLeader = Number(club.created_by) === Number(currentUser.id);
+        this.isLoading = false;
         this.loadOrgChart(clubId);
       },
 
       error: (err) => {
         console.error(err);
+        this.isLoading = false;
       },
     });
   }
 
-  loadOrgChart(clubId: number): void {
+loadOrgChart(clubId: number): void {
     this.clubService.getOrgChart(clubId).subscribe({
       next: (data) => {
-
         this.clubLeader = data.clubLeader;
         this.clubViceLeader = data.clubViceLeader;
 
-        this.teams = data.teams.map((team: Team) => ({
-          ...team,
-          editableMembers: team.members ? [...team.members] : [],
-          expanded: false,
-        }));
+        this.teams = data.teams
+          .filter((team: Team) => 
+            team.name && 
+            team.name.toLowerCase() !== 'leaders' && 
+            team.name.toLowerCase() !== 'null' &&
+            team.name.trim() !== ''
+          )
+          .map((team: Team) => ({
+            ...team,
+            editableMembers: team.members ? [...team.members] : [],
+            expanded: false,
+          }));
 
         this.cdr.detectChanges();
       },
-
       error: (err) => {
         console.error('Error loading OrgChart:', err);
       },

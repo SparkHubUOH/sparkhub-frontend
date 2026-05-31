@@ -310,6 +310,39 @@ export class StudentDashboard implements OnInit {
     });
   }
 
+  deletePost(postId: number) {
+    Swal.fire({
+      title: 'Delete Post?',
+      text: 'You can not retrive the post after deleting!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Yes, Remove',
+      cancelButtonText: 'Cancel',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.staffService.deleteStudentPost(postId).subscribe({
+          next: () => {
+            this.posts = this.visiblePosts.filter((p) => p.id !== postId);
+            Swal.fire({
+              title: 'The post deleted successfuly',
+              icon: 'success',
+              toast: true,
+              position: 'top-end',
+              timer: 2000,
+              showConfirmButton: false,
+            });
+          },
+          error: (err) => {
+            console.error(err);
+            Swal.fire('Error', 'Try again later', 'error');
+          },
+        });
+      }
+    });
+  }
+
   onFileSelected(event: any) {
     const file = event.target.files[0];
     if (file) {

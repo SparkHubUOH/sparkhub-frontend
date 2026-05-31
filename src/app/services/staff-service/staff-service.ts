@@ -61,4 +61,8 @@ export class StaffService {
   getClubInfo(clubId: number) {
     return this.http.get(`${this.apiUrl}/clubs/${clubId}/`);
   }
+
+  deleteStudentPost(postId: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/student-posts/${postId}/delete/`);
+  }
 }
