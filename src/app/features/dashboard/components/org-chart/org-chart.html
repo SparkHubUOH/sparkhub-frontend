@@ -1,5 +1,4 @@
-<div class="profile-layout">
-  <app-profile-sidebar *ngIf="isClubLeader"></app-profile-sidebar>
+<div class="profile-layout" *ngIf="!isLoading">
   <app-sidebar *ngIf="!isClubLeader"></app-sidebar>
   <div class="org-chart-page">
     <div class="org-header"></div>
@@ -152,4 +151,5 @@
       </div>
     </div> -->
   </div>
+  <app-profile-sidebar *ngIf="isClubLeader"></app-profile-sidebar>
 </div>

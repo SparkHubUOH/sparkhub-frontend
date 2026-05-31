@@ -61,7 +61,13 @@
 
       <label class="field full">
         <span>{{ 'SIGNUP.PASSWORD' | translate }}</span>
-        <input type="password" formControlName="password" />
+        <div class="password-wrapper">
+          <input [type]="showPassword ? 'text' : 'password'" formControlName="password" />
+          <button type="button" class="toggle-password" (click)="showPassword = !showPassword">
+            <i class="bi bi-eye" *ngIf="!showPassword"></i>
+            <i class="bi bi-eye-slash" *ngIf="showPassword"></i>
+          </button>
+        </div>
         <div *ngIf="form.get('password')?.touched && form.get('password')?.invalid">
           <small class="error-message">{{ 'SIGNUP.PASSWORD_ERROR' | translate }}</small>
         </div>

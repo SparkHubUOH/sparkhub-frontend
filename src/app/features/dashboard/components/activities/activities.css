@@ -13,7 +13,6 @@ app-sidebar {
 
 .activities-page {
   padding: 55px;
-  padding-inline-start: 0;
 }
 
 .activities-hero {
@@ -193,9 +192,12 @@ app-sidebar {
 
 .activity-card {
   display: flex;
+  position: relative;
   flex-direction: column;
   gap: 18px;
   padding: 24px;
+  padding-bottom: 80px; 
+  min-height: 500px;
   border-radius: 28px;
   background: #ffffff;
   border: 1px solid rgba(85, 118, 189, 0.12);
@@ -309,6 +311,10 @@ app-sidebar {
   justify-content: space-between;
   gap: 12px;
   flex-wrap: wrap;
+  position: absolute;
+  bottom: 24px;
+  inset-inline-start: 24px;
+  inset-inline-end: 24px;
 }
 
 .primary-button,

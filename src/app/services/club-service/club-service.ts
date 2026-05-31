@@ -68,6 +68,10 @@ export class ClubService {
     });
   }
 
+  deleteMember(memberId: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/members/${memberId}/`);
+  }
+
   updateClub(id: number, formData: FormData): Observable<any> {
     return this.http.patch(`${this.apiUrl}/clubs/${id}/`, formData);
   }
@@ -78,6 +82,10 @@ export class ClubService {
     formData.append('club', clubId.toString());
     if (data.image) formData.append('image', data.image);
     return this.http.post(`${this.apiUrl}/clubs/${clubId}/posts/create/`, formData);
+  }
+
+  deletePost(postId: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/posts/${postId}/delete/`);
   }
 
   createActivity(clubId: number, data: any): Observable<any> {

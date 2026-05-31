@@ -56,6 +56,7 @@ export class Members {
     { value: 'content', label: 'Content' },
     { value: 'management', label: 'Management' },
     { value: 'technical', label: 'Technical' },
+    { value: 'organization', label: 'Organization' },
   ];
 
   formatRole(role: string): string {
@@ -88,6 +89,7 @@ export class Members {
     this.staffService.getClubInfo(this.clubId).subscribe({
       next: (club: any) => {
         this.clubName = club.club_name;
+        this.cdr.detectChanges();
       },
     });
 
@@ -110,21 +112,25 @@ export class Members {
 
   loadMembers() {
     this.staffService.getClubMembers(this.clubId).subscribe({
-      next: (data) => {
-        console.log(data);
-        this.members = data.map((m: any) => ({
-          memberId: m.id,
-          role: m.role,
-          name: m.full_name,
-          university_id: m.university_id,
-          userId: m.user,
-        }));
+      next: (data: any[]) => {
+        console.log('Data received from Django:', data);
 
-        this.allMembers = [...this.members];
-        this.cdr.detectChanges();
+        if (data && data.length > 0) {
+          this.members = data.map((m: any) => ({
+            memberId: m.id,
+            role: m.role || 'Member',
+            name: m.full_name || 'No Name',
+            university_id: m.university_id,
+            userId: m.user,
+          }));
+
+          this.allMembers = [...this.members];
+
+          this.cdr.detectChanges();
+        }
       },
-      error: () => {
-        console.error('Failed to load members');
+      error: (err) => {
+        console.error('Failed to load members', err);
       },
     });
   }
@@ -200,32 +206,60 @@ export class Members {
   }
 
   removeMember() {
-    this.members = this.members.filter((m) => m.name !== this.selectedMemberName);
+    const memberToDelete = this.members.find((m) => m.name === this.selectedMemberName);
 
-    this.showDeleteModal = false;
+    if (memberToDelete && memberToDelete.memberId) {
+      this.clubService.deleteMember(memberToDelete.memberId).subscribe({
+        next: () => {
+          this.members = this.members.filter((m) => m.memberId !== memberToDelete.memberId);
+
+          Swal.fire({
+            title: 'Deleted!',
+            text: `Member "${this.selectedMemberName}" has been removed.`,
+            icon: 'success',
+            timer: 2000,
+            showConfirmButton: false,
+            timerProgressBar: true,
+            toast: true,
+            position: 'top-end',
+          });
+
+          this.showDeleteModal = false;
+        },
+        error: (err) => {
+          console.error('Django Backend Error:', err);
+
+          Swal.fire({
+            title: 'Error!',
+            text: 'Could not delete the member. Please try again.',
+            icon: 'error',
+            confirmButtonColor: '#d33',
+          });
+        },
+      });
+    }
+  }
+
+  trackByFn(index: number, item: Member) {
+    return item.memberId;
   }
 
   saveAssignedRole() {
-    console.log(this.selectedMemberId);
-    console.log(this.selectedToRole);
-    console.log(this.selectedTeam);
-
     if (this.selectedMemberId) {
+      const teamValue = this.selectedTeam === 'null' || !this.selectedTeam ? '' : this.selectedTeam;
       this.clubService
-        .updateMemberRole(this.selectedMemberId, this.selectedToRole, this.selectedTeam)
+        .updateMemberRole(this.selectedMemberId, this.selectedToRole, teamValue)
         .subscribe({
           next: (res) => {
             this.closeAssignModal();
-            Swal.fire('Updated!', 'تم تغيير الدور والتيم بنجاح', 'success');
-
+            Swal.fire('Updated!', 'The role and team have been updated successfully', 'success');
             this.loadMembers();
             this.closeAssignModal();
           },
 
           error: (err) => {
             console.log(err);
-
-            Swal.fire('Error', 'فشل التحديث', 'error');
+            Swal.fire('Error', 'Failed to update role and team', 'error');
           },
         });
     }

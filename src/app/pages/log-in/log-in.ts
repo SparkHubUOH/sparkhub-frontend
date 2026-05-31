@@ -16,6 +16,7 @@ import { Auth } from '../../services/auth';
 export class LogIn {
   currentLang = 'en';
   languageSelected: string;
+  showPassword = false;
 
   form;
 

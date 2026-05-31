@@ -331,6 +331,7 @@
 .feature-card {
   position: relative;
   padding: 24px;
+  padding-bottom: 60px;
   min-height: 0px;
   border-radius: 28px;
   background: #ffffff;
@@ -388,9 +389,35 @@
   font-weight: 700;
 }
 
+.link-action-b {
+  color: var(--color-orange);
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.link-action-c {
+  color: var(--color-orange);
+  text-decoration: none;
+  font-weight: 700;
+}
+
 .link-action.small {
-  display: inline-block;
-  margin-top: 14px;
+  position: absolute;
+  bottom: 24px;
+  inset-inline-start: 24px;
+}
+
+.link-action-b.small {
+  position: absolute;
+  bottom: 24px;
+  inset-inline-start: 24px;
+}
+
+.link-action-c.small {
+  position: absolute;
+  bottom: 16px;
+  inset-inline-start: 0;
+  padding-inline-start: 20px;
 }
 
 .cards-row {
@@ -401,6 +428,8 @@
 
 .info-card {
   padding: 22px;
+  position: relative;
+  padding-bottom: 60px; 
   border-radius: 26px;
   background: #f7fbff;
   border: 1px solid rgba(51, 83, 123, 0.08);
@@ -470,6 +499,8 @@
 .activity-copy {
   padding: 18px 18px 22px;
   display: flex;
+  position: relative;
+  padding-bottom: 50px; 
   flex-direction: column;
   gap: 10px;
 }

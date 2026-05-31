@@ -133,6 +133,38 @@ input:focus {
   font-size: 12px;
   margin-top: 4px;
 }
+
+.password-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-wrapper input {
+  flex: 1;
+  padding-right: 40px;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #666;
+  padding: 0;
+}
+
+[dir="rtl"] .password-wrapper input {
+  padding-right: 12px;
+  padding-left: 40px;
+}
+
+[dir="rtl"] .toggle-password {
+  right: auto;
+  left: 10px;
+}
+
 @media (max-width: 768px) {
   .signup-card {
     padding: 30px;

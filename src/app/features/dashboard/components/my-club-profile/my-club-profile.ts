@@ -310,6 +310,25 @@ export class MyClubProfile implements OnInit {
     this.showEditClubModal = false;
   }
 
+  shareProfile() {
+    const profileUrl = window.location.href;
+    if (navigator.share) {
+      navigator.share({
+        title: 'Profile',
+        text: 'Check out this student profile',
+        url: profileUrl,
+      });
+    } else {
+      navigator.clipboard.writeText(profileUrl);
+      Swal.fire({
+        title: 'Copied!',
+        text: 'Profile link copied to clipboard.',
+        icon: 'success',
+        confirmButtonColor: '#1e3a5f',
+      });
+    }
+  }
+
   openCreatePostModal() {
     this.showCreatePostModal = true;
     this.isMenuOpen = false;
@@ -376,6 +395,40 @@ export class MyClubProfile implements OnInit {
 
   viewParticipants(activityId: number) {
     this.router.navigate(['/dashboard/activities', activityId, 'participants']);
+  }
+
+  deletePost(postId: number) {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#243b55',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.clubService.deletePost(postId).subscribe({
+          next: () => {
+            this.posts = this.posts.filter((p) => p.id !== postId);
+
+            Swal.fire({
+              title: 'Deleted!',
+              text: 'Your post has been deleted.',
+              icon: 'success',
+              toast: true,
+              position: 'top-end',
+              timer: 2000,
+              showConfirmButton: false,
+            });
+          },
+          error: (err) => {
+            console.error(err);
+            Swal.fire('Error!', 'Something went wrong while deleting.', 'error');
+          },
+        });
+      }
+    });
   }
 
   confirmDeleteActivity(activityId: number) {

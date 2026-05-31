@@ -117,12 +117,12 @@ export class ClubProfile implements OnInit {
 
   get visibleEvents() {
     return this.showAllEvents
-      ? this.events
-      : this.events.slice(0, 4).sort((a, b) => {
+      ? this.events.sort((a, b) => {
           const d1 = new Date(b.date || b.createdAt).getTime();
           const d2 = new Date(a.date || a.createdAt).getTime();
           return d1 - d2;
-        });
+        })
+      : this.events.slice(0, 4);
   }
 
   registerEvent(event: any) {

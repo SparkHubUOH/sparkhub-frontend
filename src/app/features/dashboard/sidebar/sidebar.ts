@@ -19,6 +19,7 @@ export class Sidebar {
   showLangMenu = false;
   collapsed = false;
   showMobileLangMenu = false;
+  isCollapsed = true;
 
   constructor(
     private translate: TranslateService,
@@ -50,6 +51,10 @@ export class Sidebar {
       const user = JSON.parse(localStorage.getItem('user') || '{}');
       this.user = user;
     });
+  }
+
+  toggleSidebar() {
+    this.isCollapsed = !this.isCollapsed;
   }
 
   setLeaderboardTab(tab: 'CLUBS' | 'STUDENTS') {
