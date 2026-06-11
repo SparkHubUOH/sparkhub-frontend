@@ -48,7 +48,7 @@ export class AiAnalytics implements OnInit {
   histCol = '';
   histBins = 10;
   dataFile = 'sample.csv';
-  selectedTab = 'overview';
+  selectedTab = 'clubs_analytics';
   currentLang = 'en';
   loading = false;
   hasPredicted = false;
